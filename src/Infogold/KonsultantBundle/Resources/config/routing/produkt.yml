@@ -1,0 +1,8 @@
+produkt_kons:
+    pattern:  /produkty
+    defaults: { _controller: "InfogoldKonsultantBundle:Produkt:index" }
+
+produkty_show_kons:
+    pattern:  /produkty/{id}/show
+    defaults: { _controller: "InfogoldKonsultantBundle:Produkt:show" }
+

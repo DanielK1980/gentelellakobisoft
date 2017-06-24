@@ -1,0 +1,55 @@
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+
+
+{% endblock stylesheets %}
+
+{% block page_title %}  {% endblock%}
+
+{% block page_content %}
+    <div class="row">
+        <div class="x_panel" >
+               <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                             <div class="row">
+                            <div class="col-md navbar-collapse" id="klient-navbar">
+                                  <div class="col-md-4 title">
+                                    
+                                     Nowy produkt 
+                                </div>
+
+                                <ul class="nav navbar-nav navbar-right add">
+                                    <li> <a class="btn-primary" href="{{ path('produkty') }}"><span class="glyphicon glyphicon-list"></span> Powrót do listy</a></li>
+                                   
+                               
+                                </ul>
+                            </div><!-- /.navbar-collapse -->
+                             </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+            <div class="x_content">
+                <br>
+    <div  class="col-md-12 col-md-offset-2" >
+    <form novalidate action="{{ path('produkty_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+         {{ bootstrap_set_style('horizontal') }}
+       
+         {{ form_errors(form, { 'global_errors': true }) }}
+         
+           {{ form_widget(form) }}
+             
+        {{ form_rest(form) }}
+         {{ form_end(form) }}
+        </form>
+    </div>
+
+            </div>
+        </div>
+    </div>
+                
+{% endblock  %}

@@ -1,0 +1,9 @@
+parameters:
+    security_authentication_success_handler.class: Infogold\KonsultantBundle\Service\AuthenticationSuccessHandler
+   
+services:
+    security_authentication_success_handler:
+        class: %security_authentication_success_handler.class%
+        public: false
+        arguments:  ['@router','@http_kernel', '@security.context', '@doctrine.orm.entity_manager']
+        

@@ -1,0 +1,15 @@
+parameters:
+#    infogold_klienci.example.class: Infogold\KlienciBundle\Example
+    my.validator.unique.class: Infogold\KlienciBundle\Controller\UniqueKlientValidator
+
+services:
+   form.type.infogold_kliencibundle_kontaktytype:
+       class:  Infogold\KlienciBundle\Form\KontaktyType
+       arguments: ['@security.context'] 
+       tags:
+            - { name: form.type, alias: infogold_kliencibundle_kontaktytype }
+   my.validator.unique:
+         class: %my.validator.unique.class%
+         arguments: ['@doctrine.orm.entity_manager','@security.context']
+         tags:
+            - { name: validator.constraint_validator, alias: validator.unique }

@@ -1,0 +1,132 @@
+
+<div class="row">
+    <div class="col-md-11 col-md-offset-2">
+
+<br/>
+
+<div class="row col-md-8">
+    <h1>Zarejestruj się</h1>
+</div>
+<br/><br/>
+<form  action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" role="form" class="form-horizontal" id="formularz">
+
+    <div class="row col-md-8">
+        <div class="form-group  col-md-6">
+            {{ form_label(form.imie , 'Imię', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.imie , { 'attr': {'minlength': '3','class' : 'form-control'} }) }}
+            </div>
+            <div class="height_10"> </div>
+        </div>
+        <div  class="form-group  col-md-6">
+            {{ form_label(form.nazwisko, 'Nazwisko', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.nazwisko , { 'attr': {'minlength': '3','class' : 'form-control'} }) }}
+            </div>
+            <div class="height_10"> </div>
+        </div>
+        <div class="form-group  col-md-6">
+            {{ form_label(form.telefon, 'Telefon', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.telefon , { 'attr': {'minlength': '3','class' : 'number required form-control'} }) }}
+            </div>
+            <div class="height_10"> </div>
+        </div>
+
+        <div  class="form-group  col-md-6">
+            {{ form_label(form.email, 'Email', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.email , { 'attr': {'class' : 'required email form-control'} }) }}
+            </div>
+            <div class="height_10"> </div>
+        </div>
+
+        <div  class="form-group  col-md-11">
+            {{ form_label(form.nazwafirmy, 'Nazwa firmy', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.nazwafirmy , { 'attr': {'minlength': '3','class' : 'form-control'} }) }}
+            </div>
+            <div class="height_10"> </div>
+        </div>
+
+
+        <div  class="form-group  col-md-11">
+            {{ form_label(form.nip, 'NIP', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-4">
+                {{ form_widget(form.nip , { 'attr': {'class' : 'digits form-control', 'minlength': '10', 'maxlength': '10'} }) }}
+                <span class="help-block">10 cyfr bez spacji</span>
+            </div>
+            <div class="height_10"> </div>
+        </div>
+
+
+        <div  class="form-group  col-md-5" >
+            {{ form_label(form.kodpocztowy, 'Kod pocztowy', { 'label_attr': {'class': 'col-md-6 control-label'} }) }}
+            <div class="col-md-6">
+                {{ form_widget(form.kodpocztowy , { 'attr': {'class' : 'kodpocztowy required form-control'} }) }}
+            </div>
+            <div class="height_10"> </div>
+        </div>
+
+        <div class="form-group  col-md-6" >
+            {{ form_label(form.miejscowosc, 'Miejscowość', { 'label_attr': {'class': 'col-md-5 control-label'} }) }}
+            <div class="col-md-7">
+                {{ form_widget(form.miejscowosc , { 'attr': {'minlength': '3','class' : 'form-control'} }) }}</div>
+            <div class="height_10"> </div>
+        </div>
+        <div  class="form-group col-md-6">
+            {{ form_label(form.ulica, 'Ulica', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.ulica , { 'attr': {'minlength': '3','class' : 'form-control'} }) }}</div>
+            <div class="height_10"> </div>
+
+
+        </div>
+                                <div  class="form-group  col-md-11">
+            {{ form_label(form.nrkonta, 'Numer konta', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.nrkonta , { 'attr': {'minlength': '3','class' : 'form-control'} }) }}
+            </div>
+            <div class="height_10"> </div>
+        </div>
+            
+        <div class="login form-group  col-md-8">
+            {{ form_label(form.username, 'Login', { 'label_attr': {'class': 'col-md-6 control-label'} }) }}
+            
+            <div class="col-md-6">
+                {{ form_widget(form.username , { 'attr': {'class': 'checklogin required form-control'} }) }}</div>
+            <div class="height_10"> </div>
+<span id="info"></span>
+        </div>
+            
+            
+
+            
+            
+        <div class="form-group  col-md-8">
+
+            {{ form_label(form.plainPassword.first, 'Hasło', { 'label_attr': {'class': 'col-md-6 control-label'} }) }}
+            <div class="col-md-6">
+                {{ form_widget( form.plainPassword.first, { 'attr': {'minlength': '6','class': 'col-md-6 form-control'} }) }} 
+                <small class="help-block" style="font-size: 10px">Hasło składać się powinno przynjamniej z 6 znaków</small>    <div class="height_10"> </div>    <div class="height_10"> </div> 
+            </div>
+            {{ form_label(form.plainPassword.second, 'Powtórz hasło', { 'label_attr': {'class': 'col-md-6 control-label'} }) }}
+            <div class="col-md-6">
+                {{ form_widget( form.plainPassword.second,  { 'attr': {'equalTo': '#fos_user_registration_form_plainPassword_first','class': 'col-md-4 form-control'} }) }}  <div class="height_10"> </div>
+       
+             </div>
+                
+
+        </div>
+                                         <div  class="col-md-6 col-md-offset-2" >
+                   
+                 <input class="btn btn-primary btn-lg btn-block" type="submit" id="_submit2" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" /> 
+            </div>
+        {{ form_errors(form) }}
+        {{ form_rest( form ) }}
+
+    </div>
+  
+</form>
+</div>
+</div>

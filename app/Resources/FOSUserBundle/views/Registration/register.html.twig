@@ -1,0 +1,21 @@
+{% extends "InfogoldStronaBundle:Default:index.html.twig" %}
+
+{% block javascriptvalidate %}
+<script src="{{ asset ('js/jquery.validate/jquery.validate.js') }}" type="text/javascript"></script>
+<script src="{{ asset ('js/jquery.validate/jquery.form.js') }}" type="text/javascript"></script>
+<script src="{{asset ('js/jquery.validate/messages_pl.js') }}" type="text/javascript"></script>
+<script src="{{asset ('js/jquery.validate/walidacjaregister.js') }}" type="text/javascript"></script>
+{% endblock javascriptvalidate%}
+
+{% block articletop %}
+
+  {% endblock %}
+   {% block articleleft %}
+						
+    {% endblock articleleft %}
+{% block articleright %}
+{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+
+{% endblock articleright %}
+
+

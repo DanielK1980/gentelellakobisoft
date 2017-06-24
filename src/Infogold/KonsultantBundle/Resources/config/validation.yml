@@ -1,0 +1,27 @@
+## YAML Template.
+---
+Infogold\KonsultantBundle\Entity\Konsultant: 
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [username]
+            message: '- Login jest już zajęty'
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [email]
+            message: '- adres E-mail juz istnieje'
+    properties:
+        email:
+            - Email: ~
+            - NotBlank: { message: "- Prosze wypełnić pole email"}  
+        username:
+                - NotBlank: { message: "- Prosze wypełnić pole login"}               
+        imie:
+                - NotBlank: { message: "- Prosze wypełnić pole imie"}                           
+        nazwisko:
+                - NotBlank: { message: "- Prosze wypełnić pole nazwisko"}                    
+     #   password:
+     #           - NotBlank: { message: "- Prosze wypełnić pole hasło"}                                                        
+     #   KonsultantRoles:
+     #           - NotBlank: { message: "- Prosze wybrać role konsultanta"}
+        KonsultantDzialy:        
+                - NotBlank: { message: "- Prosze wybrać dział konsultanta"}
+

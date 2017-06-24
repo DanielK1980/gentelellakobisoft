@@ -1,0 +1,182 @@
+{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
+{% form_theme edit_form _self %}
+{% block form_errors %}
+    {% if errors|length > 0 %}
+        <span class="alert alert-danger col-md-4" id="error">
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                    {% endfor %}
+            </ul>
+        </span>
+    {% endif %}
+{% endblock form_errors %}
+{% block articletop %}
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+{% block articleright %}
+    <h1>Edytuja dane klienta</h1>
+    <div class="well well-lg">  
+        <form  action="{{ path('klienci_baza_update', { 'id': entity.id }) }}" novalidate method="post" {{ form_enctype(edit_form) }} class="form-horizontal" role="form">
+            <input type="hidden" name="_method" value="PUT" />
+            {{ form_errors(edit_form) }}
+            <div class="row">
+                <div class="form-group col-md-5">
+
+                    {{ form_label(edit_form.numerklienta, 'Nr klienta', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+
+                    <div class="col-md-7">
+                        {{ form_widget(edit_form.numerklienta, { 'attr': {'class': 'form-control','readonly': 'true'} }) }}
+                        <br> {{ form_errors(edit_form.numerklienta)  }}
+                    </div>
+
+                </div>           
+            </div>
+            <div class="row">
+                <div class="form-group  col-md-5" >
+                    {{ form_label(edit_form.imie, 'Imie', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
+
+                    <div class=" col-md-7" >
+                        {{ form_widget(edit_form.imie, { 'attr': {'class'   : 'form-control'} }) }}
+                        <br>  {{ form_errors(edit_form.imie) }}
+                    </div>
+                </div>
+
+                <div class="form-group  col-md-4" >
+                    {{ form_label(edit_form.nazwisko, 'Nazwisko', { 'label_attr': {'class': ' col-md-3 control-label'} }) }}
+
+                    <div class="col-md-8">
+                        {{ form_widget(edit_form.nazwisko, { 'attr': {'class': 'form-control'} }) }}
+                        <br> {{ form_errors(edit_form.nazwisko) }}
+                    </div>
+                </div>
+            </div>
+            <div class="well well-sm">
+                <h3> <span class="label label-default">Adres</span>  </h3> 
+                <div class="row">   
+                    <div  class="form-group  col-md-5" >
+                        {{ form_label(edit_form.ulica, 'Ulica', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
+
+                        <div class=" col-md-6" >
+                            {{ form_widget(edit_form.ulica, { 'attr': {'class': 'form-control'} }) }}
+                            <br>  {{ form_errors(edit_form.ulica) }}
+                        </div > 
+                    </div >
+                    <div  class="form-group col-md-4 col-md-pull-1">
+                        {{ form_label(edit_form.nrdomu, 'Nr Domu', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
+
+                        <div class=" col-md-4" >
+                            {{ form_widget(edit_form.nrdomu, { 'attr': {'class': 'form-control'} }) }}
+                            <br> {{ form_errors(edit_form.nrdomu) }}
+                        </div>  </div>
+
+                    <div  class="form-group  col-md-4 col-md-pull-2" >
+                        {{ form_label(edit_form.nrmieszkania,    'Nr Mieszkania', { 'label_attr': {'class': ' col-md-5 control-label'} }) }}
+
+                        <div class=" col-md-4" >
+                            {{ form_widget(edit_form.nrmieszkania, { 'attr': {'class': 'form-control'} }) }}
+                            <br> {{ form_errors(edit_form.nrmieszkania) }}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div  class="form-group  col-md-5" >
+                        {{ form_label(edit_form.kodpocztowy, 'Kod Pocztowy', { 'label_attr': {'class': ' col-md-5 control-label'} }) }}
+
+                        <div class=" col-md-4" >
+                            {{ form_widget(edit_form.kodpocztowy, { 'attr': {'class': 'form-control'} }) }}
+                            <br>   {{ form_errors(edit_form.kodpocztowy)  }}
+                        </div>
+                    </div>
+                    <div  class="form-group  col-md-4 col-md-pull-1" >
+                        {{ form_label(edit_form.miasto, 'Miasto', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
+                        {{ form_errors(edit_form.miasto) }}
+                        <div class=" col-md-8" >
+                            {{ form_widget(edit_form.miasto, { 'attr': {'class': 'form-control'} }) }}
+                        </div ></div >
+
+                    <div  class="form-group  col-md-4 col-md-pull-1" >
+                        {{ form_label(edit_form.wojewodztwo, 'Województwo', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
+
+                        <div class=" col-md-8" >
+                            {{ form_widget(edit_form.wojewodztwo, { 'attr': {'class': 'form-control'} }) }}
+                            <br> {{ form_errors(edit_form.wojewodztwo) }}
+                        </div> </div>
+                </div>
+            </div>
+
+            <div class="row">    
+                <div class="form-group  col-md-5" >
+                    {{ form_label(edit_form.peselklienta, 'Nr Pesel', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
+
+                    <div class=" col-md-7" >
+                        {{ form_widget(edit_form.peselklienta, { 'attr': {'class': 'form-control' } }) }}
+                    </div>
+                </div>
+               
+                        {{ form_errors(edit_form.peselklienta)  }}
+                  
+            </div>
+            <div class="row">
+                <div  class="form-group  col-md-5">
+                    {{ form_label(edit_form.telefonklienta, 'Nr Telefonu', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
+
+                    <div class=" col-md-7" >
+                        {{ form_widget(edit_form.telefonklienta, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+               
+                        {{ form_errors(edit_form.telefonklienta)  }}
+               
+            </div>
+
+            <div class="row">
+                <div  class="form-group  col-md-5">
+                    {{ form_label(edit_form.emailklienta, 'Email', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
+                   
+                    <div class=" col-md-7" >
+                        {{ form_widget(edit_form.emailklienta, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                     {{ form_errors(edit_form.emailklienta) }}
+            </div>
+
+
+
+
+
+
+
+
+            {{ form_rest(edit_form) }}
+            <p>
+                <button type="submit" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-ok"></span> Edytuj
+                </button>
+
+            </p>
+        </form>
+        <div  class="row">
+            <div class="col-md-2" >
+                <a href="{{ path('baza_klientow') }}"  class="btn btn-primary">
+                    <span class="glyphicon glyphicon-th-list"></span>      Powrót do listy
+                </a>
+
+            </div>
+            <div class="col-md-4">
+                <form action="{{ path('klienci_baza_delete', { 'id': entity.id }) }}" method="post">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    {{ form_widget(delete_form) }}
+                    <button type="submit"  class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove"></span> Usuń</button>
+                </form>
+            </div>
+        </div>
+    </div >
+{% endblock articleright %}
+
+{% block footer %}
+{% endblock footer %}

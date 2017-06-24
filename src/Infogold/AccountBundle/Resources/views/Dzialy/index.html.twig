@@ -1,0 +1,95 @@
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Select2 -->
+
+{% endblock stylesheets %}
+
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+
+
+    {% if error is defined %} 
+        <div class="alert alert-danger col-md-4" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>                        
+            <small>  {{error}}   </small>                        
+        </div>
+    {% endif %} 
+
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="klient-navbar">
+                                <div class="col-md-4 title">
+                                    
+                                     Działy
+                                </div>
+
+                                <ul class="nav navbar-nav navbar-right add">
+                                    <li> <a id="add" style="color:white !important" class="btn-success" href="{{ path('dzialy_new') }}"><span class="glyphicon glyphicon-plus"></span> Dodaj</a></li>
+
+                                </ul>
+                            </div><!-- /.navbar-collapse -->
+
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table  table-striped jambo_table">
+                            <thead>
+                                <tr class="headings">
+                                    
+                                    <th>Name</th>
+                                    <th>Limityprzerw</th>
+                                    <th colspan="2" style="vertical-align: middle;">Pokaż</th><th>Edytuj</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entity in entities %}
+                                    <tr>
+                                       
+                                        <td>{{ entity.name }}</td>
+                                        <td>{{ entity.limityprzerw }}</td>
+                                        <td colspan="2">
+
+                                            <a class="btn btn-default btn-sm" href="{{ path('dzialy_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                                        </td><td>
+
+                                            <a class="btn btn-default btn-sm" href="{{ path('dzialy_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+
+
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Select2 -->
+    {% block javascripts %}
+
+
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
+
+
+
+

@@ -1,0 +1,227 @@
+{# empty Twig template #}
+{% extends "InfogoldKonsultantBundle:Default:index.html.twig" %}
+{% block cssdatetime %}
+    <link rel="stylesheet" href="{{ asset ('css/bootstrap-datetimepicker.min.css')}} " type="text/css" media="all">
+     <link rel="stylesheet" href="{{ asset ('css/select2.css')}} " type="text/css" media="all">
+{% endblock cssdatetime %}
+{% block javascriptdatetime %}
+    <script src="{{ asset ('js/automatycznie.js') }}" type="text/javascript" ></script>
+    <script src="{{ asset ('js/moment-with-locales.min.js') }}" type="text/javascript" ></script>
+    <script src="{{ asset ('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript" ></script>
+     <script src="{{ asset ('js/select2.min.js') }}" type="text/javascript" ></script>
+    <script type="text/javascript">
+
+        $(function () {
+                        $(document).ready(function () {
+               
+                $("select#infogold_kliencibundle_kontaktytype_PrzypisanyDo").select2({
+                    placeholder: "Wybierz konsultanta",
+                    allowClear: true
+
+
+                });
+              $("select#infogold_kliencibundle_kontaktytype_PrzypisanyDo").removeClass( "form-control" ); 
+              
+            });
+            $('#datetimepicker').datetimepicker({
+                 format: 'YYYY-MM-DD HH:mm',
+              //  minuteStepping: 5,
+                locale: 'pl',
+                  ignoreReadonly: true
+            });
+         
+        });
+    </script>
+        
+{% endblock javascriptdatetime %}
+{% block articletop %}
+   
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+ {% block articleright %}
+     {% set zalogowany = app.user.imie ~" "~ app.user.nazwisko %}
+     <small>
+        <table class="table table-bordered table-condensed table-hover">
+       
+        <thead>
+            <tr>
+                <th style="text-align:center">Nr klienta</th>
+                <th style="text-align:center">Nazwa</th>
+                 <th style="text-align:center;min-width: 300px">Opis</th>
+                <th style="text-align:center">Rodzaj kontaktu</th> 
+                             
+                <th style="text-align:center">Termin kontaktu</th>
+                <th style="text-align:center">Utworzony przez</th>
+                <th style="text-align:center">Przypisany do</th>
+
+                
+                <th colspan="3" style="text-align:center">Zmień/Zamknij</th>
+                      
+            </tr>
+        </thead>
+             {% for  en in pagination  %}
+            <tr class="
+                 {% if en.CzasKontaktu|date('Y-m-d H:i') < "now"|date("Y-m-d H:i")  %}
+                       danger 
+                 {% elseif en.CzasKontaktu|date_modify("-5 day")|date('Y-m-d H:i') <  "now"|date("Y-m-d H:i") %}
+                       warning   
+                 {% endif %}
+                ">
+                  <td style="vertical-align:middle;text-align:center"><a href="{{ path('klienci_show', { 'id': en.Klient.id }) }}">{{ en.Klient.numerklienta }}</a> </td>
+                    <td style="vertical-align:middle;text-align:center">
+                        {% if en.Klient.peselklienta %}
+                        {{ en.Klient.imie }} {{ en.Klient.nazwisko }}
+                         {% else %}
+                             {{ en.Klient.nazwaklienta }} 
+                              {% endif %}
+                    </td>
+                <td style="vertical-align:middle;text-align:inherit">{{ en.OpisKontaktu }} </td>
+                <td style="vertical-align:middle;text-align:center">{{ en.RodzajKontaktu }}</td>
+               
+
+                <td style="vertical-align:middle;text-align:center">{{ en.CzasKontaktu|date('Y-m-d H:i')   }}</td>
+                <td style="vertical-align:middle;text-align:center">{{ en.UtworzonyPrzez  }}</td>
+                <td style="vertical-align:middle;text-align:center"> {{ en.PrzypisanyDo }}</td>
+
+                {% if  zalogowany == en.PrzypisanyDo and en.status == 1 %}
+                    <td style="text-align:center;vertical-align: middle;" >
+
+                        <a  href="#" role="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#edit{{en.id}}"><i class="icon-remove"></i> Edytuj</a>
+                    </td>
+
+                    <td style="text-align:center;vertical-align: middle;" >
+
+                        <a  href="#" role="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#zamknij{{en.id}}"><i class="icon-remove"></i> zamknij</a>
+
+                    </td>
+                   
+                <div class="modal fade" id="zamknij{{en.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Zamknij kontakt</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="well well-small">
+                                    <form action="{{ path('kontakt_delete', { 'id': en.id }) }}" method="post" >
+                                        <fieldset>
+                                            <div class="input-group col-md-10">
+                                                <label class="control-label">Powód zamknięcia</label>
+                                                <textarea class="form-control" rows="3" name="komentarz"></textarea>
+                                           
+                                            </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                            <button type="submit" class="btn btn-primary">Zapisz</button>
+                                        </div>
+                                             </fieldset>
+                                    </form> 
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% for form in edit_form if form.vars.value.id == en.id %}
+
+                    <script type="text/javascript">
+
+                        $(function () {
+                            $('#datetimepicker{{en.id}}').datetimepicker({
+                                format: 'YYYY-MM-DD HH:mm',
+              //  minuteStepping: 5,
+                locale: 'pl',
+                  ignoreReadonly: true
+                            });
+                        });
+                    </script>
+                    <!-- Edycja danych kontaktu -->
+                    <div class="modal fade" id="edit{{en.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Edytuj kontakt</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="well well-small">
+                                        <form action="{{ path('kontakt_update', { 'id':  en.id })}}" method="post" {{ form_enctype(form) }}>
+                                            <fieldset>
+                                                <div class="input-group col-md-12">
+                                                    {{ form_label(form.OpisKontaktu , 'Opis Kontaktu') }} 
+
+                                                    {{ form_widget(form.OpisKontaktu , { 'attr': {'minlength': '3', 'class':'form-control', 'rows':'4', 'maxlength': '300'} }) }}
+
+                                                </div> 
+
+                                                <div class="input-group col-md-10">
+                                                    {{ form_label(form.CzasKontaktu , 'czas kontaktu') }} 
+                                                    <div id="datetimepicker{{en.id}}" class="input-group date col-md-6"  data-date-format="YYYY-MM-DD HH:mm" >
+                                                        {{ form_widget(form.CzasKontaktu, { 'attr': {'type':'text', 'class':'form-control col-md-8 '} })}}
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <div class="height_10"> </div>
+                                                    </div> 
+                                                </div>
+                                                <div class="input-group" id="rodzaj_{{en.id}}">
+                                                    
+
+                                                    {{ form_label(form.RodzajKontaktu , 'Rodzaj Kontaktu') }} 
+
+                                                    {{ form_widget(form.RodzajKontaktu , { 'attr': {'minlength': '3', 'class':'form-control'} }) }}
+                                                    <div class="height_10"> </div>
+                                                </div> 
+
+                                                <div class="input-group">
+                                                    {{ form_label(form.DaneKontaktowe , 'Dane Kontaktowe') }} 
+
+                                                    {{ form_widget(form.DaneKontaktowe , { 'attr': {'minlength': '3', 'class':'form-control'} }) }}
+                                                    <div class="height_10"> </div>
+                                                </div> 
+
+                                                    <div class="input-group col-md-6">
+                                                        {{ form_label(form.PrzypisanyDo , 'Przypisz do konsultanta') }} 
+                                                       
+                                                        {{ form_widget(form.PrzypisanyDo) }}
+
+
+                                                        <div class="height_10"> </div>
+                                                    </div> 
+                                                {{form_rest(form)}}
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Koniec Edycji danych kontaktu -->
+
+                {% endfor %}
+            {% endif %}
+           
+                </tr>
+        {% endfor %}
+
+    </table>
+     
+      </small>
+        {% if app.request.get('_route') == 'kontakty_glowna' %}
+       {% if  pagination is defined %}  
+    
+     <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+            {% endif %}
+     {% endif %}
+        
+      {% endblock articleright %}
+ {% block footer %}
+    {% endblock footer %}

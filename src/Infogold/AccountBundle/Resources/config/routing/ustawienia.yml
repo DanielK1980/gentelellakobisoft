@@ -1,0 +1,40 @@
+# ustawienia
+    
+ustawienia:
+    path: /admins
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:index" }
+    requirements: { _method: get }
+    
+activate_admin:
+    path: /ustawienia/{id}/activate
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:activate" }
+    requirements: { _method: post }
+    
+deactivate_admin:
+    path: /ustawienia/{id}/deactivate
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:deactivate" }
+    requirements: { _method: post }
+    
+delete_admin:
+    path: /ustawienia/{id}/deleteadmin
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:deleteadmin" }
+    requirements: { _method: post }
+    
+ustawienia_magazynu:
+    path: /magazyn
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:magazyn" }
+    requirements: { _method: get }
+    
+activate_magazyn:
+    path: /magazyn/{id}/activate/
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:activate_magazyn" }
+    requirements: { _method: post }
+    
+deactivate_magazyn:
+    path: /magazyn/{id}/deactivate/
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:deactivate_magazyn" }
+    requirements: { _method: post }
+    
+wgraj_dane:
+    path: /profile/wgraj
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:wgraj" }

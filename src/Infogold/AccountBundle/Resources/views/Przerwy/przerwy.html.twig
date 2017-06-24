@@ -1,0 +1,104 @@
+{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
+
+
+{% block adminprzerwy %}
+
+    <link rel="stylesheet" href="{{ asset ('css/styleadmin.css')}} " type="text/css" media="all">
+
+{% endblock adminprzerwy%}
+
+{% block javascriptadminprzerwy %}
+   <!-- <script src="{{ asset ('js/przerwy/administrator.js')}} " type="text/javascript"> </script> -->
+
+{% endblock javascriptadminprzerwy%}
+{% block articletop %}
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+{% block articleright %}
+    <h1 class="text-center text-info">Administrator Przerw</h1>
+    <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked" role="tablist">
+
+
+            {% for dzialy in nazwydzialow %}
+
+                {% if app.request.get('_route') == 'administrator_przerw' %} 
+
+                    <li  {% if loop.first %}  class="active" {% endif %} ><a href="{{ path('dzialy_przerwy', { 'id': dzialy.id }) }}">{{dzialy}}</a></li> 
+
+
+                {% else %}
+                    <li><a href="{{ path('dzialy_przerwy', { 'id': dzialy.id }) }}">{{dzialy}}</a></li> 
+                    {% endif %}
+                {% endfor %}
+        </ul>
+    </div>
+    <div style=" margin: 0 auto;width: 750px">
+
+        <div>
+
+            <div id="przerwa">Aktualnie na przerwie
+                <br/><br/>
+                {% if przerwa  is defined  %}
+                    {% for entity in przerwa %}
+                        <span style="float: left"> {{ entity }}  </span><a href="{{ path('usunzprzerwyadmin', {'id': entity.KonsultantDzialy.id, 'przerusun': entity.id}) }}" class="btn btn-danger">
+                            Usuń z przerwy
+                            </a>
+                            <div style="display: block;border-bottom: #528CE0 solid thin;clear: both"> </div>      <br/>
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+
+            <div id="kolejka" >Aktualnie w kolejce
+                <br/><br/>
+                {% if kolejka  is defined  %}
+                    {% for entity in kolejka %}
+                       <span style="float: left">  {{ entity }} </span> <a style="float: right;position: relative;bottom: 5px" href="{{ path('usunzkolejkiadmin', {'id': entity.KonsultantDzialy.id, 'kolusun': entity.id}) }}" class="btn btn-danger btn-xs">
+                            Usuń z kolejki
+                            </a>
+                            <div style="display: block;border-bottom: #528CE0 solid thin;clear: both"> </div>      <br/>
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+
+
+        <div class="well well-small row" style="clear: both;margin-top: 40px">
+            <div id="aktualnylimit" >
+                <p class="lead">Aktualny limit osób na przerwie to: <span>
+
+                        {{ limity }}
+                    </span> </p>        
+
+
+
+            </div>
+            {% if form is defined %}   
+                <form  role="form" class="form-horizontal"  action="{{ path('zapisziloscprzerwa', { 'id': id }) }}" method="post" {{ form_enctype(form) }}> 
+                    {{ form_errors(form) }} 
+                    <div  class="form-group  col-md-10">
+                        {{ form_label(form.limityprzerw, 'Ustal limit przerw', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+                        <div class="col-md-4">
+                            {{ form_widget(form.limityprzerw , { 'attr': {'minlength': '3','class' : 'form-control'} }) }}
+                        </div>
+                        <button type="submit" class="btn btn-default" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-ok"></span> Zapisz</button>
+                    </div>
+
+
+                    {{ form_rest( form) }}
+                </form>
+            
+
+            {% endif %}
+        </div>    
+        <div id="tabela"></div>
+                 
+    </div>
+
+{% endblock articleright %}
+{% block footer %}
+{% endblock footer %}

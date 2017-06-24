@@ -1,0 +1,396 @@
+{% extends "::/account/base.html.twig" %}
+{% trans_default_domain 'Grafik' %}
+{% form_theme form _self %}
+
+{% block choice_widget_expanded -%}
+
+
+
+{% endblock choice_widget_expanded %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset ('css/bootstrap-datetimepicker.min.css')}} " type="text/css" media="all">
+  <!-- PNotify -->
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+
+{% endblock stylesheets %}
+
+{% block page_title %} Grafik na miesiąc {{nazwamiesiaca}} {% endblock%}
+
+{% block page_content %}
+       {% for flashMessage in app.session.flashbag.get('error') %}
+                                        <div class="alert alert-danger col-md-6 col-md-push-3" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>                        
+                                            <small>  {{flashMessage|nl2br}}   </small>                        
+                                        </div>
+                                    {% endfor %}
+<!--
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <script>
+            $(document).ready(function () {
+                show_stack_bottomright('error', '{{flashMessage|nl2br}} ');
+            });
+        </script>
+        <!--
+        <div class="alert alert-info" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+           #
+        </div>
+       
+    {% endfor %}
+-->
+    <div>
+        {% set dataaktualna = rok~"-"~miesiac %}
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+                                    
+                                     <div class="col-md-3" style="padding-top:8px">
+                                    
+                                      <ul class="pagination">
+                                            <li><a href="{{ path('grafikdzialu', { 'id': id, 'date': dataaktualna|date_modify("-1 month")|date("Y-m") }) }}">&laquo;</a></li>
+                                            <li class="disabled"><a>{{nazwamiesiaca}}</a></li>   
+                                            <li><a href="{{ path('grafikdzialu', { 'id': id, 'date': dataaktualna|date_modify("+1 month")|date("Y-m") }) }}">&raquo;</a></li>
+                                        </ul>
+                                         </div>
+                                       
+                                    
+                               
+                                    <ul class="nav navbar-nav" style="margin-right: 35px">
+                                        
+
+                                        {% for dzialy in nazwydzialow %}
+
+                                            {% if app.request.get('_route') == 'grafik' %} 
+
+                                                <li  {% if loop.first %}  class="active" {% endif %} ><a href="{{ path('grafikdzialu', { 'id': dzialy.id, 'date': dataaktualna }) }}">{{dzialy}}</a></li> 
+
+                                            {% else %}
+                                                <li><a href="{{ path('grafikdzialu', { 'id': dzialy.id, 'date': dataaktualna }) }}">{{dzialy}}</a></li> 
+                                                {% endif %}
+                                            {% endfor %}
+
+
+                                    </ul>
+
+
+                                </div><!-- /.navbar-collapse -->
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+                                            <br>
+                                             <nav class="navbar navbar-default" role="navigation">
+                        
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+                                    
+                            {% if form is defined %} 
+                        <form novalidate  role="form" class="form-horizontal"  action="{{ path('ustalgrafik', { 'id': id, 'date': dataaktualna }) }}" method="post" {{ form_enctype(form) }}> 
+                          
+                                    {{ form_errors(form) }}
+                                    
+                                    
+                                    <div class="col-md-4" style="padding:12px 0 0 0">
+                                        
+                                    <div class="col-md-6">
+
+                                        <div id="datetimepicker1" class="input-group date col-md"  data-date-format="YYYY-MM-DD" >
+
+                                            {{  form_widget(form.datarozpoczecia, { 'attr': {'type':'text', 'class':'form-control ','placeholder':'Data od'} })}}
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        
+                                        <div id="datetimepicker4" class="input-group date col-md"  data-date-format="YYYY-MM-DD" >
+
+                                            {{  form_widget(form.datazakonczenia, { 'attr': {'type':'text', 'class':'form-control','placeholder':'Data do'} })}}
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                      
+
+                                        <div id="datetimepicker2" class="input-group date col-md"   >
+
+                                            {{  form_widget(form.czasrozpoczecia, { 'attr': {'type':'text', 'class':'form-control','placeholder':'Czas od'} })}}
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                       
+
+                                        <div id="datetimepicker3" class="input-group date col-md"   >
+
+                                            {{  form_widget(form.czaszakonczenia, { 'attr': {'type':'text', 'class':'form-control','placeholder':'Czas do'} })}}
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="form-group col-md-3" style="padding-top:8px">
+                                      
+
+                                        <div class="input-group date col-md-12"   >
+
+                                            {{  form_widget(form.komentarz, { 'attr': {'rows':'3',  'class':'form-control','placeholder':'Komentarz'} })}}
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-1" style="position: relative; top: 28px;margin-right: 6px">
+
+                                        {{ form_widget(form.zapisz, { 'label': 'Zapisz' }) }}
+
+                                    </div>
+
+                                    <div class="form-group col-md-1" style="position: relative; top: 28px">
+
+                                        {{ form_widget(form.usun, { 'label': 'Usuń' }) }}
+
+                                    </div>
+
+                               <!-- /.navbar-collapse -->
+                           
+                        </div><!-- /.container-fluid -->
+                    </nav>
+                </div>
+                <div class="x_content">
+
+
+                                </div>
+                               
+
+                                <div  class="row well well-small" style="overflow: scroll">
+
+                                    <table class="table table-bordered table-striped  table-hover" id="grafik">
+                                        <tr>
+                                            <td>&nbsp;</td>  <td>&nbsp;</td> <td>&nbsp;</td>
+                                            {% for nazwa in nazwydni %}
+
+                                                {%  if nazwa == 'Sob' %}
+                                                    <td style="text-align: center;color: #428BCA">{{ nazwa }}</td>
+                                                {% elseif nazwa == 'Nd'   %}
+                                                    <td style="text-align: center;color: #428BCA">{{ nazwa }}</td>
+                                                {% else  %}
+                                                    <td style="text-align: center;">{{ nazwa }}</td>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center;vertical-align: middle;"><span class="glyphicon glyphicon-user"></span></td>
+                                            <td style="text-align: center;vertical-align: middle;"><span class="glyphicon glyphicon-ok"></span></td> 
+                                            <td style="text-align: center;vertical-align: middle;"><span class="glyphicon glyphicon-time"></span></td>
+                                                {% for i in 1..pustedni %}
+
+                                            {% endfor %}      
+                                            {% for i in 1..ilosc %}
+                                                <td style="text-align: center">{{ i }}</td>
+                                            {% endfor %}
+                                        </tr>
+
+                                        {% for konsultant in konsultanci %}
+                                            <tr>
+                                                <td rowspan="2" align="center" valign="middle" style="text-align: center;vertical-align: middle;">   <label for="form_GrafikKonsultanta_{{konsultant.id}}">{{konsultant}}</label></td>
+                                                <td rowspan="2" align="center" valign="middle"  style="text-align: center;vertical-align: middle;" >   <input id="form_GrafikKonsultanta_{{konsultant.id}}" name="form[GrafikKonsultanta][]" value="{{konsultant.id}}" type="checkbox"></td>
+                                                    {{  form_widget(form.GrafikKonsultanta)}}
+                                                <td rowspan="2"  style="text-align: center;vertical-align: middle;">
+                                                    {% set sumratings = 0 %}
+                                                    {% for grafik in grafiktabela if dataaktualna == grafik.data|date("Y-m")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+
+                                                        {%  set sumratings = sumratings + grafik.minutypracy %}
+
+                                                    {% endfor %}
+
+                                                    {% set hours = sumratings/60 %}
+                                                    {% set minutes = sumratings % 60 %}
+
+                                                    {{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}
+                                                </td>
+                                                {% for i in 1..pustedni %}
+
+                                                {% endfor %}      
+                                                {% for i in 1..ilosc %}
+
+                                                    {% if i < 10  %}
+                                                        {% set data = rok~"-"~miesiac~"-"~"0"~i %}
+
+                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+
+                                                            <td style="text-align: center"><small>{{ grafik.czasrozpoczecia|date("H:i") }}-{{ grafik.czaszakonczenia|date("H:i") }}</small></td>
+
+
+                                                        {% else %}
+                                                            <td style="text-align: center">-</td>
+                                                        {% endfor %}
+
+                                                    {% else %} 
+
+                                                        {% set data = rok~"-"~miesiac~"-"~i %}
+
+                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')   %}
+
+                                                            <td style="text-align: center"><small>{{ grafik.czasrozpoczecia|date("H:i") }}-{{ grafik.czaszakonczenia|date("H:i") }}</small></td>
+
+                                                        {% else %}
+                                                            <td style="text-align: center">-</td>
+                                                        {% endfor %}
+                                                    {% endif %}  
+
+                                                {% endfor %}
+                                            </tr> 
+
+
+                                            {# ilość godzin pracy #}
+
+
+                                            <tr>
+
+                                                {% for i in 1..pustedni %}
+
+                                                {% endfor %}      
+                                                {% for i in 1..ilosc %}
+                                                    {% if i < 10  %}
+                                                        {% set data = rok~"-"~miesiac~"-"~"0"~i %}
+
+                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+                                                            {% set hours = grafik.minutypracy/60 %}
+                                                            {% set minutes = grafik.minutypracy % 60 %}
+                                                            <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>
+                                                                {% if grafik.komentarz %} 
+                                                                    <span style="cursor:pointer;float: right" class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom"
+                                                                          title='{{ grafik.komentarz }}'></span>
+                                                                {% endif %} 
+
+
+                                                            </td>
+
+
+                                                        {% else %}
+                                                            <td style="text-align: center">-</td>
+                                                        {% endfor %}
+
+                                                    {% else %} 
+
+                                                        {% set data = rok~"-"~miesiac~"-"~i %}
+
+                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')   %}
+                                                            {% set hours = grafik.minutypracy/60 %}
+                                                            {% set minutes = grafik.minutypracy % 60 %}
+                                                            <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>
+                                                                {% if grafik.komentarz %} 
+                                                                    <span style="cursor:pointer;float: right"  class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom"
+                                                                          title='{{ grafik.komentarz }}'></span>
+                                                                {% endif %}  
+                                                            </td>
+
+                                                        {% else %}
+                                                            <td style="text-align: center">-</td>
+                                                        {% endfor %}
+                                                    {% endif %}  
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+
+
+                                    </table>
+                                </div>
+                                {{ form_rest( form) }}
+
+                            </div>
+                        </form>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Select2 -->
+    {% block javascripts %}
+
+        <script src="{{ asset ('js/moment.js') }}" type="text/javascript" ></script>
+
+        <script src="{{ asset ('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript" ></script>
+
+         <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
+        <script type="text/javascript">
+
+            $(function () {
+
+                $('#datetimepicker1').datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: 'pl',
+                    ignoreReadonly: true,
+                    widgetPositioning: {
+                        horizontal: 'auto',
+                        vertical: 'bottom'
+                    }
+                });
+                $('#datetimepicker2').datetimepicker({
+                    format: 'HH:mm',
+                    locale: 'pl',
+                    ignoreReadonly: true,
+                    widgetPositioning: {
+                        horizontal: 'auto',
+                        vertical: 'bottom'
+                    }
+                });
+                $('#datetimepicker3').datetimepicker({
+                    format: 'HH:mm',
+                    locale: 'pl',
+                    ignoreReadonly: true,
+                    widgetPositioning: {
+                        horizontal: 'auto',
+                        vertical: 'bottom'
+                    }
+                });
+                $('#datetimepicker4').datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: 'pl',
+                    ignoreReadonly: true,
+                    widgetPositioning: {
+                        horizontal: 'auto',
+                        vertical: 'bottom'
+                    }
+                });
+                $('#datetimepicker1').datetimepicker();
+                $('#datetimepicker4').datetimepicker();
+                $('#datetimepicker2').datetimepicker();
+                $('#datetimepicker3').datetimepicker();
+                $("#datetimepicker1").on("dp.change", function (e) {
+                    $('#datetimepicker4').data("DateTimePicker").minDate(e.date);
+                });
+                $("#datetimepicker4").on("dp.change", function (e) {
+                    $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+                });
+                $("#datetimepicker2").on("dp.change", function (e) {
+                    $('#datetimepicker3').data("DateTimePicker").minDate(e.date);
+                });
+                $("#datetimepicker3").on("dp.change", function (e) {
+                    $('#datetimepicker2').data("DateTimePicker").maxDate(e.date);
+                });
+
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+        </script>
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
+
+

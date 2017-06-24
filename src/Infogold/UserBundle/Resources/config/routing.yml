@@ -1,0 +1,7 @@
+infogold_user_admin:
+    resource: "@InfogoldUserBundle/Resources/config/routing/user.yml"
+    prefix:   /admin
+
+infogold_user_homepage:
+    pattern:  /account
+    defaults: { _controller: InfogoldUserBundle:Nrklienta:numer}

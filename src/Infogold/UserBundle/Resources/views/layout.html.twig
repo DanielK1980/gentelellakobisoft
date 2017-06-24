@@ -1,0 +1,61 @@
+{% extends "::base.html.twig" %}
+
+{% block layout %}
+
+
+<div class="body1">
+    <div class="main">
+        <!-- header -->
+                                                        {% block header %}
+                                                        {% block login %}
+
+
+
+                                                          {% endblock login %}
+                                                        {% endblock header %}
+        <!-- / header -->
+    </div>
+</div>
+
+<div class="body2">
+    <div class="main">
+              {% block content %}
+            <!-- content -->
+            <section id="content">
+                <div class="marg_top wrapper">
+                                                     {% block articletop %}
+
+                                                    {% endblock articletop %}          
+                    </div>
+
+
+                    <div class="wrapper2 marg_top2">
+
+                        <article class="col1">
+
+                                                      {% block articleleft %}
+
+                                                     {% endblock articleleft %}
+
+                        </article>
+                                                     {% block articleright %}
+
+                                                     {% endblock articleright %}
+
+                    </div>
+                </section>
+                <!-- / content -->
+{% endblock %}
+            </div>
+
+        </div>
+        <div class="main">
+    {% block footer %}
+
+
+
+
+    {% endblock footer %}
+            </div>
+            <!-- / footer -->
+{% endblock layout %}

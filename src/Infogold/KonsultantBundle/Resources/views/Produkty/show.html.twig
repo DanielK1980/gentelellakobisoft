@@ -1,0 +1,193 @@
+{# empty Twig template #}
+{% extends "InfogoldKonsultantBundle:Default:index.html.twig" %}
+{% block cssdatetime %}
+    <style type="text/css">
+   .paging-nav {
+  text-align: left;
+  padding-top: 2px;
+}
+
+.paging-nav a {
+  margin: auto 1px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1px 7px;
+  background: #91b9e6;
+  color: white;
+  border-radius: 3px;
+}
+
+.paging-nav .selected-page {
+  background: #187ed5;
+  font-weight: bold;
+}
+ </style>
+{% endblock cssdatetime %}
+{% block javascriptdatetime %}
+   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script src="{{ asset ('js/paging.js') }}" type="text/javascript" ></script>
+
+        <script>
+        $(function () {
+            $('#tableind').paging({limit:2});
+            $('#tablefirma').paging({limit:2});
+            $('#myTab a:first').tab('show');
+       
+        var rowsfirma = $('#tablefirma tr#wierszefirmy');
+        $('#searchfirma').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            rowsfirma.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+        var rowsind = $('#tableind tr#wierszeind');
+        $('#searchind').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            rowsind.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+         });
+    </script>
+{% endblock javascriptdatetime %}
+{% block articletop %}
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+{% block articleright %}
+    <h1>Produkty</h1>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Nr produktu</th>
+                <td>{{ entity.nrproduktu }}</td>
+            </tr>
+            <tr>
+                <th>Cena produktu</th>
+                <td>{{ entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>
+            </tr>
+
+            <tr>
+                <th>Nazwa</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Opis</th>
+                <td>{{ entity.opis }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <a class="btn btn-primary"  href="{{ path('produkt_kons') }}">
+            Powrót do listy
+        </a>
+
+    </div>
+
+    <br/>
+
+
+    <ul class="nav nav-tabs nav-justified" role="tablist" id="myTab">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Klienci firmowi</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Klienci indywidualni</a></li>
+
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <br/>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <input type="text"  class="form-control" id="searchfirma" placeholder="wyszukaj">
+                </div>
+            </div>
+
+            <h2>  Klienci firmowi którzy zakupili ten produkt </h2>
+            <table class="table table-striped" id="tablefirma">
+                <thead>
+                    <tr id="opis">
+                        <th>Nazwa firmy</th>
+                        <th>Nip</th>
+                        <th>Ulica</th>
+                        <th>Miejscowość</th>   
+                         <th>Cena netto</th>
+                        <th>Ilość</th>
+                        <th>Zakup w dniu</th>
+                        <th style="vertical-align:middle;text-align:center">Przejdź do panelu klienta</th>
+                    </tr>
+
+                </thead>   
+                {% for entity in klienci %}
+                    {% if entity.peselklienta is empty %}
+                        <tr id="wierszefirmy">
+                            <td>{{entity.nazwaklienta}}</td>
+                            <td>{{entity.nipklienta}}</td>
+                             <td>{{entity.ulica}}</td>
+                            <td>{{entity.miasto}}</td>
+                            <td>{{entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>  
+                            <td>{{entity.ilosc}}</td>  
+                            <th>{{entity.created|date('Y-m-d H:i:s')}}</th>
+                            <td style="vertical-align:middle;text-align:center"><a class="btn btn-default btn-sm"  href="{{ path('klienci_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="profile">
+            <br/>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <input type="text"  class="form-control" id="searchind" placeholder="wyszukaj">
+                </div>
+            </div>
+            <h2>  Klienci indywidualni którzy zakupili ten produkt </h2>
+            <table class="table table-striped" id="tableind">
+                <thead>
+                    <tr>
+                        <th>Imie</th>
+                        <th>Nazwisko</th>
+                        <th>Miejscowość</th>
+                        <th>Ulica</th>  
+                        <th>Cena netto</th>
+                        <th>Ilość</th>
+                        <th>Zakup w dniu</th>
+                        <th style="vertical-align:middle;text-align:center">Przejdź do panelu klienta</th>
+                    </tr>
+
+                </thead> 
+                {% for entity in klienci %}
+                    {% if entity.peselklienta is not empty %}
+                        <tr id="wierszeind">
+                            <td>{{entity.imie}}</td>
+                            <td>{{entity.nazwisko}}</td>
+                            <td>{{entity.miasto}}</td>
+                            <td>{{entity.ulica}}</td>   
+                            <td>{{entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>  
+                            <td>{{entity.ilosc}}</td>  
+                            <th>{{entity.created|date('Y-m-d H:i:s')}}</th>
+                            <td style="vertical-align:middle;text-align:center"><a class="btn btn-default btn-sm"  href="{{ path('klienci_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                        </tr>
+                    {% else %}
+                        <b>brak</b>
+                    {% endif %}
+
+
+                {% endfor %}
+            </table>
+
+        </div>
+
+    </div>
+
+
+{% endblock articleright %}
+{% block footer %}
+{% endblock footer %}

@@ -1,0 +1,15 @@
+{% extends "InfogoldStronaBundle:Default:index.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+ {% block articletop %}
+
+  {% endblock %}
+   {% block articleleft %}
+						
+    {% endblock articleleft %}
+{% block articleright %}
+
+
+    <h3>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</h3>
+
+
+{% endblock %}

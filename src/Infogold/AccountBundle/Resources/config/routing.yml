@@ -1,0 +1,217 @@
+infogold_account_dzialy:
+    resource: "@InfogoldAccountBundle/Resources/config/routing/dzialy.yml"
+    prefix:   /dzialy
+
+infogold_account_homepage:
+    pattern:  /
+    defaults: { _controller: InfogoldAccountBundle:Default:index }
+    
+
+    
+administrator_przerw:
+    pattern:  /przerwy
+    defaults: { _controller: "InfogoldAccountBundle:Przerwy:index" }
+    
+dzialy_przerwy:
+    pattern:  /przerwy/{id}
+    defaults: { _controller: "InfogoldAccountBundle:Przerwy:dzial" }
+ 
+    #  /grafikprzerwy/{id}/{kolusun}
+    #  /grafikprzerwy/{id}/{przerusun} TAK NIE ZADZIAŁA
+usunzkolejkiadmin:
+    pattern:  /przerwy/usunzkolejki/{id}/{kolusun}
+    defaults: { _controller: "InfogoldAccountBundle:Przerwy:usunzkolejki" } 
+    
+usunzprzerwyadmin:
+    pattern:  /przerwy/usunzprzerwy/{id}/{przerusun}
+    defaults: { _controller: "InfogoldAccountBundle:Przerwy:usunzprzerwy" } 
+    
+zapisziloscprzerwa:
+    pattern:  /przerwy/nowylimit/{id}
+    defaults: { _controller: "InfogoldAccountBundle:Przerwy:dzial" }
+    
+    
+grafik:
+    pattern:  /grafik/{date}
+    defaults: { _controller: "InfogoldAccountBundle:Grafik:index" }
+    
+grafikdzialu:
+    pattern:  /grafik/{id}/{date}
+    defaults: { _controller: "InfogoldAccountBundle:Grafik:dzial" }
+    
+ustalgrafik:
+    pattern:  /grafik/ustal/{id}/{date}
+    defaults: { _controller: "InfogoldAccountBundle:Grafik:ustalgrafik" }
+    
+usungrafik:
+    pattern:  /grafik/usun/{id}/{date}
+    defaults: { _controller: "InfogoldAccountBundle:Grafik:usungrafik" }
+    
+
+    
+statrap:
+    pattern:  /statrap
+    defaults: { _controller: "InfogoldAccountBundle:Statrap:index" } 
+    
+wiadomosci:
+    pattern:  /wiadomosci
+    defaults: { _controller: "InfogoldAccountBundle:Wiadomosci:index" }
+    
+ustawienia:
+    pattern:  /ustawienia
+    defaults: { _controller: "InfogoldAccountBundle:Ustawienia:index" }   
+    
+
+
+
+# baza klientow   
+baza_klientow:
+    pattern:  /baza/klientow_indywidualnych
+    defaults: { _controller: "InfogoldAccountBundle:Baza:bazaklientow" }
+    
+     
+klienci_baza_firma:
+    pattern:  /baza/klientow_firmowych
+    defaults: { _controller: "InfogoldAccountBundle:Baza:bazaklientowfirmowych" }
+
+klienci_baza_show:
+    pattern:  /baza/{id}/show
+    defaults: { _controller: "InfogoldAccountBundle:Baza:showbaza"}
+
+klienci_baza_new:
+    pattern:  /baza/new
+    defaults: { _controller: "InfogoldAccountBundle:Baza:newbaza" }
+    
+klienci_baza_new_firmowy:
+    pattern:  /baza/newfirmowy
+    defaults: { _controller: "InfogoldAccountBundle:Baza:newfirmowybaza" }
+
+klienci_baza_create:
+    pattern:  /baza/create
+    defaults: { _controller: "InfogoldAccountBundle:Baza:createbaza" }
+    requirements: { _method: post }
+    
+klienci_baza_create_firmowy:
+    pattern:  /baza/createfirma
+    defaults: { _controller: "InfogoldAccountBundle:Baza:createfirmabaza" }
+    requirements: { _method: post }
+
+klienci_baza_edit:
+    pattern:  /baza/{id}/edit
+    defaults: { _controller: "InfogoldAccountBundle:Baza:editbaza" }
+    
+klienci_baza_editfirmowy:
+    pattern:  /baza/{id}/editfirmowy
+    defaults: { _controller: "InfogoldAccountBundle:Baza:editfirmowybaza" }
+
+
+# faktura i sprzedaż
+
+baza_sprzedaz_usun:
+    pattern:  /baza/sprzedaz/{id}/{idzakup}
+    defaults: { _controller: "InfogoldAccountBundle:Baza:usunsprzedaz" }
+
+
+faktura:
+    pattern:  /baza/faktura/{id}
+    defaults: { _controller: "InfogoldAccountBundle:Baza:faktura" }
+    
+faktura_pdf:
+    pattern:  /baza/fakturapdf/{id}
+    defaults: { _controller: "InfogoldAccountBundle:Baza:fakturapdf" }
+    
+fakturaorg_nr:
+    pattern:  /baza/fakturaorgnr
+    defaults: { _controller: "InfogoldAccountBundle:Baza:fakturaorgnr" }
+   
+fakturapro_nr:
+    pattern:  /baza/fakturapronr
+    defaults: { _controller: "InfogoldAccountBundle:Baza:fakturapronr" }
+   
+
+ #AJAX
+produkty_cena:
+    pattern:  /klient/cena
+    defaults: { _controller: "InfogoldAccountBundle:Baza:cenaajax" }
+    
+# kontakt_edit:
+ #   pattern:  /klient/{id}/editkontakt
+ #   defaults: { _controller: "InfogoldAccountBundle:Baza:editKontakt" }
+
+klienci_baza_update:
+    pattern:  /klient/{id}/update
+    defaults: { _controller: "InfogoldAccountBundle:Baza:updatebaza" }
+    requirements: { _method: post|put }
+    
+kontakt_baza_update:
+    pattern:  /klient/{id}/updatekontakt
+    defaults: { _controller: "InfogoldAccountBundle:Baza:updatekontaktbaza" }
+    
+kontakt_baza_zapisz:
+    pattern:  /klient/{id}/zapiszkontakt
+    defaults: { _controller: "InfogoldAccountBundle:Baza:zapiszkontakt" }
+    
+sprzedaz_baza_zapisz:
+    pattern:  /klient/{id}/zapiszsprzedaz
+    defaults: { _controller: "InfogoldAccountBundle:Baza:zapiszsprzedaz" }
+
+klienci_baza_delete:
+    pattern:  /klient/{id}/delete
+    defaults: { _controller: "InfogoldAccountBundle:Baza:deletebaza" }
+    requirements: { _method: post|delete }
+    
+kontakt_baza_delete:
+    pattern:  /klient/{id}/deletekontakt
+    defaults: { _controller: "InfogoldAccountBundle:Baza:deletekontaktbaza" }
+    
+# koniec bazy klientow
+
+
+# konsultanci
+konsultant:
+    pattern:  /konsultant/
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:index" }
+
+konsultant_show:
+    pattern:  /konsultant/{id}/show/{date}
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:show" }
+
+konsultant_new:
+    pattern:  /konsultant/new
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:new" }
+
+konsultant_create:
+    pattern:  /konsultant/create/{date}
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:create" }
+    requirements: { _method: post }
+
+konsultant_edit:
+    pattern:  /konsultant/{id}/edit
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:edit" }
+
+konsultant_update:
+    pattern:  /konsultant/{id}/{date}/update
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:update" }
+    requirements: { _method: post|put }
+
+konsultant_delete:
+    pattern:  /konsultant/{id}/delete
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:delete" }
+    requirements: { _method: post|delete }
+    
+resethasla:
+    pattern:  /konsultant/{id}/{date}/resethasla
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:resethasla" }
+    
+ #AJAX
+konsultant_raport:
+    pattern:  /konsultant/raport
+    defaults: { _controller: "InfogoldAccountBundle:Konsultant:raport" }
+    
+# koniec konsultantow
+
+
+
+    
+    
+    

@@ -1,0 +1,27 @@
+parameters:
+#    infogold_user.example.class: Infogold\UserBundle\Example
+
+services:
+   infogold_user.registration.form.type:
+        class: Infogold\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: infogold_user_registration }
+ 
+   infogold_user.profile.form.type:
+       class: Infogold\UserBundle\Form\Type\ProfileFormType
+       arguments: [%fos_user.model.user.class%]
+       tags:
+            - { name: form.type, alias: infogold_user_profile }
+          
+ #  my.registration.form.handler:
+     #  scope: request
+    #   class: Infogold\UserBundle\Form\Handler\MyHandler
+    #   arguments: ['@fos_user.registration.form', '@request', '@fos_user.user_manager', '@fos_user.mailer', '@fos_user.util.token_generator', '@doctrine.orm.entity_manager']        
+
+
+   my_registration_form_handler:
+        class: Infogold\UserBundle\EventListener\RegisterListener
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: kernel.event_subscriber }

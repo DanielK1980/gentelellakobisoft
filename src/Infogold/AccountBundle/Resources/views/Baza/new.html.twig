@@ -1,0 +1,58 @@
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+
+
+{% endblock stylesheets %}
+
+{% block page_title %} Dodaj klienta indywidualnego  {% endblock%}
+
+{% block page_content %}
+    <div class="row">
+        <div class="x_panel" >
+                           <div  class="row">
+                    <div class="col-md-2" >
+                        <a href="{{ path('baza_klientow') }}"  class="btn btn-primary">
+                            <span class="glyphicon glyphicon-th-list"></span>      Powrót do listy
+                        </a>
+
+                    </div>
+
+                </div>
+            <div class="x_content">
+                <br>
+
+                <span id="nrklienta" style="visibility: hidden;display: none;">                       
+                    {{ nrklienta }}
+                </span>
+                 <div>
+                    <form novalidate action="{{ path('klienci_baza_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+                         {{ bootstrap_set_label_col(4) }}
+                        {{ bootstrap_set_widget_col(4) }}
+                        {{ bootstrap_set_style('horizontal') }}
+                        {{ form_widget(form) }}                                        
+                        {{ form_rest(form) }}                     
+                    </form>                    
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    {% block javascripts %}
+        <script>
+            $(document).ready(function () {
+                var stringnumer = $('span#nrklienta').text().trim();
+                var a = parseInt(stringnumer);
+                var numer = a + 1;
+
+                $('#infogold_kliencibundle_kliencitype_numerklienta').val(numer);
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+            });
+        </script>
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock %}
+
+

@@ -1,0 +1,128 @@
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+
+    <!-- Select2 -->
+
+{% endblock stylesheets %}
+
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+
+
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <script>
+            $(document).ready(function () {
+                show_stack_bottomright('error', '{{ flashMessage }}');
+            });
+        </script>
+        <!--
+        <div class="alert alert-info" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+           #
+        </div>
+        -->
+    {% endfor %}
+
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+
+                                    <form class="navbar-form navbar-left" role="search" action="{{ path('szukajproduktowuser') }}" method="post" {{ form_enctype(form) }}>
+                                        {{ form_errors(form) }} 
+
+                                        <div class="form-group">
+                                            {{ form_widget(form.szukaj , { 'attr': {'minlength': '1','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            {{ form_widget(form.wedlug , { 'attr': {'minlength': '1','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+                                        <button type="submit" class="btn btn-default" data-toggle="tooltip" title="Możesz wyszukiwać po nr PESEL, nazwisku, imieniu i nazwisku oraz po nr klienta."><span class="glyphicon glyphicon-search"></span> Szukaj</button>
+                                        {{ form_rest( form ) }}
+                                    </form>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li> <a style="color:white !important" class="btn-success" href="{{ path('produkty_new') }}"><span class="glyphicon glyphicon-plus"></span> Dodaj</a></li>
+
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        {% if pagination %}
+                            <table class="table table-striped jambo_table">
+                                <thead>
+                                    <tr>
+                                        <th>Nr produktu</th>
+                                        <th>Nazwa</th>
+                                        <th>Cena netto</th>
+                                        <th>Vat</th>
+                                        <th>Cena brutto</th>
+                                        <th>J.M</th>                
+                                        {% if  magazyn == true %} <th>W magazynie</th> {% endif %}            
+                                        <th colspan="2">Pokaż</th><th>Edytuj</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for entity in pagination %}
+                                        <tr>
+                                            <td><a href="{{ path('produkty_show', { 'id': entity.id }) }}">{{ entity.nrproduktu }}</a></td>
+                                            <td>{{ entity.name }}</td>
+                                            <td>{{ entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>
+                                            <td>{{ entity.vat }} %</td>
+                                            <td>{{ entity.cenabrutto|number_format(2, ',', '  ') }} zł</td>
+                                            <td>{{ entity.jednostkamiary }}</td>
+                                            {% if  magazyn == true %}   <td>{{ entity.magazyn }}</td>{% endif %}
+                                            <td align="center" style="vertical-align: middle;" colspan="2">
+
+                                                <a class="btn btn-default btn-sm" href="{{ path('produkty_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                                            </td><td align="center" style="vertical-align: middle;">
+
+                                                <a class="btn btn-default btn-sm" href="{{ path('produkty_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+
+
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+
+                </div>
+                {% if app.request.get('_route') == 'produkty' %}
+                    {% if  pagination is defined %}
+                        <div class="navigation">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Select2 -->
+    {% block javascripts %}
+        <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
+
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
+

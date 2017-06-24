@@ -1,0 +1,14 @@
+{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
+
+
+{% block articletop %}
+
+  {% endblock %}
+   {% block articleleft %}
+{{ knp_menu_render('InfogoldAccountBundle:Builder:ustawieniaMenu') }}					
+    {% endblock articleleft %}
+{% block articleright %}
+<div class="col-md-offset-6">
+{% include "FOSUserBundle:Profile:show_content.html.twig" %}
+</div>
+{% endblock articleright %}

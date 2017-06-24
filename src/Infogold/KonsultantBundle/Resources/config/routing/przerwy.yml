@@ -1,0 +1,28 @@
+przerwy:
+    pattern:  /przerwy
+    defaults: { _controller: "InfogoldKonsultantBundle:PrzerwyKonsultanta:index" }
+
+
+nakolejke:
+    pattern:  /kolejka
+    defaults: { _controller: "InfogoldKonsultantBundle:PrzerwyKonsultanta:nakolejke" }
+    
+naprzerwe:
+    pattern:  /przerwa
+    defaults: { _controller: "InfogoldKonsultantBundle:PrzerwyKonsultanta:naprzerwe" }
+    
+usunzkolejki:
+    pattern:  /uzunzkolejki
+    defaults: { _controller: "InfogoldKonsultantBundle:PrzerwyKonsultanta:usunzkolejki" }
+    
+usunzprzerwy:
+    pattern:  /uzunzprzerwy
+    defaults: { _controller: "InfogoldKonsultantBundle:PrzerwyKonsultanta:usunzprzerwy" }
+    
+przepusc:
+    pattern:  /przepusc
+    defaults: { _controller: "InfogoldKonsultantBundle:PrzerwyKonsultanta:przepusc" }
+#AJAX
+ajaxprzerwa:
+    pattern:  /ajaxprzerwa
+    defaults: { _controller: "InfogoldKonsultantBundle:PrzerwyKonsultanta:ajaxprzerwa" }

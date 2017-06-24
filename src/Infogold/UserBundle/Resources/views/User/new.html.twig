@@ -1,0 +1,21 @@
+{% extends "InfogoldUserBundle:Default:index.html.twig" %}
+
+{% block articletop %}
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+{% block articleright %}
+    <h1>User creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock articleright %}
+{% block footer %}
+{% endblock footer %}

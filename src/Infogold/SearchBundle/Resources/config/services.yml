@@ -1,0 +1,7 @@
+parameters:
+#    infogold_search.example.class: Infogold\SearchBundle\Example
+
+services:
+#    infogold_search.example:
+#        class: %infogold_search.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

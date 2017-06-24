@@ -1,0 +1,3 @@
+infogold_strona_homepage:
+    pattern:  /
+    defaults: { _controller: InfogoldStronaBundle:Default:index }

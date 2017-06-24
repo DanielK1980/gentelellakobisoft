@@ -1,0 +1,15 @@
+{% extends "InfogoldStronaBundle:Default:index.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+ {% block articletop %}
+
+  {% endblock %}
+   {% block articleleft %}
+						
+    {% endblock articleleft %}
+{% block articleright %}
+
+<h3>
+{{ 'resetting.check_email'|trans({'%email%': email}) }}
+</h3>
+
+ {% endblock %}

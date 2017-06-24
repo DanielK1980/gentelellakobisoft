@@ -1,0 +1,78 @@
+infogold_klienci_faktura:
+    resource: "@InfogoldKlienciBundle/Resources/config/routing/faktura.yml"
+    prefix:   /faktura
+
+klienci:
+    pattern:  /klient/indywidualni
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:indywidualni" }
+    
+klienci_firmowi:
+    pattern:  /klient/firmowi
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:firmowi" }
+    
+
+klienci_all_ind:
+    pattern:  /klient/bazaindall
+    defaults: { _controller: "InfogoldAccountBundle:Baza:bazaklientow" }
+    
+klienci_all_firma:
+    pattern:  /klient/bazafirmaall
+    defaults: { _controller: "InfogoldAccountBundle:Baza:bazaklientowfirmowych" }
+    
+klienci_show:
+    pattern:  /klient/{id}/show
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:show" }
+
+klienci_new:
+    pattern:  /klient/new
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:new" }
+    
+klienci_new_firmowy:
+    pattern:  /klient/newfirmowy
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:newfirmowy" }
+
+klienci_create:
+    pattern:  /klient/create
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:create" }
+    requirements: { _method: post }
+    
+klienci_create_firmowy:
+    pattern:  /klient/createfirma
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:createfirma" }
+    requirements: { _method: post }
+
+klienci_edit:
+    pattern:  /klient/{id}/edit
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:edit" }
+    
+klienci_editfirmowy:
+    pattern:  /klient/{id}/editfirmowy
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:editfirmowy" }
+
+klienci_delete:
+    pattern:  /klient/{id}/delete
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:delete" }
+    requirements: { _method: post|delete }
+    
+# kontakt_edit:
+ #   pattern:  /klient/{id}/editkontakt
+ #   defaults: { _controller: "InfogoldKlienciBundle:Klienci:editKontakt" }
+
+klienci_update:
+    pattern:  /klient/{id}/update
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:update" }
+    requirements: { _method: post|put }
+    
+kontakt_update:
+    pattern:  /klient/{id}/updatekontakt
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:updateKontakt" }
+
+klienci_delete:
+    pattern:  /klient/{id}/delete
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:delete" }
+    requirements: { _method: post|delete }
+    
+kontakt_delete:
+    pattern:  /klient/{id}/deletekontakt
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:deletekontakt" }
+    requirements: { _method: post|delete }

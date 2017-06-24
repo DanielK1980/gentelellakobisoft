@@ -1,0 +1,43 @@
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+
+
+{% endblock stylesheets %}
+
+{% block page_title %} Edytuj klienta firmowego  {% endblock%}
+
+{% block page_content %}
+    <div class="row">
+        <div class="x_panel" >
+                           <div  class="row">
+                    <div class="col-md-2" >
+                        <a href="{{ path('klienci_baza_firma') }}"  class="btn btn-primary">
+                            <span class="glyphicon glyphicon-th-list"></span>      Powrót do listy
+                        </a>
+
+                    </div>
+
+                </div>
+            <div class="x_content">
+                <br>
+             
+                 <div>
+
+                    <form novalidate action="{{ path('klienci_baza_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal" role="form">
+                        {{ bootstrap_set_label_col(4) }}
+                        {{ bootstrap_set_widget_col(4) }}
+                        {{ bootstrap_set_style('horizontal') }}                                 
+                        {{ form_widget(edit_form) }}                      
+                        {{ form_rest(edit_form) }}                      
+                    </form>
+                    
+
+                </div>
+
+ 
+            </div></div></div>
+
+{% endblock %}
+
+

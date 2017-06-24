@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+
+    <body>
+
+        <div style="text-align:left">
+            FAKTURA {% if faktura.rodzaj ==  "Oryginał"%} VAT {% else %} PRO FORMA {% endif %} NR: {{faktura.nrfaktury}}<br/>Z  DNIA {{faktura.datafaktury|date('Y-m-d')}}<br/>{% if faktura.rodzaj ==  "Oryginał"%}  ORYGINAŁ {% endif %} 
+        </div>
+        <div style="float:left;width:220px; height:100px;margin-top:40px;padding-left:9%">
+            <b>WYSTAWCA:</b><br/>
+            {{faktura.userfaktury.nazwafirmy}}<br/>
+            {{faktura.userfaktury.ulica}}<br/>
+            {{faktura.userfaktury.kodpocztowy}} {{faktura.userfaktury.miejscowosc}} <br/>
+           NIP {{faktura.userfaktury.nip}} <br/>
+
+        </div>
+        <div style="float:left;width:240px; height:100px;margin-top:40px;padding-left:24%"><b>NABYWCA:</b><br/>
+            {% if faktura.dlaklienta.peselklienta %} 
+                {{faktura.dlaklienta.imie}} {{faktura.dlaklienta.nazwisko}} <br/>
+               {% if faktura.dlaklienta.ulica %}   {{faktura.dlaklienta.ulica}} {{faktura.dlaklienta.nrdomu}}  {% if faktura.dlaklienta.nrmieszkania %} / {{faktura.dlaklienta.nrmieszkania}}  {% endif  %} <br/> {% endif  %}
+               {% if faktura.dlaklienta.kodpocztowy %}  {{faktura.dlaklienta.kodpocztowy}} {{faktura.dlaklienta.miasto}}<br/>{% endif  %}
+               {% if faktura.dlaklienta.emailklienta %} Email:  {{faktura.dlaklienta.emailklienta}}<br/> {% endif  %} 
+                {% if faktura.dlaklienta.telefonklienta %} Tel:  {{faktura.dlaklienta.telefonklienta}} {% endif  %}
+            {% else %} 
+                {{faktura.dlaklienta.nazwaklienta}}<br/>
+                {{faktura.dlaklienta.ulica}} {{faktura.dlaklienta.nrdomu}}  {% if faktura.dlaklienta.nrmieszkania %} / {{faktura.dlaklienta.nrmieszkania}}  {% endif  %} <br/>
+                {{faktura.dlaklienta.kodpocztowy}} {{faktura.dlaklienta.miasto}}<br/>
+             NIP {{faktura.dlaklienta.nipklienta}}<br/>
+            {% endif  %} 
+
+        </div>
+        <table style="border-collapse:collapse; width: 850px; border-color: #808080;margin-top:210px;font-family:Arial, Helvetica">
+            <tr>
+                <td style="height: 45px;font-size: 12px;width: 460px;background-color:#808080;color:#ffffff;font-weight:bold">NAZWA</td>
+                <td style="height: 45px;font-size: 12px;width: 40px;background-color:#808080;color:#ffffff;font-weight:bold">ILOŚĆ</td>
+                <td style="height: 45px;font-size: 12px;width: 40px;text-align:center;background-color:#808080; padding-left:10px; color:#ffffff;font-weight:bold">J.M</td>
+                <td style="height: 45px;font-size: 12px;width: 70px;text-align:center;background-color:#808080; color:#ffffff;font-weight:bold">CENA J.N<br/>NETTO</td>
+                <td style="height: 45px;font-size: 12px;width: 70px;text-align:center;background-color:#808080; color:#ffffff;font-weight:bold">WARTOŚĆ<br/>NETTO</td>
+                <td style="height: 45px;font-size: 12px;width: 70px;text-align:center;background-color:#808080; color:#ffffff;font-weight:bold">VAT 23%</td>
+                <td style="height: 45px;font-size: 12px;width: 110px;text-align:center;background-color:#808080; color:#ffffff;font-weight:bold">WARTOŚĆ<br/>BRUTTO</td>
+            </tr>
+            <tr>
+                <td></td> 
+                <td></td> 
+                <td></td> 
+                <td></td> 
+                <td></td> 
+                <td></td> 
+            </tr>
+            {% set sumabrutto = 0 %}
+            {% set vatrazem = 0 %}
+            {% set wartoscnettorazem = 0 %}
+            {% if faktura.sprzedaz %} 
+                {% for produkt in faktura.sprzedaz %}
+                    {% set vatjedn = produkt.cenabrutto / produkt.ilosc / produkt.cenaproduktu %}
+                    {% set wartoscnetto = produkt.ilosc * produkt.cenaProduktu %}
+                     {% set vat = produkt.cenabrutto - (produkt.ilosc * produkt.cenaProduktu) %}
+                    {% set sumabrutto = sumabrutto + produkt.cenabrutto %}
+                    {% set vatrazem = vatrazem + vat|round(2, 'common') %}
+                    {% set wartoscnettorazem = wartoscnettorazem + wartoscnetto %}
+                    <tr>
+                        <td style="padding-top:10px;padding-bottom:10px;">  {{produkt.produktynullname}} </td> 
+                        <td style="text-align:center">{{produkt.ilosc}}</td> 
+                        <td style="text-align:center;padding-left:10px;">{{produkt.jednostkamiary}}</td> 
+                        <td style="text-align:center">{{ produkt.cenaProduktu|number_format(2, ',', '  ')}}</td> 
+                        <td style="text-align:center">{{wartoscnetto|number_format(2, ',', '  ') }}</td> 
+                        <td style="text-align:center">{{vat|number_format(2, ',', '  ') }}</td> 
+                        <td style="text-align:center">{{ produkt.cenabrutto|number_format(2, ',', '  ')}}</td> 
+                    </tr>
+                {% endfor  %}
+            {% endif %} 
+
+            {% if faktura.fakturaproforma %} 
+                {% for produkt in faktura.fakturaproforma %}
+                    {% set vatjedn = produkt.cenabrutto / produkt.ilosc / produkt.cenaproduktu %}
+                    {% set wartoscnetto = produkt.ilosc * produkt.cenaProduktu %}
+                     {% set vat = produkt.cenabrutto - (produkt.ilosc * produkt.cenaProduktu) %}
+                    {% set sumabrutto = sumabrutto + produkt.cenabrutto %}
+                    {% set vatrazem = vatrazem + vat|round(2, 'common') %}
+                    {% set wartoscnettorazem = wartoscnettorazem + wartoscnetto %}
+                    <tr>
+                        <td style="padding-top:10px;padding-bottom:10px;">{{produkt.produktynullname}} </td> 
+                        <td style="text-align:center">{{produkt.ilosc}}</td> 
+                        <td style="text-align:center;padding-left:10px;">{{produkt.jednostkamiary}}</td> 
+                        <td style="text-align:center">{{ produkt.cenaProduktu|number_format(2, ',', '  ')}}</td> 
+                        <td style="text-align:center">{{wartoscnetto|number_format(2, ',', '  ') }}</td> 
+                        <td style="text-align:center">{{vat|number_format(2, ',', '  ') }}</td> 
+                        <td style="text-align:center">{{ produkt.cenabrutto|number_format(2, ',', '  ')}}</td> 
+                    </tr>
+                {% endfor  %}
+            {% endif %} 
+
+            <tr>
+                <td style="border-top:solid;border-color: #808080;"></td> 
+                <td style="border-top:solid;border-color: #808080;"></td> 
+                <td style="border-top:solid;border-color: #808080;"></td> 
+                <td style="border-top:solid;border-color: #808080;border-bottom:solid;border-color: #808080;"></td> 
+                <td style="border-top:solid;border-color: #808080;border-bottom:solid;border-color: #808080;text-align:center;padding-top:10px;padding-bottom:10px;">{{ wartoscnettorazem|number_format(2, ',', '  ')}}</td> 
+                <td style="border-top:solid;border-color: #808080;border-bottom:solid;border-color: #808080;text-align:center">{{ vatrazem|number_format(2, ',', '  ')}}</td> 
+                <td style="border-top:solid;border-color: #808080;border-bottom:solid;border-color: #808080;text-align:center">{{ sumabrutto|number_format(2, ',', '  ')}}</td> 
+            </tr>
+            <tr style="text-align:right">
+                <td></td> 
+                
+                  <td></td>
+                  <td></td>
+                <td colspan="3" style="font-size: 18px;text-align: right;padding: 10px">{% if faktura.datafaktury|date('Y-m-d') < faktura.terminplatnosci|date('Y-m-d')%}  Razem do zapłaty: {% else %} Zapłacono:{% endif %} </td> 
+                
+               
+                
+                <td colspan="2"  style="font-size: 18px;text-align: center;padding: 10px">{{ sumabrutto|number_format(2, ',', '  ')}} zł</td> 
+                <td></td> 
+                 <td></td>
+            </tr></table>
+        <table style="margin-top:40px;">
+            <tr>
+                <td style="font-weight:bold">Płatność: </td> 
+                <td>{{faktura.platnosc}}</td></tr> 
+            <tr>
+                <td style="font-weight:bold">Data wystawienia:</td> 
+                <td>{{faktura.datafaktury|date('Y-m-d')}}</td></tr> 
+            <tr>
+                <td style="font-weight:bold">Termin płatności:</td> 
+                <td>{{faktura.terminplatnosci|date('Y-m-d')}}</td></tr> 
+            <tr>
+                <td style="font-weight:bold">Słownie {% if faktura.datafaktury|date('Y-m-d') < faktura.terminplatnosci|date('Y-m-d')%}  do zapłaty: {% else %} zapłacono:{% endif %}  </td> 
+                <td>{{faktura.slownie}}</td></tr> 
+             <tr>
+                <td style="font-weight:bold">Numer konta:</td> 
+                <td>{{faktura.userfaktury.nrkonta}}</td></tr> 
+        </table>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        {% if faktura.rodzaj ==  "Oryginał"%} 
+            <p>UWAGA! Oryginał faktury VAT dokumentujący sprzedaż zawiera niezbędne elementy faktury zgodne z
+                przepisami RP- ustawy o podatku od towarów i usług, roz. MF w sprawie faktur oraz Dyrektywy UE. Nie
+                wymaga pieczęci i podpisów.</p>
+            {% endif  %} 
+            {% if faktura.rodzaj == "Pro Forma"  %} 
+            <p>  <b>  Szanowni Panstwo !</b><br/><br/>
+                Dziekujemy za zainteresowanie nasza ofertą.<br/><br/>
+                Niniejszy dokument zawiera fakture proforma na sumę {{ sumabrutto|number_format(2, ',', '  ')}} zł .<br/><br/>
+                Dokument ten jest ofertą handlowa i nie stanowi faktury VAT w rozumieniu<br/>
+                przepisów ustawy o podatku od towarów i usług (Dziennik Ustaw z 2004r. nr 54, poz. 535).<br/><br/>
+                <b>  Dane do wpłaty:</b><br/><br/>
+                {{faktura.userfaktury.nazwafirmy}}<br/>
+                {{faktura.userfaktury.ulica}}<br/>
+                {{faktura.userfaktury.kodpocztowy}} {{faktura.userfaktury.miejscowosc}} <br/>          
+                Numer konta: {{faktura.userfaktury.nrkonta}} <br/>
+                Tytułem: {{faktura.nrfaktury}}<br/>
+                Kwota do zapłaty: {{ sumabrutto|number_format(2, ',', '  ')}} zł<br/>
+            </p>
+        {% endif  %} 
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <p style="margin-left:490px"></p>
+        <p style="font-size:12px;margin-left:440px;border-top: 1px solid black;width: 280px;text-align: center">Osoba upoważniona do wystawienia faktury VAT</p>
+
+    </body>

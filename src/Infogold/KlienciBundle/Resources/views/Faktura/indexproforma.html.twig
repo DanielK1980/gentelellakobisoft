@@ -1,0 +1,138 @@
+
+
+{% extends "::/account/base.html.twig" %}
+
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+                                   
+                                    <ul class="nav navbar-nav">
+                                        <li >
+                                            <a href="{{ path('faktura_oryginal') }}" class="navbar-brand" >
+
+                                                <i class="fa fa-file-text-o"></i>
+                                                <span class="small"> Faktury Oryginał</span></a>
+                                        </li>
+                                        <li>
+                                        <li class="active">
+                                            <a href="{{ path('faktura_proforma') }}" class="navbar-brand" >
+
+                                                <i class="fa fa-files-o"></i>
+                                                <span class="small"> Faktury Pro Forma</span></a>
+                                        </li>
+
+
+                                    </ul>
+                                   
+                                             
+                                    <form style="position:relative;top:3px" class="navbar-form navbar-right" role="search" action="{{ path('szukajfakturproforma', { 'type': 2 }) }}" method="post" {{ form_enctype(form) }}>
+                                        {{ form_errors(form) }} 
+
+                                        <div class="form-group">
+                                            {{ form_widget(form.szukaj , { 'attr': {'minlength': '1','class': 'form-control col-md-2', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            {{ form_widget(form.wedlug , { 'attr': {'minlength': '1','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+                                       
+                                            <div style="max-width: 140px" id="datetimepicker1" class="form-group input-group date col-md"  data-date-format="YYYY-MM-DD" >
+
+                                                {{  form_widget(form.datarozpoczecia, { 'attr': {'type':'text', 'class':'col-md','placeholder':'Data od'} })}}
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                            </div>
+                                       
+                                               
+                                        <div style="max-width: 140px" id="datetimepicker4" class="form-group input-group date"  data-date-format="YYYY-MM-DD" >
+
+                                            {{  form_widget(form.datazakonczenia, { 'attr': {'type':'text', 'class':'col-md','placeholder':'Data od'} })}}
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                        </div>
+                                             <div class="form-group">    
+                                        <button type="submit" class="btn btn-default" data-toggle="tooltip" title="Możesz wyszukiwać po nr PESEL, nazwisku, imieniu i nazwisku oraz po nr klienta."><span class="glyphicon glyphicon-search"></span> Szukaj</button>
+                                              </div>
+                                        {{ form_rest( form ) }}
+                                           
+                                    </form>
+                                            
+                                </div><!-- /.navbar-collapse -->
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        {% if pagination2 %}
+                            <table class="table table-striped jambo_table">
+        <thead>
+            <tr>
+               
+               <th>Nrfaktury</th>
+                 <th>Nabywca</th>
+               
+                
+              
+                <th>Data faktury</th>
+                <th>Termin płatności</th>
+                <th style="text-align: center">Wartość netto</th>
+                <th style="text-align: center">Wartość brutto</th>
+                <th style="text-align: center">Podgląd</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% if  pagination2 is defined  %}  
+                {% for entity in pagination2 %}
+            <tr>
+               
+                 <td>{{ entity.nrfaktury }}</td>
+                <td>{{ entity.dlaklienta }} 
+                    <a class="btn btn-default btn-sm" style="float:right" href="{{ path('klienci_baza_show', { 'id': entity.dlaklienta.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                </td>
+                <td>{% if entity.datafaktury %}{{ entity.datafaktury|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if entity.terminplatnosci %}{{ entity.terminplatnosci|date('Y-m-d') }}{% endif %}</td>
+                <td style="text-align: center">{{ entity.wartoscnetto }}</td>
+                <td style="text-align: center">{{ entity.wartoscbrutto }}</td>
+                <td align="center" style="vertical-align: middle;">
+                
+                        <a class="btn btn-default btn-sm" href="{{ path('faktura_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                   
+                </td>
+            </tr>
+         {% endfor %}
+            {% endif %}
+        </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+
+                </div>
+       
+        {% if  pagination2 is defined %}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination2) }}
+            </div>
+        {% endif %}
+   
+            </div>
+        </div>
+    </div>
+    
+{% endblock  %}
+

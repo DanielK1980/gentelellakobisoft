@@ -1,0 +1,13 @@
+infogold_ajax_homepage:
+    pattern:  /ajax
+    defaults: { _controller: InfogoldAjaxBundle:Default:index }
+    
+infogold_ajax_homepage2:
+    pattern:  /ajax2
+    defaults: { _controller: InfogoldAjaxBundle:Default:indexprofiledit }
+    
+    
+infogold_ajax_limit:
+    pattern:  /limit
+    defaults: { _controller: InfogoldAjaxBundle:PrzerwyKolejki:limit }
+

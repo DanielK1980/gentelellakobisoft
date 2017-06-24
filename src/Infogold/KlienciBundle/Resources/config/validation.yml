@@ -1,0 +1,114 @@
+## YAML Template.
+---
+Infogold\KlienciBundle\Entity\Klienci:  
+    properties:     
+        nipklienta:  
+            - Infogold\KlienciBundle\Controller\UniqueKlient:
+                groups: [firma]
+            - NotBlank: { message: "- Nie wprowadzono nr NIP", groups: [firma]}
+            - Length:
+                min: 10
+                max: 12               
+                exactMessage: Nr klienta składa się z 10 cyfr
+                groups: [firma]
+#        regonklienta:  
+#            - Infogold\KlienciBundle\Controller\UniqueKlient:
+ #               groups: [firma]
+  #          - NotBlank: { message: "- Nie wprowadzono nr REGON", groups: [firma]}
+   #         - Length:
+    #            min: 9
+     #           max: 9               
+      #          exactMessage: REGON składa się z 9 cyfr
+       #         groups: [firma]
+        #    - Regex:
+         #       pattern: "/^[\d]+$/"
+          #      match:   true
+           #     message:  REGON zawiera same cyfry 
+            #    groups: [firma] 
+        nazwaklienta:
+            - NotBlank: { message: "- Nie wprowadzono nazwy firmy", groups: [firma,editfirma] }
+        numerklienta:
+            - Regex:
+                pattern: "/^[\d]+$/"
+                match:   true
+                message: Nr klienta zawiera same cyfry 
+                groups: [prywatni,firma,editprywatni,editfirma]
+            - Regex:
+                pattern: "/^0.*/"
+                match:   false
+                message: Nr klienta nie powinien zaczynać się od zera 
+                groups: [prywatni,firma,editprywatni,editfirma]
+            - Length:
+                min: 8
+                max: 8
+                exactMessage: Nr klienta składa się z 8 cyfr
+                groups: [prywatni,firma,editprywatni,editfirma]
+    #        - NotBlank: { message: "- Nie wprowadzono telefonu kontaktowego", groups: [prywatni,firma,editprywatni,editfirma] }
+    #        - Regex:
+     #           pattern: "/^[\d]+$/"
+      #          match:   true
+       #         message: Telefon zawiera same cyfry.
+        #        groups: [prywatni,firma,editprywatni,editfirma]
+         #   - Length:
+          #      min: 9
+           #     max: 9
+            #    exactMessage: Telefon składa się z 9 cyfr bez pauz i spacji.
+             #   groups: [prywatni,firma,editprywatni,editfirma]
+     #   emailklienta:
+     #       - NotBlank: { message: "- Nie wprowadzono adresu email", groups: [prywatni,firma,editprywatni,editfirma] }
+     #       - Email:
+     #           message: Email "{{ value }}"  nie jest poprawny.
+     #           groups: [prywatni,firma,editprywatni,editfirma]
+     
+        peselklienta: 
+           # - NotBlank: { message: "- Nie wprowadzono nr PESEL", groups: [prywatni,editprywatni]}  
+            - Infogold\KlienciBundle\Controller\UniqueKlient:
+                groups: [prywatni]                  
+            - Regex:
+                pattern: "/^[\d]+$/"
+                match:   true
+                message: "- Pesel zawiera same cyfry"
+                groups: [prywatni,editprywatni]        
+            - Length:
+                min: 11
+                max: 11
+                exactMessage:  "- Pesel składa się z 11 cyfr"              
+                groups: [prywatni,editprywatni]
+           
+        imie:  
+            - NotBlank: { message: "- Nie wprowadzono Imienia", groups: [prywatni,firma,editprywatni,editfirma]}
+        nazwisko: 
+            - NotBlank: { message: "- Nie wprowadzono Nazwiska", groups: [prywatni,firma,editprywatni,editfirma]}
+        kodpocztowy:
+            - NotBlank: { message: "- Nie wprowadzono kodu pocztowego", groups: [firma,editfirma] }          
+            - Regex:
+                pattern: "/^[0-9]{2}[-][0-9]{3}$/"
+                match:   true
+                message: Kod pocztowy powinien mieć format XX-XXX.
+                groups: [prywatni,firma,editprywatni,editfirma]
+        nrdomu: 
+            - NotBlank: { message: "- Nie wprowadzono Nr budynku", groups: [firma,editfirma]}
+        ulica: 
+            - NotBlank: { message: "- Nie wprowadzono Ulicy", groups: [firma,editfirma]}            
+        miasto: 
+            - NotBlank: { message: "- Nie wprowadzono miasta", groups: [firma,editfirma]}
+                
+Infogold\KlienciBundle\Entity\Faktura: 
+    properties:       
+                
+        nrfaktury:
+                - NotBlank: { message: "- Nie wprowadzono nr faktury"}
+                - Regex:
+                    pattern: "/^.+?\\d$/"
+                    match:   true
+                    message: Nr faktury powinien kończyć się cyframi.
+      
+        datafaktury:
+                - NotBlank: { message: "- Nie wybrano daty faktury"}
+                
+        terminplatnosci:
+                - NotBlank: { message: "- Nie wybrano terminu płatnosci"}     
+        platnosc:
+                - NotBlank: { message: "- Nie wybrano sposobu płatności"} 
+        rodzaj:
+                - NotBlank: { message: "- Nie wybrano rodzaju faktury"} 

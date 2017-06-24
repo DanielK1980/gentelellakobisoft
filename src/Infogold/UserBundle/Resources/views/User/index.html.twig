@@ -1,0 +1,65 @@
+{% extends "InfogoldUserBundle:Default:index.html.twig" %}
+
+{% block articletop %}
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+{% block articleright %}
+    <h1>User list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nrklienta</th>
+                <th>Imie</th>
+                <th>Nazwisko</th>
+                <th>Telefon</th>
+                <th>Nazwafirmy</th>
+                <th>Kodpocztowy</th>
+                <th>Miejscowosc</th>
+                <th>Ulica</th>
+                <th>Nip</th>
+                <th>Nrkonta</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('admin_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.Nrklienta }}</td>
+                <td>{{ entity.imie }}</td>
+                <td>{{ entity.nazwisko }}</td>
+                <td>{{ entity.telefon }}</td>
+                <td>{{ entity.nazwafirmy }}</td>
+                <td>{{ entity.kodpocztowy }}</td>
+                <td>{{ entity.miejscowosc }}</td>
+                <td>{{ entity.ulica }}</td>
+                <td>{{ entity.nip }}</td>
+                <td>{{ entity.nrkonta }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('admin_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('admin_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+     {% endblock articleright %}
+{% block footer %}
+{% endblock footer %}

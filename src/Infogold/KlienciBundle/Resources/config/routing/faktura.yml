@@ -1,0 +1,24 @@
+faktura_oryginal:
+    path:     /fakturyoryginal
+    defaults: { _controller: "InfogoldKlienciBundle:Faktura:indexoryginal" }
+    
+faktura_oryginal_search:
+    path:     /fakturyoryginal/{search}
+    defaults: { _controller: "InfogoldKlienciBundle:Faktura:indexoryginal" }
+
+faktura_proforma:
+    path:     /fakturyproforma
+    defaults: { _controller: "InfogoldKlienciBundle:Faktura:indexproforma" }
+
+faktura_show:
+    path:     /faktury/{id}/show
+    defaults: { _controller: "InfogoldKlienciBundle:Faktura:show" }
+    
+faktura_generate_pdf:
+    path:     /faktury/{id}/pdf
+    defaults: { _controller: "InfogoldKlienciBundle:Faktura:fakturapdf" }
+    
+
+
+
+

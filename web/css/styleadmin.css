@@ -1,0 +1,52 @@
+/* 
+    Document   : styleadmin
+    Created on : 2014-03-11, 11:36:42
+    Author     : Magda
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+#kolejka {
+    padding: 20px;
+    display: inline;
+  postion: relative;
+     float:left;
+     margin-bottom: 20px;
+    text-align: center;
+    width:300px;height:300px;-webkit-border-radius: 0px 20px 20px 0px;-moz-border-radius: 0px 20px 20px 0px;border-radius: 0px 20px 20px 0px;background-color:#E8E8E8  ;-webkit-box-shadow: #B3B3B3 6px 6px 6px;-moz-box-shadow: #B3B3B3 6px 6px 6px; box-shadow: #B3B3B3 6px 6px 6px;
+}
+#przerwa {
+     padding: 20px;
+    display: inline;
+  postion: relative;
+   margin-bottom:  30px;
+      float:left;
+    text-align: center;
+    width:300px;
+    height:300px;
+    -webkit-border-radius: 20px 0px 0px 20px;
+    -moz-border-radius: 20px 0px 0px 20px;
+    border-radius: 20px 0px 0px 20px;
+    background-color:#E0E0E0    ;
+    -webkit-box-shadow: #B3B3B3 6px 6px 6px;
+    -moz-box-shadow: #B3B3B3 6px 6px 6px;
+    box-shadow: #B3B3B3 6px 6px 6px;
+}
+#kolejka p input {
+    position: absolute; left:940px;
+}
+#kolejka p {
+    padding-left: 40px;
+    text-align: left;
+}
+#przerwa p input {
+    position: absolute; left:600px;
+}
+#przerwa p {
+    padding-left: 40px;
+    text-align: left;
+}
+
+
+

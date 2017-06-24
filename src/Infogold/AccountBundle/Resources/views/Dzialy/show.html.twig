@@ -1,0 +1,135 @@
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Select2 -->
+
+{% endblock stylesheets %}
+
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                
+                                <div class="col-md-4 title">
+                                    
+                                    {{ entity.name }}
+                                </div>
+                                
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+
+
+                                    <ul class="nav navbar-nav navbar-right add">
+                                        <li> <a class="btn-primary" href="{{ path('dzialy') }}"><span class="glyphicon glyphicon-list"></span> Powrót do listy</a></li>
+                                        <li> <a class="btn-info" href="{{ path('dzialy_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-edit"></span> Edytuj</a></li>
+                                        <li> <a  class="btn-danger"  href="#" role="button"  data-toggle="modal" data-target="#odal"><span class="glyphicon glyphicon-remove"></span> Usuń dział</a></li>
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table">
+                            <thead>
+                                <tr class="headings">
+                                    <th  style="vertical-align: middle;">Nazwa</th>
+                                    <th  style="vertical-align: middle;">Limit przerw</th>                                  
+                                </tr>
+                            </thead>
+                            <tbody>                              
+                                <tr>  
+                                    <td>{{ entity.name }}</td>
+
+                                    <td>{{ entity.limityprzerw }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-striped jambo_table">
+                            <thead>
+                                <tr class="headings">
+                                    <th  style="vertical-align: middle;">Imie</th>
+                                    <th  style="vertical-align: middle;">Nazwisko</th>
+                                    <th  style="vertical-align: middle;">Login</th>
+                                    <th style="vertical-align: middle;">Panel konsultanta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for konsultant in konsuktanci %}
+                                    <tr>
+                                        <td  style="vertical-align: middle;">{{ konsultant.imie }}</td>
+                                        <td  style="vertical-align: middle;">{{ konsultant.nazwisko }}</td>
+                                        <td  style="vertical-align: middle;">{{ konsultant.username }}</td>
+                                        <td align="center" style="vertical-align: middle;">
+                                            <a href="{{ path('konsultant_show', { 'id': entity.id, 'date':  "now"|date("Y-m") }) }}" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-eye-open"></span>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Select2 -->
+    {% block javascripts %}
+
+
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+
+
+
+    <!-- Modal usuwanie klienta -->
+    <div class="modal fade" id="odal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Usuń dział</h4>
+                </div>
+                <div class="modal-body">          
+
+                    <p>Czy napewno chcesz usunąć {{ entity.name }} ?</p>                                                  
+                    <div class="modal-footer" >
+                        <div style="float:right; margin-left: 10px"> 
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                        </div>
+                        <div style="float:right">    {{form(delete_form)}}
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- KONIEC Modal usuwanie klienta -->
+{% endblock  %}
+
+
+
+
+

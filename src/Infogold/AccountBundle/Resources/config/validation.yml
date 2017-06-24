@@ -1,0 +1,48 @@
+## YAML Template.
+---
+Infogold\AccountBundle\Entity\Grafik: 
+    properties:           
+        czasrozpoczecia:
+                - NotBlank: { message: "- Nie wybrano czasu rozpoczęcia", groups: [dodaj] }
+                - Time: { message: "Proszę wpisać czas w formacie HH:MM", groups: [dodaj] }
+                  
+        czaszakonczenia:
+                - NotBlank: { message: "- Nie wybrano czasu zakończenia", groups: [dodaj] }
+                - Time: { message: "Proszę wpisać czas w formacie HH:MM", groups: [dodaj] }
+        GrafikKonsultanta:
+                - NotBlank: { message: "- Zaznacz konsultanta w tabelce", groups: [usun,dodaj] }
+                - Count:
+                    min: 1
+                    minMessage: "- Zaznacz przynajmniej jednego konsultanta w tabelce"
+                    groups: [usun,dodaj]
+                    
+Infogold\AccountBundle\Entity\Produkt: 
+    properties:                   
+        name:
+                - NotBlank: { message: "- Prosze wypełnić pole nazwa produktu", groups: [new,edit]}           
+        nrproduktu:
+                - Infogold\AccountBundle\Controller\UniqueProdukt:
+                    groups: [new,edit]
+        vat:
+                - NotBlank: { message: "- Prosze wypełnić pole vat", groups: [new,edit]}
+                - Length:
+                    min: 1
+                    max: 2              
+                    maxMessage: Maksymalna wartość podaku vat jest dwucyforwa
+                    groups: [new,edit]
+                - Regex:
+                    pattern: "/^[\d]+$/"
+                    match:   true
+                    message: "- VAT zawiera same cyfry" 
+                    groups: [new,edit]
+                    
+        cenaProduktu:
+                - NotBlank: { message: "- Prosze wypełnić pole cena netto",groups: [new,edit]}               
+      #  magazyn:
+      #          - NotBlank: { message: "- Prosze wypełnić pole magazyn",groups: [new,edit]}                           
+        jednostkamiary:
+                - NotBlank: { message: "- Prosze wypełnić pole jednostka miary",groups: [new,edit]}
+               
+                
+
+

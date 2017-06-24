@@ -1,0 +1,35 @@
+parameters:
+#    infogold_account.example.class: Infogold\AccountBundle\Example
+   my.validatorprodukt.unique.class: Infogold\AccountBundle\Controller\UniqueProduktValidator
+services:
+   form.type.infogold_accountbundle_kontaktytype:
+       class:  Infogold\AccountBundle\Form\KontaktyBazaType
+       arguments: ['@security.context'] 
+       tags:
+            - { name: form.type, alias: infogold_accountbundle_kontaktytype }
+            
+   form.type.konsultanci_form:
+       class:  Infogold\AccountBundle\Form\KonsultantType
+       arguments: ['@security.context'] 
+       tags:
+            - { name: form.type, alias: konsultanci_form } 
+            
+   form.type.produkty_form:
+       class:  Infogold\KlienciBundle\Form\ProduktyKlientaType
+       arguments: ['@security.context'] 
+       tags:
+            - { name: form.type, alias: infogold_produkty_klienta }
+            
+   my.validatorprodukt.unique:
+         class: %my.validatorprodukt.unique.class%
+         arguments: ['@doctrine.orm.entity_manager','@security.context','@request_stack']
+         tags:
+            - { name: validator.constraint_validator, alias: validatorprodukt.unique }
+            
+   my.main.admin:
+         class:  Infogold\AccountBundle\Services\MainAdmin
+         arguments: ['@doctrine.orm.entity_manager','@security.context']
+         tags:
+            - { name: my.main.admin, alias: main_admin }
+    
+   

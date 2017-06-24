@@ -1,0 +1,74 @@
+{% extends "::base.html.twig" %}
+
+{% block layout %}
+
+
+
+    <div class="body1">
+        <div class="main">
+            <!-- header -->
+            {% block header %}
+                {% block login %}
+
+
+
+                {% endblock login %}
+            {% endblock header %}
+            <!-- / header -->
+        </div>
+    </div>
+
+    <div class="body2">
+        <div class="main small">
+            {% block content %}
+                <!-- content -->
+                <section id="content">
+                    <div class="marg_top wrapper">
+                        {% block articletop %}
+
+                        {% endblock articletop %}          
+                    </div>
+
+
+                    <div class="wrapper marg_top2">
+
+                        <article class="col-md-3">
+
+                            {% block articleleft %}
+
+
+                                <div class="col-md-2">
+                                    <ul class="nav nav-pills nav-stacked" role="tablist">
+
+                                        <li   class="active"  ><a href="">edytuj profil</a></li> 
+
+
+                                        <li><a href="">zmień hasło</a></li> 
+
+                                    </ul>
+
+                                </div>
+                            {% endblock articleleft %}
+
+                        </article>
+                        {% block articleright %}
+
+                        {% endblock articleright %}
+
+                    </div>
+                </section>
+                <!-- / content -->
+            {% endblock %}
+        </div>
+
+    </div>
+    <div class="main">
+        {% block footer %}
+
+
+
+
+        {% endblock footer %}
+    </div>
+    <!-- / footer -->
+{% endblock %}

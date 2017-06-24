@@ -1,0 +1,37 @@
+html {
+    background-color: #f7f7f7;
+}
+
+.col1, .col2, .col3, .cols {float:left}
+.col1 {width:304px}
+.col2 {width:632px}
+.cols {width:268px}
+/* page1 */
+#page1 #logo_box{padding:48px 0 32px 0px}
+#page1 header nav {top:72px}
+#page1 .body3 {background:url(../images/callcenter.png) center top no-repeat;background-size: 360px 238px;position:absolute;height:239px;width:373px;top:158px;left:50%;margin-left:122px;z-index:10}
+#page1 .text1 {padding:199px 0 0 47px}
+#page1 #icons {padding:42px 0 0 353px}
+#page1 header {padding-bottom:140px}
+ #page1 .marg_top {margin-top:-150px} 
+/* page2 */
+/* page3 */
+/* page4 */
+/* page5 */
+#page5 .col1 .col2 {width:80px;letter-spacing:-1px}
+#page5 .col1 .col3 {width:140px}
+/* page6 */
+/*edycja bottstrapa  */
+div.row div label {font-weight: 400 !important} 
+div span#error ul {margin-top:0px !important; margin-bottom: 0px !important} 
+div span#error ul li, div.row span#kod ul li {line-height: 15px !important;font-size: 11px !important;color: #a94442 !important;} 
+span#kod {margin-top: 10px; padding: 8px !important;color: #a94442 !important;width: 220px}
+div.row span#error {position: relative;right:40px; padding: 8px !important ;color: #a94442 !important;width: 240px}
+div span#error {padding: 8px !important;  margin-bottom: 0px; }
+ul.nav.navbar-nav.navbar-right li a:hover, ul.nav.navbar-nav.navbar-right li a:focus  {
+    display: block;
+    background-color: #4FE24F;
+    border-color: #4cae4c;
+    color:white
+}
+

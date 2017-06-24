@@ -1,0 +1,177 @@
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Select2 -->
+    <link href="{{ asset('assets/vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block page_title %} Klienci  firmowi  {% endblock%}
+
+{% block page_content %}
+
+
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-info" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+
+                                    <ul class="nav navbar-nav" style="margin-right: 35px">
+                                        <li>
+                                            <a href="{{ path('baza_klientow') }}" class="navbar-brand" >
+                                                {% if  countind is defined  %}   <span class="badge bg-green">{{ countind }}</span> {% endif  %} 
+                                                <i class="fa fa-users"></i>
+                                                <span class="small"> Klienci indywidualni</span></a>
+                                        </li>
+                                        <li>
+                                        <li class="active">
+                                            <a href="{{ path('klienci_baza_firma') }}" class="navbar-brand" >                                          
+                                                {% if  pagination is defined  %}
+                                                    <span class="badge bg-green">{{ pagination.getTotalItemCount }}</span> 
+                                                {% endif  %}
+                                                <i class="fa fa-industry"></i>
+                                                <span class="small"> Klienci firmowi</span></a>
+                                        </li>
+                                        </li>
+
+                                    </ul>
+
+                                    <form class="navbar-form navbar-left" role="search" action="{{ path('szukajfirmowych') }}" method="post" {{ form_enctype(form) }}>
+                                        {{ form_errors(form) }} 
+                                        <div class="form-group">
+                                            {{ form_widget(form.konsultant , { 'attr': {'minlength': '4','class': 'form-control'} }) }}
+
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_widget(form.szukaj , { 'attr': {'minlength': '4','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-default" data-toggle="tooltip" title="Możesz wyszukiwać po nr NIP, nazwie firmy i po nr klienta."><span class="glyphicon glyphicon-search"></span> Szukaj</button>
+                                        </div>
+                                        {{ form_rest( form ) }}
+
+                                    </form>
+                                    <ul class="nav navbar-nav navbar-right add" >
+                                        <li> <a id="add" style="color:white !important" class="btn-success" href="{{ path('klienci_baza_new_firmowy') }}"><span class="glyphicon glyphicon-plus"></span> Dodaj</a></li>
+
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table">
+                            <thead>
+                                <tr class="headings">
+
+                                    <th style="white-space:nowrap">Nr. Klienta</th> 
+                                    <th>Nazwa</th>
+                                    <th>Adres</th> 
+                                    <th>NIP</th>
+
+                                    <th>Utworzony</th>
+
+                                    <th colspan="2">Pokaż</th><th>Edytuj</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% if  pagination is defined  %}  
+                                    {% for entity in pagination %}
+                                        {% if entity.nipklienta %} 
+                                            <tr>
+
+                                                <td style="vertical-align: middle;">{{ entity.numerklienta }}</td> 
+                                                <td style="vertical-align: middle;">{{ entity.nazwaklienta }}</td>
+                                                <td>{{ entity.ulica }} {{ entity.nrdomu }} {% if entity.nrmieszkania %}/ {{ entity.nrmieszkania }}{% endif %} <br/> {{ entity.kodpocztowy }} {{ entity.miasto }} {{ entity.wojewodztwo }} </td>
+                                                <td style="vertical-align: middle;">{{ entity.nipklienta }}</td>  
+
+                                                <td style="vertical-align: middle;">{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s')}}<br/> przez <b>{% if entity.KlientKonsultanta %} {{ entity.KlientKonsultanta}} </b>{% else %} administratora{% endif %}{% endif %}</td>
+
+                                                <td align="center" style="vertical-align: middle;" colspan="2">
+
+                                                    <a class="btn btn-default btn-sm" href="{{ path('klienci_baza_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                                                </td><td align="center" style="vertical-align: middle;">
+
+                                                    <a class="btn btn-default btn-sm" href="{{ path('klienci_baza_editfirmowy', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+
+
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for entity in entities %}
+                                        {% if entity.nipklienta %} 
+                                            <tr>
+
+                                                <td style="vertical-align: middle;">{{ entity.numerklienta }}</td> 
+                                                <td style="vertical-align: middle;">{{ entity.nazwaklienta }}</td>
+                                                <td>{{ entity.ulica }} {{ entity.nrdomu }} {% if entity.nrmieszkania %}/ {{ entity.nrmieszkania }}{% endif %} <br/> {{ entity.kodpocztowy }} {{ entity.miasto }} {{ entity.wojewodztwo }} </td>
+                                                <td style="vertical-align: middle;">{{ entity.nipklienta }}</td>  
+
+                                                <td style="vertical-align: middle;">{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s')}}<br/> przez <b>{% if entity.KlientKonsultanta %} {{ entity.KlientKonsultanta}} </b>{% else %} administratora{% endif %}{% endif %}</td>
+
+                                                <td align="center" style="vertical-align: middle;" colspan="2">
+
+                                                    <a class="btn btn-default btn-sm" href="{{ path('klienci_baza_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                                                </td><td align="center" style="vertical-align: middle;">
+
+                                                    <a class="btn btn-default btn-sm" href="{{ path('klienci_baza_editfirmowy', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+
+
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if app.request.get('_route') == 'klienci_baza_firma' %}
+                        {% if  pagination is defined %}
+                            <div class="navigation">
+                                {{ knp_pagination_render(pagination) }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Select2 -->
+    {% block javascripts %}
+
+        <script src="{{ asset('assets/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+        <script>
+            $(document).ready(function () {
+                $('select[data-select="true"').select2({
+                    placeholder: "Wybierz",
+                    allowClear: true
+                });
+            });
+        </script>
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <link href="http://localhost/symfony2_8_new/web/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+        <!-- Font Awesome -->
+        <link href="http://localhost/symfony2_8_new/web/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+        <!-- Custom Theme Style -->
+        <link href="http://localhost/symfony2_8_new/web/assets/css/custom.min.css" rel="stylesheet" type="text/css" media="all">
+    </head>
+
+    <body>
+        <div class="container body">
+            <div class="main_container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="x_panel" style="border: none;margin-bottom: -11px;">
+
+                            <div class="x_content">
+
+                                <section class="content invoice">
+                                    <!-- title row -->
+                                    <div class="row">
+                                        <div class="col-xs-12 invoice-header">
+                                            <h2>
+                                                <i class="fa fa-globe"></i> FAKTURA {% if faktura.rodzaj ==  "Oryginał"%} VAT ORYGINAŁ {% else %} PRO FORMA {% endif %}
+                                                <span class="pull-right">Data: {{faktura.datafaktury|date('Y-m-d')}}</span>
+                                            </h2>
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                            <br>
+                                               <br>
+                                                                                       <!-- /.col -->
+                                        <div class="col-xs-5 invoice-col">
+                                            <span class="lead">Faktura nr : {{faktura.nrfaktury}}</span>
+                                            <br>
+                                            <b>Data wystawienia: </b> {{faktura.datafaktury|date('Y-m-d')}}               
+                                            <br> 
+                                            <b>Forma płatności: </b> {{faktura.platnosc}}                 
+                                            <br>                     
+                                            <b>Termin płatności: </b> {{faktura.terminplatnosci|date('Y-m-d')}}
+                                            <br>
+                                            <b>Nr konta:</b> {{faktura.userfaktury.nrkonta}}
+                                        </div>
+                                        <!-- /.col -->
+                                    <!-- info row -->
+                                    
+                                    <div class="row invoice-info">
+                                        <div class="col-xs-4 invoice-col">
+                                            
+                                            <b>  WYSTAWCA </b>
+                                            <address>
+                                                {{faktura.userfaktury.nazwafirmy}}<br/>
+                                                {{faktura.userfaktury.ulica}}<br/>
+                                                {{faktura.userfaktury.kodpocztowy}} {{faktura.userfaktury.miejscowosc}} <br/>
+                                                NIP: {{faktura.userfaktury.nip}} <br/>
+                                            </address>
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="invoice-col">
+                                            <b>  NABYWCA  </b>
+                                            <address>
+                                                {% if faktura.dlaklienta.nipklienta is empty %} 
+                                                    {{faktura.dlaklienta.imie}} {{faktura.dlaklienta.nazwisko}} <br/>
+                                                    {{faktura.dlaklienta.ulica}} {{faktura.dlaklienta.nrdomu}}  {% if faktura.dlaklienta.nrmieszkania %} / {{faktura.dlaklienta.nrmieszkania}}  {% endif  %} <br/>
+                                                    {{faktura.dlaklienta.kodpocztowy}} {{faktura.dlaklienta.miasto}}<br/>
+                                                    {{faktura.dlaklienta.emailklienta}} 
+                                                {% else %} 
+                                                    {{faktura.dlaklienta.nazwaklienta}}<br/>
+                                                    {{faktura.dlaklienta.ulica}} {{faktura.dlaklienta.nrdomu}}  {% if faktura.dlaklienta.nrmieszkania %} / {{faktura.dlaklienta.nrmieszkania}}  {% endif  %} <br/>
+                                                    {{faktura.dlaklienta.kodpocztowy}} {{faktura.dlaklienta.miasto}}<br/>
+                                                    NIP:  {{faktura.dlaklienta.nipklienta}}<br/>
+                                                {% endif  %} 
+                                            </address>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.row -->
+                                     <br>
+                                              
+                                    <!-- Table row -->
+                                    <div class="row">
+                                        <div class="col-xs-12 table">
+
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:left">Nazwa</th>
+                                                         <th style="text-align:center">Cena j.n netto</th>
+                                                        <th style="text-align:center">Ilość</th>
+                                                        <th style="text-align:center">j.m</th>
+                                                        
+                                                       
+                                                         <th style="text-align:center">Stawka Vat</th>
+                                                        <th style="text-align:center">Wartość netto</th>            
+                                                        <th style="text-align:center">Wartość Vat</th>
+                                                        <th style="text-align:center">Wartość brutto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% set sumabrutto = 0 %}
+                                                    {% set vatrazem = 0 %}
+                                                    {% set wartoscnettorazem = 0 %}
+                                                    {% if faktura.sprzedaz %} 
+                                                        {% for produkt in faktura.sprzedaz %}
+                                                            {% set vatjedn = produkt.cenabrutto / produkt.ilosc / produkt.cenaproduktu %}
+                                                            {% set wartoscnetto = produkt.ilosc * produkt.cenaProduktu %}
+                                                            {% set vat = produkt.cenabrutto - (produkt.ilosc * produkt.cenaProduktu) %}
+                                                            {% set sumabrutto = sumabrutto + produkt.cenabrutto %}
+                                                            {% set vatrazem = vatrazem + vat|round(2, 'common') %}
+                                                            {% set wartoscnettorazem = wartoscnettorazem + wartoscnetto %}
+                                                            <tr>
+                                                                <td style="padding-top:10px;padding-bottom:10px;">{{produkt.produktynullname}} </td> 
+                                                                 <td style="text-align:center">{{ produkt.cenaProduktu|number_format(2, ',', '  ')}} zł</td> 
+                                                                <td style="text-align:center">{{produkt.ilosc}}</td> 
+                                                                <td style="text-align:center;padding-left:10px;">{{produkt.jednostkamiary}}</td> 
+                                                                
+                                                                <td style="text-align:center">{{produkt.produkty.vat}} %</td>                      
+                                                                <td style="text-align:center">{{wartoscnetto|number_format(2, ',', '  ') }} zł</td>     
+                                                                <td style="text-align:center">{{vat|number_format(2, ',', '  ') }} zł</td> 
+                                                                <td style="text-align:center">{{ produkt.cenabrutto|number_format(2, ',', '  ')}} zł</td> 
+                                                            </tr>
+                                                        {% endfor  %}
+                                                    {% endif %} 
+
+                                                    {% if faktura.fakturaproforma %} 
+                                                        {% for produkt in faktura.fakturaproforma %}
+                                                            {% set vatjedn = produkt.cenabrutto / produkt.ilosc / produkt.cenaproduktu %}
+                                                            {% set wartoscnetto = produkt.ilosc * produkt.cenaProduktu %}
+                                                            {% set vat = produkt.cenabrutto - (produkt.ilosc * produkt.cenaProduktu) %}
+                                                            {% set sumabrutto = sumabrutto + produkt.cenabrutto %}
+                                                            {% set vatrazem = vatrazem + vat|round(2, 'common') %}
+                                                            {% set wartoscnettorazem = wartoscnettorazem + wartoscnetto %}
+                                                            <tr>
+                                                                <td style="padding-top:10px;padding-bottom:10px;">{{produkt.produktynullname}} </td> 
+                                                                  <td style="text-align:center">{{ produkt.cenaProduktu|number_format(2, ',', '  ')}} zł</td>
+                                                                <td style="text-align:center">{{produkt.ilosc}}</td> 
+                                                                <td style="text-align:center;padding-left:10px;">{{produkt.jednostkamiary}}</td> 
+                                                               
+                                                                <td style="text-align:center">{{produkt.produkty.vat}} %</td>                      
+                                                                <td style="text-align:center">{{wartoscnetto|number_format(2, ',', '  ') }} zł</td>     
+                                                                <td style="text-align:center">{{vat|number_format(2, ',', '  ') }} zł</td> 
+                                                                <td style="text-align:center">{{ produkt.cenabrutto|number_format(2, ',', '  ')}} zł</td> 
+                                                            </tr>
+                                                        {% endfor  %}
+                                                    {% endif %} 
+
+                                                    <tr>
+                                                        <td></td> 
+                                                        <td></td> 
+                                                        <td></td> 
+                                                              <td colspan="2" style="text-align: right">Razem:</td> 
+                                                         
+                                                        <td style="text-align:center">{{ wartoscnettorazem|number_format(2, ',', '  ')}} zł</td> 
+                                                        <td style="text-align:center">{{ vatrazem|number_format(2, ',', '  ')}} zł</td> 
+                                                        <td style="text-align:center" >{{ sumabrutto|number_format(2, ',', '  ')}} zł</td> 
+                                                    </tr>
+                                                <tbody>
+                                            </table>
+
+
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                    <!-- /.row -->
+
+                                    <div class="row">
+                                        <!-- accepted payments column -->
+                                        <div class="col-xs-6">
+                                            {% if faktura.rodzaj ==  "Oryginał"%} 
+                                                <p>UWAGA! Oryginał faktury VAT dokumentujący sprzedaż zawiera niezbędne elementy faktury zgodne z
+                                                    przepisami RP- ustawy o podatku od towarów i usług, roz. MF w sprawie faktur oraz Dyrektywy UE. Nie
+                                                    wymaga pieczęci i podpisów.</p>
+                                                {% endif  %} 
+                                                {% if faktura.rodzaj == "Pro Forma"  %} 
+                                                <p>  <b>  Szanowni Panstwo !</b><br/><br/>
+                                                    Dziekujemy za zainteresowanie nasza ofertą.<br/><br/>
+                                                    Niniejszy dokument zawiera fakture proforma na sumę {{ sumabrutto|number_format(2, ',', '  ')}} zł .<br/><br/>
+                                                    Dokument ten jest ofertą handlowa i nie stanowi faktury VAT w rozumieniu<br/>
+                                                    przepisów ustawy o podatku od towarów i usług (Dziennik Ustaw z 2004r. nr 54, poz. 535).<br/><br/>
+                                                    <b>  Dane do wpłaty:</b><br/><br/>
+                                                    {{faktura.userfaktury.nazwafirmy}}<br/>
+                                                    {{faktura.userfaktury.ulica}}<br/>
+                                                    {{faktura.userfaktury.kodpocztowy}} {{faktura.userfaktury.miejscowosc}} <br/>          
+                                                    Numer konta: {{faktura.userfaktury.nrkonta}} <br/>
+                                                    Tytułem: {{faktura.nrfaktury}}<br/>
+                                                    Kwota do zapłaty: {{ sumabrutto|number_format(2, ',', '  ')}} zł<br/>
+                                                </p>
+                                            {% endif  %} 
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-xs-6">
+                                            <p class="lead">Termin płatności: {{faktura.terminplatnosci|date('Y-m-d')}} </p>
+                                            <div class="col-xs-12">
+                                                <table class="table table-striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="width:40%">Wartość netto razem:</th>
+                                                            <td>{{ wartoscnettorazem|number_format(2, ',', '  ')}} zł</td>
+                                                        </tr>
+                                                        {{trvat|raw}}
+                                                        <tr>
+                                                            <th><b> {% if faktura.datafaktury|date('Y-m-d') < faktura.terminplatnosci|date('Y-m-d')%}  Razem do zapłaty: {% else %} Zapłacono:{% endif %}</b></th>
+                                                            <td><b>{{ sumabrutto|number_format(2, ',', '  ')}} zł </b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Razem słownie:</th>
+                                                            <td>{{faktura.slownie|raw}}</td>             
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                    <!-- /.row -->
+ </section>
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

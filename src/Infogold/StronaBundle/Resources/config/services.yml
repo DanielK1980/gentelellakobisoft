@@ -1,0 +1,7 @@
+parameters:
+#    infogold_strona.example.class: Infogold\StronaBundle\Example
+
+services:
+#    infogold_strona.example:
+#        class: %infogold_strona.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

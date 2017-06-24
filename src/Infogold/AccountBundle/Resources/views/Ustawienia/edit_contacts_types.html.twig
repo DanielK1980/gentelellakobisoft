@@ -1,0 +1,43 @@
+{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
+
+    
+{% block articletop %}
+
+  {% endblock %}
+   {% block articleleft %}
+{{ knp_menu_render('InfogoldAccountBundle:Builder:ustawieniaMenu') }}					
+    {% endblock articleleft %}
+
+
+{% block articleright %}
+<div  class="col-md-3 col-md-offset-2" >
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input class="btn-success btn-lg" type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+        <br/>
+    <br/>
+        <div  class="row">
+            <div class="col-md-2" >
+
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('rodzajekontaktow_index') }}"  class="btn btn-primary">
+                    Powrót do listy
+                </a>
+            </li>
+
+        </ul>
+        <ul>
+            <li>
+                {{ form_start(delete_form) }}
+                <input class="btn btn-danger" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+            </li>
+        </ul>
+    </div>
+        </div>
+
+
+</div>
+{% endblock articleright %}

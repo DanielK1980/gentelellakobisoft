@@ -1,0 +1,165 @@
+{% extends "InfogoldKonsultantBundle:Default:index.html.twig" %}
+
+{% block articletop %}
+      <script type="text/javascript">
+
+        $(function () {
+                       
+             $('[data-toggle="tooltip"]').tooltip();
+        });
+
+    </script>
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+ {% block articleright %}
+     
+                  <div  class="row well well-small" style="overflow: scroll">
+  {% set dataaktualna = rok~"-"~miesiac %}
+     <nav>
+                    <ul class="pagination pagination-lg">
+                        <li><a href="{{ path('grafikdzialukonsultanta', { 'id': id, 'date': dataaktualna|date_modify("-1 month")|date("Y-m") }) }}">&laquo;</a></li>
+                        <li class="disabled"><a>{{nazwamiesiaca}}</a></li>   
+                        <li><a href="{{ path('grafikdzialukonsultanta', { 'id': id, 'date': dataaktualna|date_modify("+1 month")|date("Y-m") }) }}">&raquo;</a></li>
+                    </ul>
+                </nav>  
+                    <table class="table table-bordered table-striped  table-hover" id="grafik">
+                        <tr>
+                            <td>&nbsp;</td>   <td>&nbsp;</td> 
+                            {% for nazwa in nazwydni %}
+
+                                {%  if nazwa == 'Sob' %}
+                                    <td style="text-align: center;color: #428BCA">{{ nazwa }}</td>
+                                {% elseif nazwa == 'Nd'   %}
+                                    <td style="text-align: center;color: #428BCA">{{ nazwa }}</td>
+                                {% else  %}
+                                    <td style="text-align: center;">{{ nazwa }}</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                         
+                        <tr>
+                             <td style="text-align: center;vertical-align: middle;"><span class="glyphicon glyphicon-user"></span></td>
+                            <td style="text-align: center;vertical-align: middle;"><span class="glyphicon glyphicon-time"></span></td>
+                            {% for i in 1..pustedni %}
+
+                            {% endfor %}      
+                            {% for i in 1..ilosc %}
+                                <td style="text-align: center">{{ i }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        {% for konsultant in konsultanci %}
+                            <tr>
+                                 <td rowspan="2" align="center" valign="middle" style="text-align: center;vertical-align: middle;"> {{konsultant}} </td>
+                                <td rowspan="2"  style="text-align: center;vertical-align: middle;">
+                                    {% set sumratings = 0 %}
+                                    {% for grafik in grafiktabela if dataaktualna == grafik.data|date("Y-m")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+
+                                        {%  set sumratings = sumratings + grafik.minutypracy %}
+
+                                    {% endfor %}
+
+                                    {% set hours = sumratings/60 %}
+                                    {% set minutes = sumratings % 60 %}
+                                    {{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}
+                                </td>
+                                {% for i in 1..pustedni %}
+
+                                {% endfor %}      
+                                {% for i in 1..ilosc %}
+
+                                    {% if i < 10  %}
+                                        {% set data = rok~"-"~miesiac~"-"~"0"~i %}
+
+                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+
+                                            <td style="text-align: center"><small>{{ grafik.czasrozpoczecia|date("H:i") }}-{{ grafik.czaszakonczenia|date("H:i") }}</small></td>
+
+
+                                        {% else %}
+                                            <td style="text-align: center">-</td>
+                                        {% endfor %}
+
+                                    {% else %} 
+
+                                        {% set data = rok~"-"~miesiac~"-"~i %}
+
+                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')   %}
+
+                                            <td style="text-align: center"><small>{{ grafik.czasrozpoczecia|date("H:i") }}-{{ grafik.czaszakonczenia|date("H:i") }}</small></td>
+
+                                        {% else %}
+                                            <td style="text-align: center">-</td>
+                                        {% endfor %}
+                                    {% endif %}  
+
+                                {% endfor %}
+                            </tr> 
+
+
+                            {# ilość godzin pracy #}
+
+
+                            <tr>
+
+                                {% for i in 1..pustedni %}
+
+                                {% endfor %}      
+                                {% for i in 1..ilosc %}
+                                    {% if i < 10  %}
+                                        {% set data = rok~"-"~miesiac~"-"~"0"~i %}
+
+                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+                                            {% set hours = grafik.minutypracy/60 %}
+                                            {% set minutes = grafik.minutypracy % 60 %}
+                                            <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>
+                                               {% if grafik.komentarz %} 
+                                             <span style="cursor:pointer;float: right" class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom"
+                                           title='{{ grafik.komentarz }}'></span>
+                                             {% endif %} 
+                                            
+                                            
+                                            </td>
+
+
+                                        {% else %}
+                                            <td style="text-align: center">-</td>
+                                        {% endfor %}
+
+                                    {% else %} 
+
+                                        {% set data = rok~"-"~miesiac~"-"~i %}
+
+                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')   %}
+                                            {% set hours = grafik.minutypracy/60 %}
+                                            {% set minutes = grafik.minutypracy % 60 %}
+                                            <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>
+                                                {% if grafik.komentarz %} 
+                                             <span style="cursor:pointer;float: right"  class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom"
+                                           title='{{ grafik.komentarz }}'></span>
+                                             {% endif %}  
+                                            </td>
+
+                                        {% else %}
+                                            <td style="text-align: center">-</td>
+                                        {% endfor %}
+                                    {% endif %}  
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+
+
+                    </table>
+                </div>
+     
+     
+     
+     
+     
+     
+     
+     
+     {% endblock articleright %}
+ {% block footer %}
+    {% endblock footer %}

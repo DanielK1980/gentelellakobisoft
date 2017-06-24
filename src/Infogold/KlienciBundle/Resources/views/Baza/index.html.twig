@@ -1,0 +1,72 @@
+{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
+
+{% block articletop %}
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+ {% block articleright %}
+
+                   
+    <h1>Klienci  indywidualni </h1>
+ <a href="{{ path('klienci_firmowi') }}" class="btn btn-primary">
+                Klienci firmowi
+            </a>
+    <table class="table  table-striped table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+               
+                <th>NumerKlienta</th>   
+                 <th>Imie</th>
+                <th>Nazwisko</th> 
+                 <th>Adres</th>
+                <th>Telefonklienta</th>
+                <th>Emailklienta</th>
+                 <th>Peselklienta</th>                              
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% for entity in entities %}
+             
+            <tr>
+               
+                <td>{{ entity.NumerKlienta }}</td>   
+                 <td>{{ entity.Imie }}</td>
+                <td>{{ entity.Nazwisko }}</td>
+                <td>{{ entity.Ulica }} {{ entity.NrDomu }} {% if entity.NrMieszkania %}/ {{ entity.NrMieszkania }}{% endif %} <br/> {{ entity.KodPocztowy }} {{ entity.Miasto }} {{ entity.Wojewodztwo }}  </td>
+                <td>{{ entity.TelefonKlienta }}</td>
+                <td>{{ entity.EmailKlienta }}</td>               
+               <td>{{ entity.PeselKlienta }}</td>                           
+                <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('klienci_baza_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('klienci_baza_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+             
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('klienci_baza_new') }}" class="btn btn-primary">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+
+  {% endblock articleright %}
+    
+    {% block footer %}
+    {% endblock footer %}

@@ -1,0 +1,7 @@
+parameters:
+#    infogold_ajax.example.class: Infogold\AjaxBundle\Example
+
+services:
+#    infogold_ajax.example:
+#        class: %infogold_ajax.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

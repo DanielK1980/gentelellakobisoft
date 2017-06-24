@@ -1,0 +1,52 @@
+{% extends "::base.html.twig" %}
+{% block layout %}
+
+
+
+    <div  class="container"><br/>
+        <div class="jumbotron col-md-6 center-block" style="float: none;
+             margin-left: auto;
+             margin-right: auto;">
+            <h2 style="text-align: center">Panel Administratora</h2>
+           
+            <form class="form-signin" role="form" action="{{ path('login_check_admin') }}" method="post">
+                <h2 class="form-signin-heading">Zaloguj się</h2>
+                <input type="text" class="form-control" placeholder="Login" required autofocus  id="username" name="_username" value="{{ last_username }}">
+                <input type="password" class="form-control" placeholder="Hasło" required id="password" name="_password">
+                <!--     <div class="checkbox">
+                       <label>
+                         <input type="checkbox" value="remember-me"> Remember me
+                       </label>
+                     </div> -->
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
+            </form>
+            <div class="row">
+            {% if error %}
+                     <div class="alert alert-danger col-md-8 col-md-offset-2" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ error.message|trans }}
+                    </div>
+                
+            {% endif %}
+
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger col-md-8 col-md-offset-2" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success col-md-8 col-md-offset-2" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,31 @@
+#dzialy
+dzialy:
+    path:     /
+    defaults: { _controller: "InfogoldAccountBundle:Dzialy:index" }
+
+dzialy_show:
+    path:     /{id}/show
+    defaults: { _controller: "InfogoldAccountBundle:Dzialy:show" }
+
+dzialy_new:
+    path:     /new
+    defaults: { _controller: "InfogoldAccountBundle:Dzialy:new" }
+
+dzialy_create:
+    path:     /create
+    defaults: { _controller: "InfogoldAccountBundle:Dzialy:create" }
+    requirements: { _method: post }
+
+dzialy_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "InfogoldAccountBundle:Dzialy:edit" }
+
+dzialy_update:
+    path:     /{id}/update
+    defaults: { _controller: "InfogoldAccountBundle:Dzialy:update" }
+    requirements: { _method: post|put }
+
+dzialy_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "InfogoldAccountBundle:Dzialy:delete" }
+    requirements: { _method: post|delete }

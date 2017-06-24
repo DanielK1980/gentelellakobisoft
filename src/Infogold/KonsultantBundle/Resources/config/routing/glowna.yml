@@ -1,0 +1,7 @@
+kontakty_glowna:
+    pattern:  /glowna
+    defaults: { _controller: "InfogoldKonsultantBundle:Default:index" }
+    
+konsultant_browser:
+    pattern:  /browser
+    defaults: { _controller: "InfogoldKonsultantBundle:Close:index" }

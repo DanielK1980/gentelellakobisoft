@@ -1,0 +1,139 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
+        fos_userbundle:
+            class: FOS\UserBundle\Model\UserInterface
+            algorithm: sha512
+        administrators:
+            class: Infogold\KonsultantBundle\Entity\Konsultant
+            algorithm: sha1
+            iterations: 1
+            encode_as_base64: false
+
+    providers:
+        in_memory:
+            memory:
+                users:
+                    DanielK1980:
+                        password: $2a$12$FA9pYq0pj8guob1A3EypGuVg346bjoolA5D05s1I8EFGe1GRniso6
+                        roles: 'ROLE_SUPERADMIN'
+        fos_userbundle:
+            id: fos_user.user_provider.username
+        administrators:
+            entity: { class: InfogoldKonsultantBundle:Konsultant }
+        
+                  
+    firewalls:  
+          secured_area:
+             pattern:   ^/admin
+             context: my_context1
+             anonymous: true
+             form_login:
+                 provider:  in_memory
+                 login_path: /admin/login
+                 check_path: /admin/login_check_admin
+                 
+                 post_only:                      true 
+                 always_use_default_target_path: true  
+                 default_target_path:            /admin               
+                 use_referer:                    false
+               
+  
+                 failure_path:                   /admin/login  
+                 failure_forward:                false  
+  
+                 username_parameter:             _username  
+                 password_parameter:             _password 
+             logout:
+                path:   /admin/logout
+                target: /admin/login
+                invalidate_session: true
+                delete_cookies:
+                    a: { path: null, domain: null }
+                    b: { path: null, domain: null }
+             
+          konsultant_area:
+            pattern:    ^/konsultant
+            context: my_context2
+            anonymous:    true  
+            form_login:  
+                provider:                       administrators    
+                use_forward:                    true 
+                login_path:                     /konsultant/login
+                check_path:                     /konsultant/login_check               
+                post_only:                      true 
+                always_use_default_target_path: true  
+                default_target_path:            /konsultant/klient/indywidualni               
+                use_referer:                    false
+                success_handler:                security_authentication_success_handler
+  
+                failure_path:                   /konsultant/login  
+                failure_forward:                false  
+  
+                username_parameter:             _username  
+                password_parameter:             _password 
+                
+                                
+                
+            logout:
+                path:   /konsultant/logout
+                target: /konsultant/login
+                success_handler: security_authentication_success_handler
+                invalidate_session: true
+                delete_cookies:
+                    a: { path: null, domain: null }
+                    b: { path: null, domain: null }
+               
+          main:  
+            pattern: ^/  
+            context: my_context3
+            logout:       true  
+            anonymous:    true  
+            form_login:  
+                provider:                       fos_userbundle  
+                csrf_provider:                  security.csrf.token_manager  
+  
+                login_path:                     /  
+                use_forward:                    false  
+                check_path:                     /login_check  
+                post_only:                      true  
+  
+                always_use_default_target_path: true  
+                default_target_path:            /user 
+                target_path_parameter:          _target_path  
+                use_referer:                    false  
+  
+                failure_path:                   /  
+                failure_forward:                false  
+  
+                username_parameter:             _username  
+                password_parameter:             _password  
+  
+                csrf_parameter:                 _csrf_token  
+    access_control:
+             
+       - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
+       - { path: ^/konsultant/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/admin/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/konsultant/logout$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/admin/logout$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/konsultant/login_check$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/admin/login_check$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/konsultant/changepassword/* , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/konsultant/updatepassword/* , roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }  
+       - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }  
+       - { path: ^/user/*, roles: ROLE_USER} 
+       - { path: ^/konsultant/*, roles: ROLE_KONSULTANT}
+       - { path: ^/admin/*, roles: ROLE_SUPERADMIN}
+    
+    
+    role_hierarchy:
+        ROLE_STARSZY:  [ROLE_KONSULTANT]
+        ROLE_SPECJALISTA: [ROLE_STARSZY]
+        ROLE_LIDER: [ROLE_SPECJALISTA]
+        ROLE_USER:      [ROLE_LIDER]
+        ROLE_ADMIN:      [ROLE_USER]
+        ROLE_SUPERADMIN: [ROLE_ADMIN]  

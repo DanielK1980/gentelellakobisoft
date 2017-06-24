@@ -1,0 +1,452 @@
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Select2 -->
+
+{% endblock stylesheets %}
+
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+{% set dataaktualna = rok~"-"~miesiac %}
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                
+                                <div class="col-md-4 title">
+                                    
+                                 {{ entity.imie }}  {{ entity.nazwisko }} 
+                                </div>
+                                
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li> <a class="btn-primary" href="{{ path('konsultant') }}"><span class="glyphicon glyphicon-list"></span> Powrót do listy</a></li>
+                                        <li> <a class="btn-info" href="{{ path('konsultant_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-edit"></span> Edytuj</a></li>
+                                        <li> <a class="btn btn-warning"  href="#"  data-toggle="modal" data-target="#reset"><span class="glyphicon glyphicon-refresh"></span> Zrestartuj hasło</a></li>
+                                        <li> <a class="btn btn-danger"  href="#"  data-toggle="modal" data-target="#odal"><span class="glyphicon glyphicon-remove"></span> Usuń konsultanta</a></li>
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table">
+                            <thead>
+                                <tr class="headings">
+                                    <th  style="vertical-align: middle;">Id</th>
+                                    <th  style="vertical-align: middle;">Login konsultanta</th> 
+                                     <th  style="vertical-align: middle;">Email</th>
+                                     <th  style="vertical-align: middle;">Aktywny</th> 
+                                </tr>
+                            </thead>
+                            <tbody>  
+                                
+                                <tr>  
+                                    <td>{{ entity.id }}</td>
+
+                                    <td>{{ entity.username }}</td>
+                                     <td>{{ entity.email }}</td>
+                                     <td>{{ entity.isActive }}</td>
+                                    
+                                </tr>
+               
+                            </tbody>
+                   </table>
+
+                      
+                       
+                    </div>
+
+    <!-- Select2 -->
+    {% block javascripts %}
+           <script type="text/javascript">
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $(document).ready(function () {
+                $("#myModal").on("show.bs.modal", function (e) {
+
+                    var button = $(e.relatedTarget); // Button that triggered the modal
+                    var recipient = button.data('whatever');
+                    //  var link = $(e.relatedTarget);
+                    // var idz = $(this).attr("h");
+
+                    $.ajax({
+                        url: "/Symfony2_8/web/app_dev.php/user/konsultant/raport",
+                        type: "POST",
+                        dataType: "JSON",
+                        async: false,
+                        data: 'date=' + recipient + '&id='+{{entity.id}}+'',
+                                success: function (msg) {
+                                    $('#raport').append("Raport z dnia " + msg.date);
+
+                                    $('#czaspracy').append("Godziny logowania i wylogowania konsultanta:<br>");
+
+                                    for (var i = 0; i < msg.konsultantczaspracy.length; i++) {
+
+                                        $('#czaspracy').append(i + 1 + ". " + msg.konsultantczaspracy[i].zalogowanie.date.slice(11, 19) + " - " +
+                                                msg.konsultantczaspracy[i].wylogowanie.date.slice(11, 19) + "<br>");
+                                    }
+                                    $('#czaspracy').append("Konsultant przepracował: " + msg.przepracowal.date.slice(11, 19) + "<br><br>");
+
+                                    $('#czaspracy').append("Godziny przybywania na przerwie:<br>");
+                                    for (var i = 0; i < msg.konsultantaprzerwy.length; i++) {
+                                        $('#czaspracy').append(i + 1 + ". " + msg.konsultantaprzerwy[i].czasrozpoczecia.date.slice(11, 19) + " - " +
+                                                msg.konsultantaprzerwy[i].czaszakonczenia.date.slice(11, 19) + "<br>");
+                                    }
+                                    $('#czaspracy').append("Konsultant przebywał na przerwie w sumie: " + msg.czasprzerw.date.slice(11, 19) + "<br><br>");
+
+                                    $('#czaspracy').append("Nowi klienci wprowadzni do systemu w tym dniu:<br>");
+                                    for (var i = 0; i < msg.konsultantklienci.length; i++) {
+
+                                        if (msg.konsultantklienci[i].nazwaklienta !== null) {
+                                            $('#czaspracy').append(i + 1 + ". " + msg.konsultantklienci[i].nazwaklienta + " -  <a href='/Symfony2_8/web/app_dev.php/user/baza/" + msg.konsultantklienci[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
+                                        }
+                                        else {
+                                            $('#czaspracy').append(i + 1 + ". " + msg.konsultantklienci[i].imie + " " + msg.konsultantklienci[i].nazwisko + " -  <a href='/Symfony2_8/web/app_dev.php/user/baza/" + msg.konsultantklienci[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
+                                        }
+
+                                    }
+                                    
+                                     $('#czaspracy').append("<br><br>Kontakty ustalone przez konsultanta:<br>");
+                                    for (var i = 0; i < msg.konsultantkontakty.length; i++) {
+
+                                     if (msg.konsultantkontakty[i].nazwaklienta !== null) {  
+                                $('#czaspracy').append(i + 1 + ". "+msg.konsultantkontakty[i].nazwaklienta+" - "+ msg.konsultantkontakty[i].opiskontaktu + " -  <a href='/Symfony2_8/web/app_dev.php/user/baza/" + msg.konsultantkontakty[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
+                            }
+                            else{
+                                 $('#czaspracy').append(i + 1 + ". "+msg.konsultantkontakty[i].imie+" " +msg.konsultantkontakty[i].nazwisko+" - "+ msg.konsultantkontakty[i].opiskontaktu + " -  <a href='/Symfony2_8/web/app_dev.php/user/baza/" + msg.konsultantkontakty[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
+                            }
+                                       
+
+                                    }
+
+                                }
+                    });
+                });
+
+                $("#myModal").on("hide.bs.modal", function (e) {
+
+                    $('#czaspracy').empty();
+                    $('#raport').empty();
+                });
+            });
+
+        });
+
+
+    </script>
+
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+
+
+        <!-- Modal usuwanie klienta -->
+        <div class="modal fade" id="odal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Usuń konsultanta</h4>
+                    </div>
+                    <div class="modal-body">          
+
+                        <p>Czy napewno chcesz usunąć {{ entity.imie }} {{ entity.nazwisko }} ?</p>                                                  
+                        <div class="modal-footer" >
+                            <div style="float:right; margin-left: 10px"> 
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                            </div>
+                            <div style="float:right">    {{form(delete_form)}}
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- KONIEC Modal usuwanie klienta -->
+        <div class="modal fade" id="reset" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Usuń konsultanta</h4>
+                    </div>
+                    <div class="modal-body">          
+
+                        <p>Czy napewno chcesz zresetować hasło konsultantowi ? ?</p>                                                  
+                        <div class="modal-footer" >
+                            <div style="float:right; margin-left: 10px"> 
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                            </div>
+                            <div style="float:right">  
+                                <a href="{{ path('resethasla', { 'id': entity.id, 'date': dataaktualna|date("Y-m")  }) }}" class="btn btn-primary">
+                                    Zresetuj hasło
+                                </a>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+   
+
+
+
+    <!-- Modal -->
+
+
+    <div  class="row well well-small" style="overflow: scroll">
+        {% set dataaktualna = rok~"-"~miesiac %}
+         <div class="row"> 
+        <div class="col-md-4"> 
+        <nav>
+            <ul class="pagination pagination-lg">
+                <li><a href="{{ path('konsultant_show', { 'id': id, 'date': dataaktualna|date_modify("-1 month")|date("Y-m") }) }}">&laquo;</a></li>
+                <li class="disabled"><a>{{nazwamiesiaca}}</a></li>   
+                <li><a href="{{ path('konsultant_show', { 'id': id, 'date': dataaktualna|date_modify("+1 month")|date("Y-m") }) }}">&raquo;</a></li>
+            </ul>
+        </nav>  
+    </div> 
+         </div>
+            <br/>
+             <div class="row"> 
+        <table class="table table-bordered table-striped  table-hover" id="grafik">
+            <tr>
+                <td>&nbsp;</td>   <td>&nbsp;</td> 
+                {% for nazwa in nazwydni %}
+
+                    {%  if nazwa == 'Sob' %}
+                        <td style="text-align: center;color: #428BCA">{{ nazwa }}</td>
+                    {% elseif nazwa == 'Nd'   %}
+                        <td style="text-align: center;color: #428BCA">{{ nazwa }}</td>
+                    {% else  %}
+                        <td style="text-align: center;">{{ nazwa }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <td style="text-align: center;vertical-align: middle;"><span class="glyphicon glyphicon-user"></span></td>
+                <td style="text-align: center;vertical-align: middle;"><span class="glyphicon glyphicon-time"></span></td>
+                    {% for i in 1..pustedni %}
+
+                {% endfor %}      
+                {% for i in 1..ilosc %}
+                    <td style="text-align: center">{{ i }}</td>
+                {% endfor %}
+            </tr>
+
+
+            <tr>
+                <td rowspan="2" align="center" valign="middle" style="text-align: center;vertical-align: middle;"> {{konsultant}} </td>
+                <td rowspan="2"  style="text-align: center;vertical-align: middle;">
+                    {% set sumratings = 0 %}
+                    {% for grafik in grafiktabela if dataaktualna == grafik.data|date("Y-m")    %}
+
+                        {%  set sumratings = sumratings + grafik.minutypracy %}
+
+                    {% endfor %}
+
+                    {% set hours = sumratings/60 %}
+                    {% set minutes = sumratings % 60 %}
+                    {{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}
+                </td>
+
+                {% for i in 1..pustedni %}
+
+                {% endfor %}      
+                {% for i in 1..ilosc %}
+
+                    {% if i < 10  %}
+                        {% set data = rok~"-"~miesiac~"-"~"0"~i %}
+
+                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")   %}
+
+                            <td style="text-align: center"><small>{{ grafik.czasrozpoczecia|date("H:i") }}-{{ grafik.czaszakonczenia|date("H:i") }}</small></td>
+
+
+                        {% else %}
+                            <td style="text-align: center">-</td>
+                        {% endfor %}
+
+                    {% else %} 
+
+                        {% set data = rok~"-"~miesiac~"-"~i %}
+
+                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")    %}
+
+                            <td style="text-align: center"><small>{{ grafik.czasrozpoczecia|date("H:i") }}-{{ grafik.czaszakonczenia|date("H:i") }}</small></td>
+
+                        {% else %}
+                            <td style="text-align: center">-</td>
+                        {% endfor %}
+                    {% endif %}  
+
+
+
+                {% endfor %}
+            </tr> 
+
+
+            {# ilość godzin pracy #}
+
+
+            <tr>
+
+                {% for i in 1..pustedni %}
+
+                {% endfor %}      
+                {% for i in 1..ilosc %}
+                    {% if i < 10  %}
+                        {% set data = rok~"-"~miesiac~"-"~"0"~i %}
+
+                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")   %}
+                            {% set hours = grafik.minutypracy/60 %}
+                            {% set minutes = grafik.minutypracy % 60 %}
+                            <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>
+                                {% if grafik.komentarz %} 
+                                    <span style="cursor:pointer;float: right" class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom"
+                                          title='{{ grafik.komentarz }}'></span>
+                                {% endif %} 
+
+                                {% if czaspracy < 10  %} 
+                                    <button class="btn btn-info btn-xs" type="button">Raport</button> 
+                                {% endif %}
+                            </td>
+
+
+                        {% else %}
+                            <td style="text-align: center">-</td>
+                        {% endfor %}
+
+                    {% else %} 
+
+                        {% set data = rok~"-"~miesiac~"-"~i %}
+
+                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")%}
+                            {% set hours = grafik.minutypracy/60 %}
+                            {% set minutes = grafik.minutypracy % 60 %}
+                            <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>
+                                {% if grafik.komentarz %} 
+                                    <span style="cursor:pointer;float: right"  class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom"
+                                          title='{{ grafik.komentarz }}'></span>
+                                {% endif %}  
+                            </td>
+
+                        {% else %}
+                            <td style="text-align: center">-</td>
+
+                        {% endfor %}
+                    {% endif %}  
+
+                {% endfor %}
+            </tr>
+
+
+
+
+            {# raporty jednodniowe #}
+
+
+            <tr>
+                <td colspan="2">Raport dzienny</td> 
+                {% for i in 1..pustedni %}
+
+                {% endfor %}      
+                {% for i in 1..ilosc %}
+                    {% if i < 10  %}
+                        {% set data = rok~"-"~miesiac~"-"~"0"~i %}
+
+                        {% for raportzdnia in czaspracy if data == raportzdnia.zalogowanie|date("Y-m-d")   %}
+                            {% if loop.first %}
+
+
+                                <td style="text-align: center">
+
+
+
+                                    <a data-whatever="{{ data|date("Y-m-d") }}" href="#" data-toggle="modal" data-target="#myModal" data-remote="false" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                    </a>
+
+                                </td>
+                            {% endif %}
+
+                        {% else %}
+                            <td style="text-align: center">-</td>
+                        {% endfor %}
+
+                    {% else %} 
+
+                        {% set data = rok~"-"~miesiac~"-"~i %}
+
+                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")%}
+                            {% set hours = grafik.minutypracy/60 %}
+                            {% set minutes = grafik.minutypracy % 60 %}
+                            <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>
+                                {% if grafik.komentarz %} 
+                                    <span style="cursor:pointer;float: right"  class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom"
+                                          title='{{ grafik.komentarz }}'></span>
+                                {% endif %}  
+                            </td>
+
+                        {% else %}
+                            <td style="text-align: center">-</td>
+
+                        {% endfor %}
+                    {% endif %}  
+
+                {% endfor %}
+            </tr>
+
+        </table>
+             </div>
+    </div>
+
+    <!-- Rapoirt dzienny -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="raport"></h4>
+                </div>
+                <div class="modal-body" id="czaspracy">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock  %}

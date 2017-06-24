@@ -1,0 +1,35 @@
+szukajindywidualnych:
+    pattern: /user/baza/searchind
+    defaults: { _controller: InfogoldSearchBundle:Szukajindywidualnych:index } 
+    
+szukajfirmowych:
+    pattern: /user/baza/searchfirm
+    defaults: { _controller: InfogoldSearchBundle:Szukajfirmowych:index } 
+    
+szukajfakturoryginalnych:
+    pattern: /user/searchoryginalinvoices
+    defaults: { _controller: InfogoldSearchBundle:Szukajfaktur:index } 
+    
+szukajfakturproforma:
+    pattern: /user/searchproformainvoices/{type}
+    defaults: { _controller: InfogoldSearchBundle:Szukajfaktur:index }
+    
+szukajindywidualnychkonultanta:
+    pattern: /konsultant/search
+    defaults: { _controller: InfogoldSearchBundle:Szukajindywidualnych:index } 
+
+szukajfirmowychkonultanta:
+    pattern: /konsultant/searchfirm
+    defaults: { _controller: InfogoldSearchBundle:Szukajfirmowych:index } 
+    
+szukajproduktowkons:
+    pattern: /konsultant/produkt/searchprodukt
+    defaults: { _controller: InfogoldSearchBundle:Szukajproduktu:index } 
+    
+szukajproduktowuser:
+    pattern: /user/produkt/searchprodukt
+    defaults: { _controller: InfogoldSearchBundle:Szukajproduktu:index }
+    
+szukajkonsultantow:
+    pattern: /user/konsultant/search
+    defaults: { _controller: InfogoldSearchBundle:Szukajkonsultantow:index }    

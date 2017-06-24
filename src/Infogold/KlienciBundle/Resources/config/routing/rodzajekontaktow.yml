@@ -1,0 +1,24 @@
+rodzajekontaktow_index:
+    path:     /
+    defaults: { _controller: "InfogoldKlienciBundle:RodzajeKontaktow:index" }
+    methods:  GET
+
+rodzajekontaktow_show:
+    path:     /{id}/show
+    defaults: { _controller: "InfogoldKlienciBundle:RodzajeKontaktow:show" }
+    methods:  GET
+
+rodzajekontaktow_new:
+    path:     /new
+    defaults: { _controller: "InfogoldKlienciBundle:RodzajeKontaktow:new" }
+    methods:  [GET, POST]
+
+rodzajekontaktow_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "InfogoldKlienciBundle:RodzajeKontaktow:edit" }
+    methods:  [GET, POST]
+
+rodzajekontaktow_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "InfogoldKlienciBundle:RodzajeKontaktow:delete" }
+    methods:  DELETE

@@ -1,0 +1,87 @@
+{# empty Twig template #}
+{% extends "InfogoldKonsultantBundle:Default:index.html.twig" %}
+
+{% block articletop %}
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+{% block articleright %}
+    <h1>Lista Produktów</h1>
+     <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+
+                <form class="navbar-form navbar-left" role="search" action="{{ path('szukajproduktowkons') }}" method="post" {{ form_enctype(form) }}>
+                    {{ form_errors(form) }} 
+            
+                    <div class="form-group">
+                        {{ form_widget(form.szukaj , { 'attr': {'minlength': '4','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                    </div>
+                        
+                       <div class="form-group">
+                        {{ form_widget(form.wedlug , { 'attr': {'minlength': '4','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                    </div>
+                    <button type="submit" class="btn btn-default" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-search"></span> Szukaj</button>
+                    {{ form_rest( form ) }}
+                </form>
+      
+            </div><!-- /.navbar-collapse -->
+
+        </div><!-- /.container-fluid -->
+    </nav>
+      {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-info" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nr produktu</th>
+                <th>Nazwa</th>
+                <th>Cena netto</th>
+                <th>Vat</th>
+                <th>Cena brutto</th>
+                <th>J.M</th>                
+                <th>W magazynie</th>               
+                <th>Pokaż</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td><a href="{{ path('produkty_show_kons', { 'id': entity.id }) }}">{{ entity.nrproduktu }}</a></td>
+                 <td>{{ entity.name }}</td>
+                <td>{{ entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>
+                <td>{{ entity.vat }} %</td>
+                <td>{{ entity.cenabrutto|number_format(2, ',', '  ') }} zł</td>
+                <td>{{ entity.jednostkamiary }}</td>
+                <td>{{ entity.magazyn }}</td>
+                <td align="center" style="vertical-align: middle;" >
+
+                                <a class="btn btn-default btn-sm" href="{{ path('produkty_show_kons', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                            </td>
+               
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+  
+                    {% if app.request.get('_route') == 'produkt_kons' %}
+       {% if  pagination is defined %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+        {% endif %}
+     {% endif %}
+    {% endblock articleright %}
+{% block footer %}
+{% endblock footer %}

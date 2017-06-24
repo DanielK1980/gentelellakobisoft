@@ -1,0 +1,3 @@
+grafikdzialukonsultanta:
+    pattern:  /grafik/{id}/{date}
+    defaults: { _controller: "InfogoldKonsultantBundle:Grafik:dzial" }

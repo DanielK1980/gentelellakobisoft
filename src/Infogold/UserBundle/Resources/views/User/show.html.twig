@@ -1,0 +1,74 @@
+{% extends "InfogoldUserBundle:Default:index.html.twig" %}
+
+{% block articletop %}
+{% endblock articletop %}
+{% block articleleft %}
+{% endblock articleleft %}
+{% block articleright %}
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Nrklienta</th>
+                <td>{{ entity.Nrklienta }}</td>
+            </tr>
+            <tr>
+                <th>Imie</th>
+                <td>{{ entity.imie }}</td>
+            </tr>
+            <tr>
+                <th>Nazwisko</th>
+                <td>{{ entity.nazwisko }}</td>
+            </tr>
+            <tr>
+                <th>Telefon</th>
+                <td>{{ entity.telefon }}</td>
+            </tr>
+            <tr>
+                <th>Nazwafirmy</th>
+                <td>{{ entity.nazwafirmy }}</td>
+            </tr>
+            <tr>
+                <th>Kodpocztowy</th>
+                <td>{{ entity.kodpocztowy }}</td>
+            </tr>
+            <tr>
+                <th>Miejscowosc</th>
+                <td>{{ entity.miejscowosc }}</td>
+            </tr>
+            <tr>
+                <th>Ulica</th>
+                <td>{{ entity.ulica }}</td>
+            </tr>
+            <tr>
+                <th>Nip</th>
+                <td>{{ entity.nip }}</td>
+            </tr>
+            <tr>
+                <th>Nrkonta</th>
+                <td>{{ entity.nrkonta }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock articleright %}
+{% block footer %}
+{% endblock footer %}

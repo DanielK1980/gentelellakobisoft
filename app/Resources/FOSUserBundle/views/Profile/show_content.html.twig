@@ -1,0 +1,15 @@
+
+<br/>
+<br/>
+<div class="col-md-8">
+    <p><b>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}:</b><span> {{ user.username }}</span></p>
+    <p><b>{{ 'Imie'|trans({}, 'FOSUserBundle') }}:</b> <span>{{ user.imie }}</span></p>
+    <p><b>{{ 'Nazwisko'|trans({}, 'FOSUserBundle') }}:</b><span> {{ user.nazwisko }}</span></p>
+    <p><b>{{ 'Telefon'|trans({}, 'FOSUserBundle') }}:</b><span> {{ user.telefon }}</span></p>
+    <p><b>{{ 'Nazwa firmy'|trans({}, 'FOSUserBundle') }}:</b><span> {{ user.nazwafirmy }}</span></p>
+     <p><b>{{ 'NIP'|trans({}, 'FOSUserBundle') }}:</b> <span>{{ user.nip }}</span></p>
+    <p><b>{{ 'Adres'|trans({}, 'FOSUserBundle') }}:</b><span> {{ user.kodpocztowy }} {{ user.miejscowosc }} <br/>{{ 'Ulica'|trans({}, 'FOSUserBundle') }}: {{ user.ulica }}</span></p>
+    <p><b>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}:</b><span> {{ user.email }}</span></p>
+    <p><b>{{ 'Nr konta'|trans({}, 'FOSUserBundle') }}:</b><span> {{ user.nrkonta }}</span></p>
+      <a  class="btn btn-primary" href="{{path('fos_user_profile_edit')}}">Edytuj</a>
+</div>

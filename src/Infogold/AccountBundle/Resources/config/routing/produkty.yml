@@ -1,0 +1,30 @@
+produkty:
+    pattern:  /
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:index" }
+
+produkty_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:show" }
+
+produkty_new:
+    pattern:  /new
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:new" }
+
+produkty_create:
+    pattern:  /create
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:create" }
+    requirements: { _method: post }
+
+produkty_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:edit" }
+
+produkty_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:update" }
+    requirements: { _method: post|put }
+
+produkty_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:delete" }
+    requirements: { _method: post|delete }

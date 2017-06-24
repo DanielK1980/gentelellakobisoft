@@ -1,0 +1,195 @@
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset ('css/bootstrap-datetimepicker.min.css')}} " type="text/css" media="all">
+  <!-- PNotify -->
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+    {% endblock stylesheets %}
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <script>
+            $(document).ready(function () {
+                show_stack_bottomright('error', '{{ flashMessage }}');
+            });
+        </script>
+        <!--
+        <div class="alert alert-info" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+           #
+        </div>
+        -->
+    {% endfor %}
+
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+                                   
+                                    <ul class="nav navbar-nav">
+                                        <li class="active">
+                                            <a href="{{ path('faktura_oryginal') }}" class="navbar-brand" >
+
+                                                <i class="fa fa-file-text-o"></i>
+                                                <span class="small"> Faktury Oryginał</span></a>
+                                        </li>
+                                        <li>
+                                        <li>
+                                            <a href="{{ path('faktura_proforma') }}" class="navbar-brand" >
+
+                                                <i class="fa fa-files-o"></i>
+                                                <span class="small"> Faktury Pro Forma</span></a>
+                                        </li>
+
+
+                                    </ul>
+                                   
+                                      <!-- <form style="position:relative;top:3px" class="navbar-form navbar-right" role="search" action="{{ path('szukajfakturoryginalnych') }}" method="get" {{ form_enctype(form) }}>  -->     
+                                   {{ form_start(form, {'attr': {'class': 'navbar-form navbar-right'}, 'action': path('szukajfakturoryginalnych'), 'method': 'GET'}) }}
+                                        {{ form_errors(form) }} 
+
+                                        <div class="form-group">
+                                            {{ form_widget(form.szukaj , { 'attr': {'minlength': '1','class': 'form-control col-md-2', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            {{ form_widget(form.wedlug , { 'attr': {'minlength': '1','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+                                       
+                                            <div style="max-width: 140px" id="datetimepicker1" class="form-group input-group date col-md"  data-date-format="YYYY-MM-DD" >
+
+                                                {{  form_widget(form.datarozpoczecia, { 'attr': {'type':'text', 'class':'col-md','placeholder':'Data od'} })}}
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                            </div>
+                                       
+                                               
+                                        <div style="max-width: 140px" id="datetimepicker4" class="form-group input-group date"  data-date-format="YYYY-MM-DD" >
+
+                                            {{  form_widget(form.datazakonczenia, { 'attr': {'type':'text', 'class':'col-md','placeholder':'Data do'} })}}
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+
+                                        </div>
+                                             <div class="form-group">    
+                                        <button type="submit" class="btn btn-default" data-toggle="tooltip" title="Możesz wyszukiwać po nr PESEL, nazwisku, imieniu i nazwisku oraz po nr klienta."><span class="glyphicon glyphicon-search"></span> Szukaj</button>
+                                              </div>
+                                        {{ form_rest( form ) }}
+                                           
+                                   {{ form_end( form ) }}
+                                            
+                                </div><!-- /.navbar-collapse -->
+
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        {% if pagination1 %}
+                            <table class="table table-striped jambo_table">
+                                <thead>
+                                    <tr>
+                                        <th>Nrfaktury</th>
+                                        <th>Nabywca</th>
+                                        <th>Data faktury</th>
+                                        <th>Termin płatności</th>
+                                        <th style="text-align: center">Wartość netto</th>
+                                        <th style="text-align: center">Wartość brutto</th>
+                                        <th style="text-align: center">Podgląd</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if  pagination1 is defined  %}  
+                                        {% for entity in pagination1 %}
+                                            <tr>
+
+                                                <td>{{ entity.nrfaktury }}</td>
+                                                <td>{{ entity.dlaklienta }} 
+                                                    <a class="btn btn-default btn-sm" style="float:right" href="{{ path('klienci_baza_show', { 'id': entity.dlaklienta.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                </td>
+                                                <td>{% if entity.datafaktury %}{{ entity.datafaktury|date('Y-m-d') }}{% endif %}</td>
+                                                <td>{% if entity.terminplatnosci %}{{ entity.terminplatnosci|date('Y-m-d') }}{% endif %}</td>
+                                                <td style="text-align: center">{{ entity.wartoscnetto }}</td>
+                                                <td style="text-align: center">{{ entity.wartoscbrutto }}</td>
+                                                <td align="center" style="vertical-align: middle;">
+
+                                                    <a class="btn btn-default btn-sm" href="{{ path('faktura_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+
+                </div>
+             
+                    
+                            {{ knp_pagination_render(pagination1) }}
+                        
+              
+            </div>
+        </div>
+    </div>
+    {% block javascripts %}
+
+        <script src="{{ asset ('js/moment.js') }}" type="text/javascript" ></script>
+
+        <script src="{{ asset ('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript" ></script>
+
+        <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
+        <script type="text/javascript">
+
+            $(function () {
+
+                $('#datetimepicker1').datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: 'pl',
+                    ignoreReadonly: true,
+                    widgetPositioning: {
+                        horizontal: 'auto',
+                        vertical: 'bottom'
+                    }
+                });
+
+                $('#datetimepicker4').datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: 'pl',
+                    ignoreReadonly: true,
+                    widgetPositioning: {
+                        horizontal: 'auto',
+                        vertical: 'bottom'
+                    }
+                });
+                $('#datetimepicker1').datetimepicker();
+                $('#datetimepicker4').datetimepicker();
+
+                $("#datetimepicker1").on("dp.change", function (e) {
+                    $('#datetimepicker4').data("DateTimePicker").minDate(e.date);
+                });
+                $("#datetimepicker4").on("dp.change", function (e) {
+                    $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+                });
+
+
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+        </script>
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}

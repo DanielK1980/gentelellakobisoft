@@ -1,0 +1,8 @@
+login:
+     pattern:   /login
+     defaults:  { _controller: InfogoldAdminBundle:Security:login }
+login_check_admin:
+     pattern:   /login_check_admin
+     
+logout:
+     path:   /logout
