@@ -38,22 +38,22 @@ class SzukajfakturController extends Controller {
 
         $data = array();
         $form = $this->createFormBuilder()
-                ->setAction($this->generateUrl('szukajfakturoryginalnych'))
+                ->setAction($this->generateUrl('szukajfaktur',array("type"=>$type)))
                 ->setMethod('GET')
-                ->add('szukaj', 'text', array('required' => true))
+                ->add('szukaj', 'text', array('required' => FALSE))
                 ->add('wedlug', 'choice', array(
                     'choices' => $ar,
                     'multiple' => false,
-                    'required' => true
+                    'required' => false
                 ))
                 ->add('datazakonczenia', 'text', array(
                     'required' => false,
-                    'mapped' => false,
+                    'mapped' => true,
                     'read_only' => true
                 ))
                 ->add('datarozpoczecia', 'text', array(
                     'required' => false,
-                    'mapped' => false,
+                    'mapped' => true,
                     'read_only' => true
                 ))
                 ->getForm();
@@ -77,6 +77,8 @@ class SzukajfakturController extends Controller {
                     return $this->Nazwisko($szukaj, $userId, $konsultantlogin, $form, $type, $databegin, $dataend);
                 } else if ($nip) {
                     return $this->Nip($szukaj, $userId, $konsultantlogin, $form, $type, $databegin, $dataend);
+                }else if ($databegin) {
+                    return $this->Data($szukaj, $userId, $konsultantlogin, $form, $type, $databegin, $dataend);
                 }
             }
             if ($type == 1) {
@@ -108,18 +110,18 @@ class SzukajfakturController extends Controller {
 
         $request = $this->get('request_stack');
         $paginator = $this->get('knp_paginator');
-        $pagination1 = $paginator->paginate(
+        $pagination = $paginator->paginate(
                 $query2, $request->getCurrentRequest()->query->get('page', 1)/* page number */, 25/* limit per page */
         );
-        if (count($pagination1) > 0) {
+        if (count($pagination) > 0) {
             if ($type == 1) {
                 return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
-                            'pagination1' => $pagination1,
+                            'pagination' => $pagination,
                             'form' => $form->createView()
                 ));
             } else {
                 return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
-                            'pagination2' => $pagination1,
+                            'pagination' => $pagination,
                             'form' => $form->createView()
                 ));
             }
@@ -136,6 +138,57 @@ class SzukajfakturController extends Controller {
         }
     }
 
+        protected function Data($szukaj, $userId, $konsultantlogin, $form, $type, $datebegin, $dateend) {
+
+        $em2 = $this->getDoctrine()->getManager();
+        $req = $em2->getRepository('InfogoldKlienciBundle:Faktura');
+        $qb = $req->createQueryBuilder('p');
+        $query2 = $qb
+                ->select('p')
+                ->leftJoin('p.userfaktury', 'c')
+                ->leftJoin('p.dlaklienta', 'd')
+                ->where('c.Nrklienta=' . $userId)
+                
+                ->andWhere('p.rodzaj= :rodzaj')
+                ->andWhere('p.datafaktury>= :dataod')
+                ->andWhere('p.datafaktury<= :datado')
+                ->setParameter('rodzaj', $type)
+                ->setParameter('dataod', $datebegin->format("Y-m-d"))
+                ->setParameter('datado', $dateend->format("Y-m-d"))             
+                ->add('orderBy', 'p.datafaktury DESC')
+                ->getQuery();
+
+        $paginator = $this->get('knp_paginator');
+        $request = $this->get('request_stack');
+
+        $pagination = $paginator->paginate(
+                $query2, $request->getCurrentRequest()->query->get('page', 1), 25);
+
+        if (count($pagination) > 0) {
+            if ($type == 1) {
+                return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
+                            'pagination' => $pagination,
+                            'form' => $form->createView()
+                ));
+            } else {
+                return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
+                            'pagination' => $pagination,
+                            'form' => $form->createView()
+                ));
+            }
+        } else {
+            if ($type == 1) {
+                return $this->redirect($this->generateUrl('faktura_oryginal', array(
+                                    $this->get('session')->getFlashBag()->add('error', 'Brak faktury dla zakresu dat')
+                )));
+            } else {
+                return $this->redirect($this->generateUrl('faktura_proforma', array(
+                                    $this->get('session')->getFlashBag()->add('error', 'Brak faktury dla zakresu dat')
+                )));
+            }
+        }
+    }
+    
     protected function Nazwisko($szukaj, $userId, $konsultantlogin, $form, $type, $datebegin, $dateend) {
 
         $em2 = $this->getDoctrine()->getManager();
@@ -160,18 +213,18 @@ class SzukajfakturController extends Controller {
         $paginator = $this->get('knp_paginator');
         $request = $this->get('request_stack');
 
-        $pagination1 = $paginator->paginate(
+        $pagination = $paginator->paginate(
                 $query2, $request->getCurrentRequest()->query->get('page', 1), 3);
 
-        if (count($pagination1) > 0) {
+        if (count($pagination) > 0) {
             if ($type == 1) {
                 return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
-                            'pagination1' => $pagination1,
+                            'pagination' => $pagination,
                             'form' => $form->createView()
                 ));
             } else {
                 return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
-                            'pagination2' => $pagination1,
+                            'pagination' => $pagination,
                             'form' => $form->createView()
                 ));
             }
@@ -210,19 +263,19 @@ class SzukajfakturController extends Controller {
 
         $request = $this->get('request_stack');
         $paginator = $this->get('knp_paginator');
-        $pagination1 = $paginator->paginate(
+        $pagination = $paginator->paginate(
                 $query2, $request->getCurrentRequest()->query->get('page', 1)/* page number */,5/* limit per page */
         );
 
-          if (count($pagination1) > 0) {
+          if (count($pagination) > 0) {
             if ($type == 1) {
                 return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
-                            'pagination1' => $pagination1,
+                            'pagination' => $pagination,
                             'form' => $form->createView()
                 ));
             } else {
                 return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
-                            'pagination2' => $pagination1,
+                            'pagination' => $pagination,
                             'form' => $form->createView()
                 ));
             }

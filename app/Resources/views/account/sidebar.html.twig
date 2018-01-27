@@ -1,4 +1,4 @@
-<div class="col-md-3 left_col">
+<div class="col-md-3 left_col menu_fixed">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
             <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella</span></a>
@@ -22,27 +22,23 @@
 
         <!-- sidebar menu -->
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" style="padding: 30px 0 40px 0">
-             {{ knp_menu_render('InfogoldAccountBundle:Builder:Menu', {'allow_safe_labels': true}) | raw }}
-            <!--
             <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                    <li><a href="#"><i class="fa fa-home"></i> Dashboard</a></li>
-                </ul>                    
+                <h3>Klienci</h3>
+            {{ knp_menu_render('InfogoldAccountBundle:Builder:Clients', {'allow_safe_labels': true}) | raw }}
             </div>
             <div class="menu_section">
-                <h3>Developer</h3>
-                <ul class="nav side-menu">
-                    <li>
-                        <a><i class="fa fa-book"></i> Documentation <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a class="symfony-docs" href="http://symfony.com/doc/current/index.html">Symfony</a></li>
-                        </ul>
-                    </li> 
-                    <li><a href="#"><i class="fa fa-search"></i> Template</a></li>               
-                </ul>                    
+                <h3>Pracownicy</h3>
+            {{ knp_menu_render('InfogoldAccountBundle:Builder:Consultants', {'allow_safe_labels': true}) | raw }}
             </div>
-            -->
+            <div class="menu_section">
+                <h3>Produkty</h3>
+            {{ knp_menu_render('InfogoldAccountBundle:Builder:Products', {'allow_safe_labels': true}) | raw }}
+            </div>
+            <div class="menu_section">
+                <h3>Ustawienia</h3>
+            {{ knp_menu_render('InfogoldAccountBundle:Builder:Settings', {'allow_safe_labels': true}) | raw }}
+            </div>
+            
         </div>
         <!-- /sidebar menu -->
 

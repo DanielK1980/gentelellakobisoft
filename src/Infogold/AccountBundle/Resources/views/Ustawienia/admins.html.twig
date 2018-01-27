@@ -1,75 +1,97 @@
-{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
+
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="klient-navbar">
+                                <div class="col-md-4 title">
+                                    <h3 style="text-align: left">Administratorzy </h3>
+                                </div>
 
 
-{% if is_granted('ROLE_ADMIN') %}
-    
-{% block articletop %}
+                            </div><!-- /.navbar-collapse -->
 
-  {% endblock %}
-   {% block articleleft %}
-{{ knp_menu_render('InfogoldAccountBundle:Builder:ustawieniaMenu') }}					
-    {% endblock articleleft %}
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+                    {% if is_granted('ROLE_ADMIN') %}
+                          <div class="col-md-8 col-md-offset-2">
+                        <table class="table  table-striped table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr>
+
+                                    <th>Imie</th>
+                                    {% if  pagination is defined  %}    <th {% if pagination.isSorted('p.nazwisko') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nazwisko', 'p.nazwisko') }}</th> {% else %} <th>Nazwisko</th>  {% endif %}
+                                    <th>Status</th>   
+                                    <th colspan="2">Aktywuj</th><th>Dezaktywuj</th><th>Usuń</th>
+                            </thead>
+                            <tbody>
+                                {% if  pagination is defined  %}  
+                                    {% for entity in pagination %}
+                                        <tr>                                         
+                                            <td style="vertical-align: middle;">{{ entity.imie }}</td>
+                                            <td style="vertical-align: middle;">{{ entity.nazwisko }}</td>
+                                            <td style="vertical-align: middle;">  {% if  entity.enabled == 0  %} nieaktywny  {% else %} aktywny {% endif %}</td>
+                                            <td align="center" style="vertical-align: middle;" colspan="2">
+
+                                                {% if  entity.enabled == 0  %}  <form method="POST" action="{{ path('activate_admin', { 'id': entity.id }) }}" > <button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span></button></form>   {% endif %}
+
+                                            </td><td align="center" style="vertical-align: middle;">
+
+                                                {% if  entity.enabled == 1  %}   <form method="POST" action="{{ path('deactivate_admin', { 'id': entity.id }) }}" > <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-off"></span></button></form>   {% endif %}
+
+                                            </td>
+
+                                            <td align="center" style="vertical-align: middle;">
+
+                                                <form method="POST" action="{{ path('delete_admin', { 'id': entity.id }) }}" > <button type="submit" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></button></form>
+
+                                            </td>
+                                        </tr>              
+                                    {% endfor %}
+                                {% endif %}
+
+                            </tbody>
+                        </table>
+                          </div>
+                    {% endif %}
 
 
-{% block articleright %}
-<div class="col-md-offset-4">
+                </div>
 
-
-
-
-    <h1 style="text-align: center">Administratorzy </h1>
-
-    <table class="table  table-striped table-bordered table-hover table-condensed">
-        <thead>
-            <tr>
-          
-                <th>Imie</th>
-                {% if  pagination is defined  %}    <th {% if pagination.isSorted('p.nazwisko') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nazwisko', 'p.nazwisko') }}</th> {% else %} <th>Nazwisko</th>  {% endif %}
-                <th>Status</th>   
-                <th colspan="2">Aktywuj</th><th>Dezaktywuj</th><th>Usuń</th>
-        </thead>
-        <tbody>
-            {% if  pagination is defined  %}  
-                {% for entity in pagination %}
-                        <tr>                                         
-                            <td style="vertical-align: middle;">{{ entity.imie }}</td>
-                            <td style="vertical-align: middle;">{{ entity.nazwisko }}</td>
-                            <td style="vertical-align: middle;">  {% if  entity.enabled == 0  %} nieaktywny  {% else %} aktywny {% endif %}</td>
-                            <td align="center" style="vertical-align: middle;" colspan="2">
-
-                                {% if  entity.enabled == 0  %}  <form method="POST" action="{{ path('activate_admin', { 'id': entity.id }) }}" > <button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span></button></form>   {% endif %}
-
-                            </td><td align="center" style="vertical-align: middle;">
-
-                               {% if  entity.enabled == 1  %}   <form method="POST" action="{{ path('deactivate_admin', { 'id': entity.id }) }}" > <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-off"></span></button></form>   {% endif %}
-                                    
-                            </td>
-                            
-                            <td align="center" style="vertical-align: middle;">
-
-                             <form method="POST" action="{{ path('delete_admin', { 'id': entity.id }) }}" > <button type="submit" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></button></form>
-                                    
-                            </td>
-                        </tr>              
-                {% endfor %}
-            {% endif %}
-
-        </tbody>
-    </table>
-    {% if app.request.get('_route') == 'ustawienia' %}
-        {% if  pagination is defined %}
-            <div class="navigation">
-                {{ knp_pagination_render(pagination) }}
             </div>
-        {% endif %}
-    {% endif %}
-
-    
-    
-    
-</div>
-{% endblock articleright %}
+        </div>
+    </div>
+    <!-- Select2 -->
+    {% block javascripts %}
 
 
-{% endif %}
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
+
+
+
+
+
+
+
+
+
+
+
 

@@ -809,7 +809,7 @@ class BazaController extends Controller {
                             // Starts with http (case insensitive).
 
                             $zera = preg_split('/(^[0]+)/', $element, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-                            var_export($zera);
+                           // var_export($zera);
                             $pierwsza = reset($zera);
 
                             $druga = end($zera) + 1;
@@ -1196,16 +1196,26 @@ class BazaController extends Controller {
 
                 if ($faktura) {
                     $trvat = $this->tablevat($faktura);
+                    
+                    $nrfaktury = $faktura->getNrfaktury();
+                    $rodzaj = $faktura->getRodzaj() == 1 ? "FV" : "ProForma";
                     $html = $this->renderView('InfogoldAccountBundle:Baza:pdfdoc.html.twig', array(
                         'faktura' => $faktura,
                         'trvat' => $trvat
                     ));
+                  /*  return new Response(
+                          $html
+                            );*/
+                   
                     return new Response(
                             $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
                         'Content-Type' => 'application/pdf',
-                        'Content-Disposition' => 'attachment; filename="filename.pdf"'
+                        'Content-Disposition' => 'attachment; filename="'.$rodzaj.$nrfaktury.'.pdf"'
                             )
+                     
+                     
                     );
+                
                 }
             } else {
                 $this->get('session')->getFlashBag()->add('error', 'Zaznacz fakturę do pobrania');

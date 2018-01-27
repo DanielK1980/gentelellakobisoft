@@ -7,15 +7,15 @@ jQuery(window).load(function(){
 $.validator.addMethod("checklogin", function(username){
     var login = $("#fos_user_profile_form_username").val();
     
-    var zalogowanojako = $(".text3").text().trim();
-     var res = zalogowanojako.split(" ");
-     var log = res[2];
+    var zalogowanojako = $(".profile_info h2").text().trim();
+    // var res = zalogowanojako.split(" ");
+    // var log = res[2];
     var isSuccess = false;
     $.ajax({
-          url: "/Symfony2_8/web/app_dev.php/ajax2",
+          url: "/Symfony2_8_new/web/app_dev.php/ajax2",
           type: "POST",
           async: false,
-          data: "action=checklogin&login="+login+"&log="+log,
+          data: "action=checklogin&login="+login+"&log="+zalogowanojako,
           success:  function(msg) { 
 
       if(msg ==0)

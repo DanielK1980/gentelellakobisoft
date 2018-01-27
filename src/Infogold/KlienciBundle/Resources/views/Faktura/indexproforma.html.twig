@@ -34,9 +34,8 @@
 
 
                                     </ul>
-                                   
-                                             
-                                    <form style="position:relative;top:3px" class="navbar-form navbar-right" role="search" action="{{ path('szukajfakturproforma', { 'type': 2 }) }}" method="post" {{ form_enctype(form) }}>
+                                            
+                                   {{ form_start(form, {'attr': {'class': 'navbar-form navbar-right'}, 'action':  path('szukajfaktur', { 'type': 2 }), 'method': 'GET'}) }}
                                         {{ form_errors(form) }} 
 
                                         <div class="form-group">
@@ -59,7 +58,7 @@
                                                
                                         <div style="max-width: 140px" id="datetimepicker4" class="form-group input-group date"  data-date-format="YYYY-MM-DD" >
 
-                                            {{  form_widget(form.datazakonczenia, { 'attr': {'type':'text', 'class':'col-md','placeholder':'Data od'} })}}
+                                            {{  form_widget(form.datazakonczenia, { 'attr': {'type':'text', 'class':'col-md','placeholder':'Data do'} })}}
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 
                                         </div>
@@ -68,7 +67,7 @@
                                               </div>
                                         {{ form_rest( form ) }}
                                            
-                                    </form>
+                                   {{ form_end( form ) }}
                                             
                                 </div><!-- /.navbar-collapse -->
                             </div>
@@ -79,7 +78,7 @@
 
                 <div class="x_content">
                     <div class="table-responsive">
-                        {% if pagination2 %}
+                        {% if pagination %}
                             <table class="table table-striped jambo_table">
         <thead>
             <tr>
@@ -97,8 +96,8 @@
             </tr>
         </thead>
         <tbody>
-          {% if  pagination2 is defined  %}  
-                {% for entity in pagination2 %}
+          {% if  pagination is defined  %}  
+                {% for entity in pagination %}
             <tr>
                
                  <td>{{ entity.nrfaktury }}</td>
@@ -124,9 +123,9 @@
 
                 </div>
        
-        {% if  pagination2 is defined %}
+        {% if  pagination is defined %}
             <div class="navigation">
-                {{ knp_pagination_render(pagination2) }}
+                {{ knp_pagination_render(pagination) }}
             </div>
         {% endif %}
    

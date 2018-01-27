@@ -18,6 +18,7 @@ class FakturaController extends Controller {
      *
      */
     public function indexoryginalAction(Request $request, $search = null) {
+        
         if (!$search) {
             $loggedUser = $this->get('my.main.admin')->getMainAdmin();
             $userId = $loggedUser->getId();
@@ -42,39 +43,40 @@ class FakturaController extends Controller {
         );
 
            $form = $this->createFormBuilder()
-                ->setAction($this->generateUrl('szukajfakturoryginalnych'))
+                ->setAction($this->generateUrl('szukajfaktur', array('type'=>1)))
                 ->setMethod('GET')
-                ->add('szukaj', 'text', array('required' => true))
+                
+                ->add('szukaj', 'text', array('required' => false))
                 ->add('wedlug', 'choice', array(
                     'choices' => $ar,
                     'multiple' => false,
-                    'required' => true
+                    'required' => false
                 ))
                 ->add('datazakonczenia', 'text', array(                
                     'required' => false,
-                    'mapped'=> false,
+                    'mapped'=> true,
                     'read_only' => true
                 ))
                 ->add('datarozpoczecia', 'text', array(                    
                     'required' => false,
                     'read_only' => true,
-                    'mapped'=> false
+                    'mapped'=> true
                 ))             
                 ->getForm();
 
         $paginator = $this->get('knp_paginator');
-        $pagination1 = $paginator->paginate(
-                $search, $request->query->get('page', 1)/* page number */, 5/* limit per page */
+        $pagination = $paginator->paginate(
+                $search, $request->query->get('page', 1)/* page number */, 25/* limit per page */
         );
 
 
         return $this->render('InfogoldKlienciBundle:Faktura:indexoryginal.html.twig', array(
-                    'pagination1' => $pagination1,
+                    'pagination' => $pagination,
                     'form' => $form->createView()
         ));
     }
 
-    public function indexproformaAction(Request $request) {
+    public function indexproformaAction(Request $request, $search = null) {
         $loggedUser = $this->get('my.main.admin')->getMainAdmin();
         $userId = $loggedUser->getId();
         $em = $this->getDoctrine()->getManager();
@@ -82,7 +84,8 @@ class FakturaController extends Controller {
         $req = $em->getRepository('InfogoldKlienciBundle:Faktura');
 
         $qb2 = $req->createQueryBuilder('p');
-        $query2 = $qb2
+        if (!$search) {
+        $search = $qb2
                 ->leftJoin('p.userfaktury', 'c')
                 ->where('c=' . $userId)
                 ->andwhere('p.rodzaj = :rodzaj')
@@ -90,7 +93,7 @@ class FakturaController extends Controller {
                 ->setParameter('rodzaj', 2)
                 ->setMaxResults(40)
                 ->getQuery();
-
+        }
              $ar = array(
             'nrfaktury' => 'nr faktury',
             'nazwisko' => 'nazwisko',            
@@ -115,11 +118,11 @@ class FakturaController extends Controller {
                 ->getForm();
 
         $paginator2 = $this->get('knp_paginator');
-        $pagination2 = $paginator2->paginate(
-                $query2, $request->query->get('page', 1)/* page number */, 3/* limit per page */
+        $pagination = $paginator2->paginate(
+                $search, $request->query->get('page', 1)/* page number */, 25/* limit per page */
         );
         return $this->render('InfogoldKlienciBundle:Faktura:indexproforma.html.twig', array(
-                    'pagination2' => $pagination2,
+                    'pagination' => $pagination,
                     'form' => $form->createView()
         ));
     }
@@ -173,7 +176,8 @@ class FakturaController extends Controller {
         if ($faktura) {
 
             $trvat = $this->tablevat($faktura);
-
+            $nrfaktury = $faktura->getNrfaktury();  
+            $rodzaj = $faktura->getRodzaj() == 1 ? "FV" : "ProForma";
             $html = $this->renderView('InfogoldAccountBundle:Baza:pdfdoc.html.twig', array(
                 'faktura' => $faktura,
                 'trvat' => $trvat
@@ -182,7 +186,7 @@ class FakturaController extends Controller {
             return new Response(
                     $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="filename.pdf"'
+                'Content-Disposition' => 'attachment; filename="'.$rodzaj.$nrfaktury.'.pdf"'
                     )
             );
         }

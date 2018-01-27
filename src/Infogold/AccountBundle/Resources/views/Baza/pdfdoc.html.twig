@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl"  style="width:100%">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -10,21 +10,21 @@
         <link href="http://localhost/symfony2_8_new/web/assets/css/custom.min.css" rel="stylesheet" type="text/css" media="all">
     </head>
 
-    <body>
-        <div class="container body">
-            <div class="main_container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="x_panel" style="border: none;margin-bottom: -11px;">
+    <body style="width:100%;background-color: white">
+        <div class="container body" style="width:100%;background-color: white">
+            <div class="main_container" style="width:100%;background-color: white">
+                <div class="row" style="width:100%;background-color: white">
+                    <div class="col-md-12" style="width:100%;background-color: white">
+                        <div style="border: none;margin-bottom: -11px;width:100%" >
 
-                            <div class="x_content">
+                            <div class="x_content" style="width:100%">
 
-                                <section class="content invoice">
+                                <section class="content invoice" style="width:100%">
                                     <!-- title row -->
-                                    <div class="row">
+                                    <div class="row"  style="width:100%">
                                         <div class="col-xs-12 invoice-header">
                                             <h2>
-                                                <i class="fa fa-globe"></i> FAKTURA {% if faktura.rodzaj ==  "Oryginał"%} VAT ORYGINAŁ {% else %} PRO FORMA {% endif %}
+                                                <i class="fa fa-globe"></i> FAKTURA {% if faktura.rodzaj ==  1%} VAT ORYGINAŁ {% else %} PRO FORMA {% endif %}
                                                 <span class="pull-right">Data: {{faktura.datafaktury|date('Y-m-d')}}</span>
                                             </h2>
                                         </div>
@@ -81,7 +81,7 @@
                                      <br>
                                               
                                     <!-- Table row -->
-                                    <div class="row">
+                                    <div class="row"  style="width:100%">
                                         <div class="col-xs-12 table">
 
                                             <table class="table table-striped">
@@ -169,12 +169,12 @@
                                     <div class="row">
                                         <!-- accepted payments column -->
                                         <div class="col-xs-6">
-                                            {% if faktura.rodzaj ==  "Oryginał"%} 
+                                            {% if faktura.rodzaj ==  1%} 
                                                 <p>UWAGA! Oryginał faktury VAT dokumentujący sprzedaż zawiera niezbędne elementy faktury zgodne z
                                                     przepisami RP- ustawy o podatku od towarów i usług, roz. MF w sprawie faktur oraz Dyrektywy UE. Nie
                                                     wymaga pieczęci i podpisów.</p>
                                                 {% endif  %} 
-                                                {% if faktura.rodzaj == "Pro Forma"  %} 
+                                                {% if faktura.rodzaj == 2  %} 
                                                 <p>  <b>  Szanowni Panstwo !</b><br/><br/>
                                                     Dziekujemy za zainteresowanie nasza ofertą.<br/><br/>
                                                     Niniejszy dokument zawiera fakture proforma na sumę {{ sumabrutto|number_format(2, ',', '  ')}} zł .<br/><br/>

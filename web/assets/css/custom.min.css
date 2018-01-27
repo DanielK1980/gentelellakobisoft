@@ -74,15 +74,18 @@ table.jambo_table thead a {
     line-height: 28px;
     margin-left: 0 !important;
 }
-
+#klient-navbar form{
+    position: relative;
+    top:2px
+}
 
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover{
     background: #e7e7e7 none repeat scroll 0 0;
 }
 
-div.title{
-    padding-top: 15px;
-    font-size: 20px
+div.title h3{
+    position: relative;
+    top:5px
 }
 .navbar-form {
     padding: 0;
@@ -98,4 +101,8 @@ footer {
     display:block;
     margin:0px;
     padding-top: 2px;
+}
+
+.x_panel {
+    min-height: 860px;
 }

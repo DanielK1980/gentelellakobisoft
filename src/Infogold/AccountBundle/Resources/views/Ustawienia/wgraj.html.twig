@@ -1,28 +1,35 @@
-{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
-{% block adminprzerwy %}
-    <link rel="stylesheet" href="{{asset('bootstrap/fileinput/css/fileinput.min.css')}}" type="text/css" media="all">
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+ <link rel="stylesheet" href="{{asset('bootstrap/fileinput/css/fileinput.min.css')}}" type="text/css" media="all">
+{% endblock stylesheets %}
 
-{% endblock adminprzerwy%} 
-{% block javascriptdatetime %}
-    
-    <script src="{{ asset ('bootstrap/fileinput/js/fileinput.min.js')}} " type="text/javascript"></script>
+{% block page_title %}   {% endblock%}
 
-
-{% endblock javascriptdatetime%}
-
-{% block articletop %}
-
-{% endblock %}
-{% block articleleft %}
-    {{ knp_menu_render('InfogoldAccountBundle:Builder:ustawieniaMenu') }}					
-{% endblock articleleft %}
-
-
-{% block articleright %}    
-    <div class="col-md-offset-3">
+{% block page_content %}
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="klient-navbar">
+                                <div class="col-md-4 title">
+                                      <h3 style="text-align: left">Wgraj dane do systemu</h3>
+                                </div>
 
 
-        <h2>Wgraj dane do systemu</h2>
+                            </div><!-- /.navbar-collapse -->
+
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+
+
+     
 
       
           <form action="" method="post" {{ form_enctype(form) }} class="form-inline" >
@@ -149,10 +156,29 @@
 
 
 
-    <script>
-        $("#form_file").fileinput({"showUpload": false, "showPreview": false, "browseLabel": "Wybierz plik csv..."});
-    </script>    
 
-{% endblock articleright %}
+  </div>
+
+            </div>
+        </div>
+    
+    <!-- Select2 -->
+    {% block javascripts %}
+
+
+   <script src="{{ asset ('bootstrap/fileinput/js/fileinput.min.js')}} " type="text/javascript"></script>
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
+
+
+
+
+
+
+
+
+
+
 
 

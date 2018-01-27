@@ -88,19 +88,17 @@ class KonsultantController extends Controller {
         $entity->setKonsultantRoles($rola);
         $entity->setOldpassword($entity->getPassword());
 
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
 
             $em->persist($entity);
             $em->flush();
 
             $message = \Swift_Message::newInstance()
-                    ->setSubject('Dodanie nowego konsultanta na kobisoft.pl')
-                    ->setSender('daniel.kaszyk@gmail.com')
-                    ->setFrom('daniel.kaszyk@gmail.com')
-                    ->setTo('skrzynkadaniela@interia.pl')
+                    ->setSubject('Dodanie nowego konsultanta na kobisoft.pl')                  
+                    ->setFrom('testowymdk@gmail.com')
+                    ->setTo($entity->getEmail())                 
+                    ->setSender('testowymdk@gmail.com')                  
                     ->setBody('
                         Witaj ' . $entity->getImie() . '<br><br>
                             Dodano nowego konsultanta na kobisoft.pl<br>
@@ -321,12 +319,12 @@ class KonsultantController extends Controller {
         $em->flush();
         $message = \Swift_Message::newInstance()
                 ->setSubject('Hello Email')
-                ->setFrom('daniel.kaszyk@gmail.com')
-                ->setTo('skrzynkadaniela@interia.pl')
-                ->setBody('Zmieniłeś hasło dla loginu ' . $entity->getUsername() . '.<br/>Twioje nowe hasło to ' . $Password);
+                ->setFrom('testowymdk@gmail.com')
+                ->setTo($entity->getEmail())
+                ->setBody('Zmieniłeś hasło dla loginu ' . $entity->getUsername() . '.<br/>Twoje nowe hasło to ' . $Password);
         $this->get('mailer')->send($message);
 
-        return $this->redirect($this->generateUrl('konsultant_show', array('id' => $id, 'date' => $date, $this->get('session')->getFlashBag()->add('error', 'Wysłano e-mail z nowym hasłem do konultanta'))));
+        return $this->redirect($this->generateUrl('konsultant_show', array('id' => $id, 'date' => $date, $this->get('session')->getFlashBag()->add('info', 'Wysłano e-mail z nowym hasłem do konultanta'))));
     }
     private function strftimeV($format, $timestamp) {
             return iconv("ISO-8859-2", "UTF-8", ucfirst(strftime($format, $timestamp)));

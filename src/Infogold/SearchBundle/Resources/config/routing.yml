@@ -6,14 +6,10 @@ szukajfirmowych:
     pattern: /user/baza/searchfirm
     defaults: { _controller: InfogoldSearchBundle:Szukajfirmowych:index } 
     
-szukajfakturoryginalnych:
-    pattern: /user/searchoryginalinvoices
+szukajfaktur:
+    pattern: /user/searchinvoices/{type}
     defaults: { _controller: InfogoldSearchBundle:Szukajfaktur:index } 
-    
-szukajfakturproforma:
-    pattern: /user/searchproformainvoices/{type}
-    defaults: { _controller: InfogoldSearchBundle:Szukajfaktur:index }
-    
+ 
 szukajindywidualnychkonultanta:
     pattern: /konsultant/search
     defaults: { _controller: InfogoldSearchBundle:Szukajindywidualnych:index } 

@@ -52,8 +52,8 @@
 
                                     </ul>
                                    
-                                      <!-- <form style="position:relative;top:3px" class="navbar-form navbar-right" role="search" action="{{ path('szukajfakturoryginalnych') }}" method="get" {{ form_enctype(form) }}>  -->     
-                                   {{ form_start(form, {'attr': {'class': 'navbar-form navbar-right'}, 'action': path('szukajfakturoryginalnych'), 'method': 'GET'}) }}
+                                      
+                                   {{ form_start(form, {'attr': {'class': 'navbar-form navbar-right'}, 'action':  path('szukajfaktur', { 'type': 1 }), 'method': 'GET'}) }}
                                         {{ form_errors(form) }} 
 
                                         <div class="form-group">
@@ -97,7 +97,7 @@
 
                 <div class="x_content">
                     <div class="table-responsive">
-                        {% if pagination1 %}
+                        {% if pagination %}
                             <table class="table table-striped jambo_table">
                                 <thead>
                                     <tr>
@@ -111,8 +111,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% if  pagination1 is defined  %}  
-                                        {% for entity in pagination1 %}
+                                    {% if  pagination is defined  %}  
+                                        {% for entity in pagination %}
                                             <tr>
 
                                                 <td>{{ entity.nrfaktury }}</td>
@@ -139,7 +139,7 @@
                 </div>
              
                     
-                            {{ knp_pagination_render(pagination1) }}
+                            {{ knp_pagination_render(pagination) }}
                         
               
             </div>

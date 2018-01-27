@@ -1,43 +1,103 @@
-{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
 
-    
-{% block articletop %}
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
 
-  {% endblock %}
-   {% block articleleft %}
-{{ knp_menu_render('InfogoldAccountBundle:Builder:ustawieniaMenu') }}					
-    {% endblock articleleft %}
+{% endblock stylesheets %}
+
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="klient-navbar">
+                                <div class="col-md-4 title">
+                                      <h3 style="text-align: left">Edytuj rodzaj kontaktu</h3>
+                                </div>
+                                  <div class="col-md navbar-collapse" id="klient-navbar">
 
 
-{% block articleright %}
-<div  class="col-md-3 col-md-offset-2" >
+                                    <ul class="nav navbar-nav navbar-right add">
+                                        <li> <a class="btn-primary" href="{{ path('rodzajekontaktow_index') }}"><span class="glyphicon glyphicon-list"></span> Powrót do listy</a></li>
+                                     
+                                        <li> <a  class="btn-danger"  href="#" role="button"  data-toggle="modal" data-target="#odal"><span class="glyphicon glyphicon-remove"></span> Usuń</a></li>
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+
+                            </div><!-- /.navbar-collapse -->
+
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+
+
+  <div  class="col-md-4 col-md-offset-3" >
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input class="btn-success btn-lg" type="submit" value="Edit" />
+        <input class="btn-success btn-lg" type="submit" value="Edytuj" />
     {{ form_end(edit_form) }}
         <br/>
     <br/>
-        <div  class="row">
-            <div class="col-md-2" >
-
-        <ul class="record_actions">
-            <li>
-                <a href="{{ path('rodzajekontaktow_index') }}"  class="btn btn-primary">
-                    Powrót do listy
-                </a>
-            </li>
-
-        </ul>
-        <ul>
-            <li>
-                {{ form_start(delete_form) }}
-                <input class="btn btn-danger" type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-            </li>
-        </ul>
-    </div>
-        </div>
+      
 
 
 </div>
-{% endblock articleright %}
+
+              <!-- Modal usuwanie rodzaju kontaktu -->
+    <div class="modal fade" id="odal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Usuń rodzaj kontaku</h4>
+                </div>
+                <div class="modal-body">          
+
+                    <p>Czy napewno chcesz usunąć rodzaj kontaktu ?</p>                                                  
+                    <div class="modal-footer" >
+                        <div style="float:right; margin-left: 10px"> 
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                        </div>
+                        <div style="float:right">    {{ form_start(delete_form) }}
+                <input class="btn btn-danger" type="submit" value="Usuń">
+            {{ form_end(delete_form) }}
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- KONIEC Modal usuwanie rodzaju kontaktu -->
+
+
+
+  </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Select2 -->
+    {% block javascripts %}
+
+
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
+
+
+
+
+
+
+

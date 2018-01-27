@@ -1,20 +1,57 @@
-{% extends "InfogoldAccountBundle:Default:index.html.twig" %}
 
-{% block javascriptvalidate %}
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block page_title %}   {% endblock%}
+
+{% block page_content %}
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="klient-navbar">
+                                <div class="col-md-4 title">
+                                    <h3>Edytuj dane</h3>
+                                </div>
+
+                               
+                            </div><!-- /.navbar-collapse -->
+
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+                     <div class="col-md-offset-2">
+                   {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+                     </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Select2 -->
+    {% block javascripts %}
 <script src="{{ asset ('js/jquery.validate/jquery.validate.js') }}" type="text/javascript"></script>
 <script src="{{ asset ('js/jquery.validate/jquery.form.js') }}" type="text/javascript"></script>
 <script src="{{asset ('js/jquery.validate/messages_pl.js') }}" type="text/javascript"></script>
 <script src="{{asset ('js/jquery.validate/walidacjaeditprofile.js') }}" type="text/javascript"></script>
-{% endblock javascriptvalidate%}
 
-{% block articletop %}
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
 
-  {% endblock %}
-     {% block articleleft %}
-{{ knp_menu_render('InfogoldAccountBundle:Builder:ustawieniaMenu') }}					
-    {% endblock articleleft %}
-{% block articleright %}
-    <div class="col-md-offset-4">
-{% include "FOSUserBundle:Profile:edit_content.html.twig" %}
-    </div>
-{% endblock articleright %}
+
+
+
+
+
+
+
+

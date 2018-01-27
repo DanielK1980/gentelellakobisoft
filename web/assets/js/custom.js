@@ -15,8 +15,25 @@ var CURRENT_URL = window.location.href.split('?')[0],
     $FOOTER = $('footer');
 
 
+    var setContentHeight = function () {
+        // reset height
+        $RIGHT_COL.css('min-height', $(window).height());
+
+        var bodyHeight = $BODY.outerHeight(),
+            footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
+            leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+            contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+
+        // normalize content
+        contentHeight -= $NAV_MENU.height() + footerHeight;
+
+// USTAWIENIE STATYCZNIE contentHeight
+        contentHeight = 550;
+        $RIGHT_COL.css('min-height', contentHeight);
+    };
+
 // Sidebar
-//$(document).ready(function() {
+$(document).ready(function() {
     // TODO: This is some kind of easy fix, maybe we can improve this
     var setContentHeight = function () {
         // reset height
@@ -30,9 +47,11 @@ var CURRENT_URL = window.location.href.split('?')[0],
         // normalize content
         contentHeight -= $NAV_MENU.height() + footerHeight;
 
+// USTAWIENIE STATYCZNIE contentHeight
+        contentHeight = 550;
         $RIGHT_COL.css('min-height', contentHeight);
     };
-
+    
     $SIDEBAR_MENU.find('a').on('click', function(ev) {
         var $li = $(this).parent();
 
@@ -88,14 +107,16 @@ var CURRENT_URL = window.location.href.split('?')[0],
     setContentHeight();
 
     // fixed sidebar
+    
     if ($.fn.mCustomScrollbar) {
         $('.menu_fixed').mCustomScrollbar({
             autoHideScrollbar: true,
             theme: 'minimal',
-            mouseWheel:{ preventDefault: true }
+            mouseWheel:{ scrollAmount: 150 }
         });
     }
-//});
+    
+});
 // /Sidebar
 
 // Panel toolbox

@@ -7,12 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Gentelella - Symfony Web Application</title>
-
-
+               <!-- jQuery -->
+        <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
+           
     <!-- Bootstrap -->
     <link href="{{ asset('assets/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+      <!-- jQuery custom content scroller -->
+    <link href="{{ asset('assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet"/>
     <!-- Custom Theme Style -->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet">
     
@@ -20,17 +23,6 @@
     {% block stylesheets %}
     
     {% endblock stylesheets %}
-
-               <!-- jQuery -->
-    <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
-    <!-- Bootstrap -->
-    <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-   
- 
-    <!-- FastClick -->
-    <script src="{{ asset('assets/vendors/fastclick/lib/fastclick.js') }}"></script>
-    <!-- NProgress -->
-   <!--  <script src="{{ asset('assets/vendors/nprogress/nprogress.js') }}"></script> -->
 
     <script>
     function show_stack_bottomright(type, text) {
@@ -123,9 +115,19 @@
 
 {% block modals %}{% endblock modals %}
 
+          <!-- Custom Theme Scripts -->
+        <script src="{{ asset('assets/js/custom.js') }}"></script>
+        <!-- Bootstrap -->
+        <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
-<!-- Custom Theme Scripts -->
-<script src="{{ asset('assets/js/custom.js') }}"></script>
+
+        <!-- FastClick -->
+        <script src="{{ asset('assets/vendors/fastclick/lib/fastclick.js') }}"></script>
+        <!-- NProgress -->
+        <script src="{{ asset('assets/vendors/nprogress/nprogress.js') }}"></script> 
+        <!-- jQuery custom content scroller -->
+        <script src="{{ asset('assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+
 
 </body>
 </html>

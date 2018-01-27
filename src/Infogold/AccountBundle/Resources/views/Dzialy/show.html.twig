@@ -24,7 +24,7 @@
                                 
                                 <div class="col-md-4 title">
                                     
-                                    {{ entity.name }}
+                                    <h3> {{ entity.name }}</h3>
                                 </div>
                                 
                                 <div class="col-md navbar-collapse" id="klient-navbar">
@@ -43,6 +43,7 @@
                 </div>
                 <div class="x_content">
                     <div class="table-responsive">
+                        <!--
                         <table class="table table-striped jambo_table">
                             <thead>
                                 <tr class="headings">
@@ -58,14 +59,15 @@
                                 </tr>
                             </tbody>
                         </table>
-
+                           -->
+                           <div class="col-md-6">
                         <table class="table table-striped jambo_table">
                             <thead>
                                 <tr class="headings">
                                     <th  style="vertical-align: middle;">Imie</th>
                                     <th  style="vertical-align: middle;">Nazwisko</th>
                                     <th  style="vertical-align: middle;">Login</th>
-                                    <th style="vertical-align: middle;">Panel konsultanta</th>
+                                    <th  style="vertical-align: middle;text-align: center">Panel konsultanta</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,6 +86,7 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+                           </div>
                     </div>
 
                 </div>
