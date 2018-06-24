@@ -49,6 +49,17 @@ class Produkt {
      * @ORM\Column(type="text", length=180, nullable=true)
      */
     protected $opis;
+    
+    
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $htmlAllegro;
+    
+    /**
+     * @ORM\Column(type="bigint", nullable=true)
+     */
+    protected $itemIdAllegro;
        
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="produkty")
@@ -304,6 +315,52 @@ class Produkt {
     public function setJednostkamiary($jednostkamiary)
     {
         $this->jednostkamiary = $jednostkamiary;
+
+        return $this;
+    }
+
+    /**
+     * Get htmlAllegro
+     *
+     * @return textarea 
+     */
+    public function getHtmlAllegro()
+    {
+        return $this->htmlAllegro;
+    }
+    
+     /**
+     * Set htmlAllegro
+     *
+     * @param textarea $htmlAllegro
+     * @return HtmlAllegro
+     */
+    public function setHtmlAllegro($htmlAllegro)
+    {
+        $this->htmlAllegro = $htmlAllegro;
+
+        return $this;
+    }
+    
+        /**
+     * Get itemIdAllegro
+     *
+     * @return decimal 
+     */
+    public function getItemIdAllegro()
+    {
+        return $this->itemIdAllegro;
+    }
+    
+     /**
+     * Set itemIdAllegro
+     *
+     * @param string $itemIdAllegro
+     * @return ItemIdAllegro
+     */
+    public function setItemIdAllegro($itemIdAllegro)
+    {
+        $this->itemIdAllegro = $itemIdAllegro;
 
         return $this;
     }

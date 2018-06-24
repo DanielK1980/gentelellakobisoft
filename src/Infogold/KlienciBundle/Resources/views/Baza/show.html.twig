@@ -194,8 +194,8 @@
 
 
     <div class="btn-group">
-        <a class="btn btn-primary" {% if entity.Nipklienta %}  href="{{ path('klienci_baza_editfirmowy', { 'id': entity.id }) }}" ><i class="icon-pencil"></i>{% else %} href="{{ path('klienci_baza_edit', { 'id': entity.id }) }}" ><i class="icon-pencil"></i>  {% endif %}  Edytuj</a>
-        <a class="btn btn-primary"  {% if entity.Nipklienta %} href="{{ path('klienci_baza_firma') }}" {% else %} href="{{ path('baza_klientow') }}"   {% endif %}  ><i class="icon-list"></i> Powrót do listy</a>
+        <a class="btn btn-primary" {% if entity.Nipklienta %}  href="{{ path('klienci_editfirmowy', { 'id': entity.id }) }}" ><i class="icon-pencil"></i>{% else %} href="{{ path('klienci_baza_edit', { 'id': entity.id }) }}" ><i class="icon-pencil"></i>  {% endif %}  Edytuj</a>
+        <a class="btn btn-primary"  {% if entity.Nipklienta %} href="{{ path('klienci_firmowi') }}" {% else %} href="{{ path('baza_klientow') }}"   {% endif %}  ><i class="icon-list"></i> Powrót do listy</a>
         <a  href="#" role="button" class="btn btn-danger" data-toggle="modal" data-target="#odal"><i class="icon-remove"></i> Usuń klienta</a>
     </div>
 

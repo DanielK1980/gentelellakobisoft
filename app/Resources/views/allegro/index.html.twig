@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Allegros list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Allegrokeywebapi</th>
+                <th>Allegrokeyversion</th>
+                <th>Loginallegro</th>
+                <th>Passwordallegro</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for allegro in allegros %}
+            <tr>
+                <td><a href="{{ path('allegro_show', { 'id': allegro.id }) }}">{{ allegro.id }}</a></td>
+                <td>{{ allegro.AllegroKeyWebApi }}</td>
+                <td>{{ allegro.AllegroKeyVersion }}</td>
+                <td>{{ allegro.LoginAllegro }}</td>
+                <td>{{ allegro.PasswordAllegro }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('allegro_show', { 'id': allegro.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('allegro_edit', { 'id': allegro.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('allegro_new') }}">Create a new allegro</a>
+        </li>
+    </ul>
+{% endblock %}

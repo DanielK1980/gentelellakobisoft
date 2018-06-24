@@ -211,6 +211,42 @@ konsultant_raport:
 # koniec konsultantow
 
 
+#ALLEGRO
+
+allegro_index:
+    pattern:  /allegro
+    defaults: { _controller: "InfogoldAccountBundle:Allegro:index" }
+   
+allegro_show:
+    path:     /allegro/{id}/show
+    defaults: { _controller: "InfogoldAccountBundle:Allegro:show" }
+    methods:  GET
+
+allegro_new:
+    path:     /allegro/new
+    defaults: { _controller: "InfogoldAccountBundle:Allegro:new" }
+    methods:  [GET, POST]
+
+allegro_edit:
+    path:     /allegro/{id}/edit
+    defaults: { _controller: "InfogoldAccountBundle:Allegro:edit" }
+    methods:  [GET, POST]
+    
+allegro_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "InfogoldAccountBundle:Allegro:update" }
+    requirements: { _method: post|put }
+
+allegro_delete:
+    path:     /allegro/{id}/delete
+    defaults: { _controller: "InfogoldAccountBundle:Allegro:delete" }
+    methods:  DELETE
+
+allegro_list:
+    pattern:  /allegro/list
+    defaults: { _controller: "InfogoldAccountBundle:Allegro:list" }
+
+
 
     
     

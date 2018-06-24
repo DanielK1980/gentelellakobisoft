@@ -11,11 +11,12 @@ class CategoryType extends AbstractType
 {
     public $user;
     public $edit;
+    public $allegro;
 
-    public function __construct($user, $edit = false) {
+    public function __construct($user, $edit = false, $allegro = false) {
         $this->user = $user;
          $this->edit = $edit;
-        
+         $this->allegro = $allegro;
     }
     /**
      * @param FormBuilderInterface $builder
@@ -37,8 +38,12 @@ class CategoryType extends AbstractType
                     },
                     'required' => true,
                     'label' => 'Dział'
-                ))
-             ->add('submit', 'submit', array('label' => $buttontext, 'attr' => array('class' => 'btn-success btn-lg', 'icon' => 'check fa-fw')));
+                ));
+              if($this->allegro){
+                 $builder->add('itemCategoryIdAllegro', null, array('label' => 'Nazwa kategorii w Allegro'));  
+               };
+                            
+             $builder->add('submit', 'submit', array('label' => $buttontext, 'attr' => array('class' => 'btn-success btn-lg', 'icon' => 'check fa-fw')));
         ;
     }
     

@@ -23,6 +23,7 @@ class KontaktyType extends AbstractType {
 
         $userId = $zalogowany->getFirma()->getId();
         $nrklienta = $zalogowany->getFirma()->getNrklienta();
+        
         $builder
                 ->add('OpisKontaktu', 'textarea', array(
                     'required' => true
@@ -54,15 +55,15 @@ class KontaktyType extends AbstractType {
                 ->add('PrzypisanyDo', EntityType::class, array(
                     'class' => 'InfogoldKonsultantBundle:Konsultant',
                     'query_builder' => function(EntityRepository $er) use ($userId) {
-
-                        return $er->createQueryBuilder('u', 'c')
+                        return $er->createQueryBuilder('u')
                                 ->leftJoin('u.firma', 'c')
                                 ->where('c=' . $userId)
                                 ->select(array('u', 'c'));
                     },
                             'preferred_choices' => array($zalogowany),
                             'required' => false,
-                            'empty_value' => 'Administrator'
+                            'empty_value' => 'Administrator',
+                            'attr' => ['data-select' => 'true']
                 ));
             }
 

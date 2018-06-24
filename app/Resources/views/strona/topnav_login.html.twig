@@ -1,0 +1,50 @@
+<!-- top navigation -->
+	<nav class="gtco-nav" role="navigation">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-12 text-right gtco-contact">
+					<ul class="">
+						<li><a href="#"><i class="ti-mobile"></i> +48 729 123 925 </a></li>
+						<li><a href="http://twitter.com/gettemplatesco"><i class="ti-twitter-alt"></i> </a></li>
+						<!--<li><a href="#"><i class="icon-mail2"></i></a></li>
+						<li><a href="#"><i class="ti-facebook"></i></a></li>-->
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4 col-xs-12">
+					<div id="gtco-logo"><a href="index.html">KOBISOFT<em>.</em>PL </a></div>
+				</div>
+				<div class="col-xs-8 text-right menu-1">
+					<ul role="navigation">
+						<li class="main"><a href="{{ path ('infogold_strona_homepage')}}#main">Strona główna</a></li>
+						<li class="module"><a href="{{ path ('infogold_strona_homepage')}}#module">Moduły</a></li>
+						<li class="has-dropdown services">
+							<a href="{{ path ('infogold_strona_homepage')}}#services">Serwisy</a>
+						</li>
+						<li class="has-dropdown
+                                                     {% if app.request.get('_route') == 'fos_user_security_login' or  app.request.get('_route') == 'security_login' %}
+                                                       active
+                                                     {% endif %}
+                                                    " >
+							<a href="#">Strefa użytkowanika</a>
+							<ul class="dropdown">
+								<li><a href="{{ path ('fos_user_security_login')}}">Administrator</a></li>
+								<li><a href="{{ path ('security_login')}}">Konsultant</a></li>								
+							</ul>
+						</li>
+						<li
+                                                     {% if app.request.get('_route') == 'fos_user_registration_register' %}
+                                                       class="active"  
+                                                     {% endif %}
+                                                    ><a href="{{ path ('fos_user_registration_register') }}">Zarejestruj się</a></li>
+						<li><a href="contact.html">Kontakt</a></li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+	</nav>
+
+
+<!-- /top navigation -->

@@ -1,0 +1,66 @@
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+    <!-- PNotify -->
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+
+{% endblock stylesheets %}
+
+{% block page_title %}  {% endblock%}
+
+{% block page_content %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+        <script>
+            $(document).ready(function () {
+                show_stack_bottomright('error', '{{ flashMessage }}');
+            });
+        </script>
+    {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+        <script>
+            $(document).ready(function () {
+                show_stack_bottomright('success', '{{ flashMessage }}');
+            });
+        </script>
+    {% endfor %}
+    <div class="row">
+        <div class="x_panel" >
+               <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                             <div class="row">
+                            <div class="col-md navbar-collapse" id="klient-navbar">
+                                  <div class="col-md-4 title">
+                                    
+                                      <h2> Edytuj dane do logowania w Allegro</h2>
+                                </div>
+
+                                <ul class="nav navbar-nav navbar-right add">
+                                    <li> <a class="btn-primary" href="#"><span class="glyphicon glyphicon-list"></span> Powrót do listy</a></li>
+                                   
+                               
+                                </ul>
+                            </div><!-- /.navbar-collapse -->
+                             </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+            <div class="x_content">
+                <br>
+    <div  class="col-md-8 col-md-offset-1" >
+{{ dump(list) }}
+    </div>
+                    
+
+            </div>
+        </div>
+    </div>
+      {% block javascripts %}
+        <!-- PNotify -->
+        <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
+
+    {% endblock javascripts %}  
+                
+{% endblock  %}

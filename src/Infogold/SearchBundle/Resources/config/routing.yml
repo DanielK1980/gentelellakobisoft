@@ -28,4 +28,9 @@ szukajproduktowuser:
     
 szukajkonsultantow:
     pattern: /user/konsultant/search
-    defaults: { _controller: InfogoldSearchBundle:Szukajkonsultantow:index }    
+    defaults: { _controller: InfogoldSearchBundle:Szukajkonsultantow:index }
+    
+save_allegro:
+    pattern:  /user/saveallegro
+    defaults: { _controller: "InfogoldSearchBundle:Szukajproduktu::SaveAllegro" }
+    requirements: { _method: post }

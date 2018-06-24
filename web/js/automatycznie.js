@@ -23,3 +23,20 @@
     });
     */
   //infogold_kliencibundle_kontaktytype_DaneKontaktowe
+  /*
+  $(document).ready(function () {
+      
+      window.onclose = alert("fuck");
+   window.addEventListener("beforeunload", function (e) {
+
+        $.ajax({
+            url: "/Symfony2_8_new/web/app_dev.php/konsultant/browser",
+            type: "POST",
+            async: false,
+            data: "action=checklogin"
+
+        });                           //Webkit, Safari, Chrome
+    });
+    
+    });
+    */

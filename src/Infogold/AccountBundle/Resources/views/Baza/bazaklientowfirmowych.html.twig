@@ -105,11 +105,11 @@
 
                                                 <td style="vertical-align: middle;">{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s')}}<br/> przez <b>{% if entity.KlientKonsultanta %} {{ entity.KlientKonsultanta}} </b>{% else %} administratora{% endif %}{% endif %}</td>
 
-                                                <td align="center" style="vertical-align: middle;" colspan="2">
+                                                <td align="center" style="vertical-align: middle;text-align: center" colspan="2">
 
                                                     <a class="btn btn-default btn-sm" href="{{ path('klienci_baza_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
 
-                                                </td><td align="center" style="vertical-align: middle;">
+                                                </td><td align="center" style="vertical-align: middle;text-align: center">
 
                                                     <a class="btn btn-default btn-sm" href="{{ path('klienci_baza_editfirmowy', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
 

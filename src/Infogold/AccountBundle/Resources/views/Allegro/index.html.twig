@@ -1,0 +1,54 @@
+{% extends "::/account/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- PNotify -->
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+   
+
+{% endblock stylesheets %}
+
+{% block page_title %} Allegro  {% endblock%}
+
+{% block page_content %}
+    
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <script>
+            $(document).ready(function () {
+                show_stack_bottomright('error', '{{ flashMessage }}');              
+            });
+        </script>
+    {% endfor %}
+
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                <div class="col-md navbar-collapse" id="klient-navbar">
+
+                                </div><!-- /.navbar-collapse -->
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+                <div class="x_content">
+            
+                    </div>
+
+                        </div>
+                    </div>
+                </div>
+          
+                {% block javascripts %}
+
+                    <!-- PNotify -->
+                    <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
+
+                {% endblock javascripts %} 
+                {% endblock  %}

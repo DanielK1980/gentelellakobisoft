@@ -1,0 +1,179 @@
+{% extends "InfogoldStronaBundle::layout.html.twig" %}
+
+{% block header %}
+    <header>
+        <div id="logo_box">
+            <h1><a href="index.html" id="logo">KOBISOFT.PL <span>  wszystko w twoim zasięgu!</span></a></h1>
+        </div>
+
+        <nav>
+            <!--
+                   <ul id="menu">
+                           <li  {% if app.request.get('_route') == 'infogold_strona_homepage' %} class="menu_active" {% endif %}><a href="{{path('infogold_strona_homepage')}}">Home</a></li>
+                           <li><a href="About.html">O nas</a></li>
+                           <li  {% if app.request.get('_route') == 'fos_user_registration_register' %} class="menu_active" {% endif %}><a href="{{path('fos_user_registration_register')}}">Rejestracja</a></li>
+                           <li><a href="Contacts.html">Cennik</a></li>
+                           <li><a href="SiteMap.html">Kontakt</a></li>
+                   </ul>
+            -->
+            {{ knp_menu_render('InfogoldAccountBundle:Builder:mainMenu') }}
+        </nav> 
+
+        <div class="wrapper2">
+            <div class="text1">Twój Biznes potrzebuje lepszej komunikacji ?</div>
+            <div class="text2">Bądź online ze swoimi pracownikami</div>
+
+            {% block login %}
+
+                {{ render (controller('FOSUserBundle:Security:login')) }}
+            {% endblock login %}
+
+        </div>
+    </header>
+{% endblock header %}
+
+{% block articletop %}
+    {% if ('InfogoldStronaBundle:Default:index.html.twig') %}
+
+        <article class="col1">
+            <div class="box1_out">
+                <div class="box1">
+                    <h2>Stwórz bazę</h2>
+                    <p class="pad_bot1">
+                        Twoje kontakty, interakcje, potencjalni klienci<br /> w jednym miejscu.
+                    </p>
+                    <a href="#" class="button"><span><span>Czytaj Więcej</span></span></a>
+                    <img src="images/img1.png" class="img" alt="">
+                </div>
+            </div>
+            <div class="box1_bot"><div class="box1_bot_left"><div class="box1_bot_right"></div></div></div>
+        </article>
+        <article class="col1 pad_left1">
+            <div class="box1_out">
+                <div class="box1">
+                    <h2>Kumunikacja</h2>
+                    <p class="pad_bot1">
+                        Prosta wymiana informacji <br/>z twojej bazy danych <br/>pomiędzy pracownikami. 
+                    </p>
+                    <a href="#" class="button"><span><span>Czytaj Więcej</span></span></a>
+                    <img src="images/img2.png" class="img" alt="">
+                </div>
+            </div>
+            <div class="box1_bot"><div class="box1_bot_left"><div class="box1_bot_right"></div></div></div>
+        </article>
+        <article class="col1 pad_left1">
+            <div class="box1_out">
+                <div class="box1">
+                    <h2>Zaplanuj pracę</h2>
+                    <p class="pad_bot1">
+                        Kolejki przerwowe, statusy pracowników, ustalanie grafików i wiele innych możliwości.
+                    </p>
+                    <a href="#" class="button"><span><span>Czytaj Więcej</span></span></a>
+                    <img src="images/img3.png" class="img" alt="">
+                </div>
+            </div>
+            <div class="box1_bot"><div class="box1_bot_left"><div class="box1_bot_right"></div></div></div>
+        </article>
+    {% endif %}
+{% endblock articletop %}    
+
+{% block articleleft %}
+    	<div class="box2">
+						<div class="pad">
+                                                      
+						
+                                             
+    <h2>Testimonials</h2>
+    <div class="wrapper pad_bot1">
+        <figure><img src="images/page1_img1.jpg" alt="" class="left marg_right1"></figure>
+        <span class="color1">Michael Donovan</span><br>
+        Sit amet, ectetuer adgipi scing elit.<a href="#">More</a>
+    </div>
+    <div class="wrapper pad_bot1">
+        <figure><img src="images/page1_img2.jpg" alt="" class="left marg_right1"></figure>
+        <span class="color1">Jane White</span><br>
+        Neque porro quisquahm est, qui dolorem. <a href="#">More</a>
+    </div>
+    <div class="wrapper pad_bot1">
+        <figure><img src="images/page1_img3.jpg" alt="" class="left marg_right1"></figure>
+        <span class="color1">James Doe</span><br>
+        Quis autem vel eum iure reprehenderit. <a href="#">More</a>
+    </div>
+    
+          
+						</div>
+					</div>
+{% endblock articleleft %}
+
+
+{% block articleright %}
+    <article class="col2 pad_left1">
+        <div class="pad">
+            <h2>Rozwiąznie które potrzebujesz!</h2>
+            <p><strong>Serwis konsultantów</strong> usprawnia proces komunikacji wewnętrznej między przełożonymi a konsultantami, monitoruje przebieg aktualnych działań pracowników, dostarczając niezbędnych informacji między samymi pracownikami jak i ich przełożonymi.  </p>
+            <p class="under">Opiera się ona na intuicyjnej i prostej w obsłudze platformie serwisu konsultantów, bazie danych, którą tworzysz, dowolnie edytujesz i generujesz raporty. Wymieniasz informację o swoich klientach, zlecasz zadania, planujesz pracę i korzystasz z wielu innych funkcji, które ułatwią i usprawnią pracę twoją i innych. </p>
+            <div class="wrapper">
+                <p><strong>Naszym celem</strong> jest podwyższanie standardów pracy w firmach chcących za pomocą doradców i konsultantów powiększać grono swoich klientów jak i dbając o interesy swoich aktualnych klientów, poszerzać z nimi współpracę.  </p>	
+            </div>
+        </div>
+    </article>
+{% endblock articleright %}
+
+
+{% block footer %}
+    <!-- footer -->
+    <footer>
+        <div class="wrapper">
+            <article class="col1">
+                <div class="pad">
+                    <h2>Protecting Your Info</h2>
+                    <p>The latest on keeping your personal info safe and secure.</p>
+                    <ul class="list1">
+                        <li><a href="#">Security Alerts</a></li>
+                        <li><a href="#">Avoiding Scams</a></li>
+                    </ul>
+                </div>
+            </article>
+            <article class="col2 pad_left1">
+                <div class="pad">
+                    <div class="wrapper">
+                        <article class="cols">
+                            <h2>Newsletter</h2>
+                            <form id="form_1" action="" method="post">
+                                <div>
+                                    <div class="bg"><input class="input" type="text" value="Wprowadź swój email" onblur="if (this.value == '')
+                                                this.value = 'Wprowadź swój email'" onFocus="if (this.value == 'Wprowadź swój email')
+                                                            this.value = ''" /></div>
+                                    <a href="#" class="submit" onClick="document.getElementById('form_1').submit()"><span><span>Wyślij</span></span></a>
+                                    <a href="#">Wypisz się</a>
+                                </div>
+                            </form>
+                        </article>
+                        <article class="cols pad_left1">
+                            <h2>Zaloguj się</h2>
+                            <form id="form_2" action="" method="post">
+                                <div>
+                                    <div class="bg left"><input class="input input1" type="text" value="Wprowadź Login"	onblur="if (this.value == '')
+                                                this.value = 'Wprowadź Login'" onFocus="if (this.value == 'Wprowadź Login')
+                                                            this.value = ''" /></div>
+                                    <div class="bg right"><input class="input input2" type="password" value="••••••••••" onblur="if (this.value == '')
+                                                this.value = '••••••••••'" onFocus="if (this.value == '••••••••••')
+                                                            this.value = ''"	 /></div>
+                                    <a href="#" class="submit" onClick="document.getElementById('form_2').submit()"><span><span>Zaloguj się</span></span></a>
+                                    <a href="#">Zapomniałeś hasła?</a> &nbsp;	<a href="#">Zarejestruj się</a>
+                                </div>
+                            </form>
+                        </article>
+                    </div>
+                </div>	
+            </article>
+        </div>
+        <div class="under2"></div>
+        <div class="wrapper font_size">
+            <div class="pad">
+                Website template designed by <a href="http://www.templatemonster.com/" target="_blank" rel="nofollow">www.templatemonster.com</a><br>
+                3D Models provided by <a href="http://www.templates.com/product/3d-models/" target="_blank" rel="nofollow">www.templates.com</a>
+            </div>
+        </div>
+    </footer>
+{% endblock %}

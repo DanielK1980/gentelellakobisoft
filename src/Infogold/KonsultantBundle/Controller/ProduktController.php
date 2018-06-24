@@ -1,15 +1,14 @@
 <?php
 
 namespace Infogold\KonsultantBundle\Controller;
- 
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Infogold\AccountBundle\Entity\Produkt;
 use Infogold\AccountBundle\Form\ProduktyType;
 
- 
-class ProduktController extends Controller
-{
+class ProduktController extends Controller {
+
     /**
      * Lists all Produkty entities.
      *
@@ -23,15 +22,20 @@ class ProduktController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-  $form = $this->createFormBuilder()
+        $ar = array(
+            'nazwaproduktu' => 'nazwa produktu',
+            'nrproduktu' => 'nr produktu',
+            'ceny' => 'cena od'
+                //'wmagazyniedo' => 'w magazynie do' // do poprawy
+        );
+
+        if ($loggedUser->getFirma()->getenableMagazyn() == true) {
+            $ar['wmagazyniedo'] = "w magazynie do";
+        }
+        $form = $this->createFormBuilder()
                 ->add('szukaj', 'text', array('required' => true))
                 ->add('wedlug', 'choice', array(
-                    'choices' => array(
-                        'nazwaproduktu' => 'nazwa produktu',
-                        'nrproduktu' => 'nr produktu',
-                        'ceny' => 'cena od',
-                        'wmagazyniedo' => 'w magazynie do'
-                    ),
+                    'choices' => $ar,
                     'multiple' => false,
                 ))
                 ->getForm();
@@ -44,10 +48,11 @@ class ProduktController extends Controller
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $entities, $request->query->get('page', 1)/* page number */, 2 /* limit per page */);
+                $entities, $request->query->get('page', 1)/* page number */, 20 /* limit per page */);
         return $this->render('InfogoldKonsultantBundle:Produkty:index.html.twig', array(
                     'pagination' => $pagination,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'magazyn' => $loggedUser->getFirma()->getenableMagazyn()
         ));
     }
 
@@ -60,7 +65,7 @@ class ProduktController extends Controller
             throw $this->createNotFoundException('Unable to find Produkty entity.');
         }
 
-    
+
         $em2 = $this->getDoctrine()->getManager();
 
         $request = $em2->getRepository('InfogoldAccountBundle:Produkt');
@@ -79,8 +84,7 @@ class ProduktController extends Controller
         return $this->render('InfogoldKonsultantBundle:Produkty:show.html.twig', array(
                     'entity' => $entity,
                     'klienci' => $entities2,
-                   ));
+        ));
     }
-
 
 }

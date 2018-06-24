@@ -60,15 +60,6 @@ $(document).ready(function () {
     });
 
     // Zamknięcie przeglądarki 
-    window.addEventListener("beforeunload", function (e) {
-
-        $.ajax({
-            url: "/Symfony2_8/web/app_dev.php/konsultant/browser",
-            type: "POST",
-            async: false,
-            data: "action=checklogin"
-
-        });                           //Webkit, Safari, Chrome
-    });
+   
 
 });

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Allegro</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ allegro.id }}</td>
+            </tr>
+            <tr>
+                <th>Allegrokeywebapi</th>
+                <td>{{ allegro.AllegroKeyWebApi }}</td>
+            </tr>
+            <tr>
+                <th>Allegrokeyversion</th>
+                <td>{{ allegro.AllegroKeyVersion }}</td>
+            </tr>
+            <tr>
+                <th>Loginallegro</th>
+                <td>{{ allegro.LoginAllegro }}</td>
+            </tr>
+            <tr>
+                <th>Passwordallegro</th>
+                <td>{{ allegro.PasswordAllegro }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('allegro_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('allegro_edit', { 'id': allegro.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

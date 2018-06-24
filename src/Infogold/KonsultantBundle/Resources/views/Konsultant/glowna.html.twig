@@ -1,227 +1,247 @@
-{# empty Twig template #}
-{% extends "InfogoldKonsultantBundle:Default:index.html.twig" %}
-{% block cssdatetime %}
+{% extends "::/konsultant/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset ('css/bootstrap-datetimepicker.min.css')}} " type="text/css" media="all">
-     <link rel="stylesheet" href="{{ asset ('css/select2.css')}} " type="text/css" media="all">
-{% endblock cssdatetime %}
-{% block javascriptdatetime %}
-    <script src="{{ asset ('js/automatycznie.js') }}" type="text/javascript" ></script>
-    <script src="{{ asset ('js/moment-with-locales.min.js') }}" type="text/javascript" ></script>
-    <script src="{{ asset ('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript" ></script>
-     <script src="{{ asset ('js/select2.min.js') }}" type="text/javascript" ></script>
-    <script type="text/javascript">
+    <link href="{{ asset('assets/vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
 
-        $(function () {
-                        $(document).ready(function () {
-               
-                $("select#infogold_kliencibundle_kontaktytype_PrzypisanyDo").select2({
-                    placeholder: "Wybierz konsultanta",
-                    allowClear: true
+{% endblock stylesheets %}
+
+{% block page_title %} Kontakty przypisane do mnie  {% endblock%}
+
+{% block page_content %}
 
 
-                });
-              $("select#infogold_kliencibundle_kontaktytype_PrzypisanyDo").removeClass( "form-control" ); 
-              
-            });
-            $('#datetimepicker').datetimepicker({
-                 format: 'YYYY-MM-DD HH:mm',
-              //  minuteStepping: 5,
-                locale: 'pl',
-                  ignoreReadonly: true
-            });
-         
-        });
-    </script>
-        
-{% endblock javascriptdatetime %}
-{% block articletop %}
-   
-{% endblock articletop %}
-{% block articleleft %}
-{% endblock articleleft %}
- {% block articleright %}
-     {% set zalogowany = app.user.imie ~" "~ app.user.nazwisko %}
-     <small>
-        <table class="table table-bordered table-condensed table-hover">
-       
-        <thead>
-            <tr>
-                <th style="text-align:center">Nr klienta</th>
-                <th style="text-align:center">Nazwa</th>
-                 <th style="text-align:center;min-width: 300px">Opis</th>
-                <th style="text-align:center">Rodzaj kontaktu</th> 
-                             
-                <th style="text-align:center">Termin kontaktu</th>
-                <th style="text-align:center">Utworzony przez</th>
-                <th style="text-align:center">Przypisany do</th>
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-info" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                <div class="col-md navbar-collapse" id="klient-navbar">
 
-                
-                <th colspan="3" style="text-align:center">Zmień/Zamknij</th>
-                      
-            </tr>
-        </thead>
-             {% for  en in pagination  %}
-            <tr class="
-                 {% if en.CzasKontaktu|date('Y-m-d H:i') < "now"|date("Y-m-d H:i")  %}
-                       danger 
-                 {% elseif en.CzasKontaktu|date_modify("-5 day")|date('Y-m-d H:i') <  "now"|date("Y-m-d H:i") %}
-                       warning   
-                 {% endif %}
-                ">
-                  <td style="vertical-align:middle;text-align:center"><a href="{{ path('klienci_show', { 'id': en.Klient.id }) }}">{{ en.Klient.numerklienta }}</a> </td>
-                    <td style="vertical-align:middle;text-align:center">
-                        {% if en.Klient.peselklienta %}
-                        {{ en.Klient.imie }} {{ en.Klient.nazwisko }}
-                         {% else %}
-                             {{ en.Klient.nazwaklienta }} 
-                              {% endif %}
-                    </td>
-                <td style="vertical-align:middle;text-align:inherit">{{ en.OpisKontaktu }} </td>
-                <td style="vertical-align:middle;text-align:center">{{ en.RodzajKontaktu }}</td>
-               
 
-                <td style="vertical-align:middle;text-align:center">{{ en.CzasKontaktu|date('Y-m-d H:i')   }}</td>
-                <td style="vertical-align:middle;text-align:center">{{ en.UtworzonyPrzez  }}</td>
-                <td style="vertical-align:middle;text-align:center"> {{ en.PrzypisanyDo }}</td>
+                                    <ul class="nav navbar-nav navbar-right add" >
+                                        <li> <a style="color:white !important" class="btn-success" href="{{ path('klienci_new') }}"><span class="fa fa-user fa-lg"></span> Dodaj</a></li>
+                                        <li> <a style="color:white !important" class="btn-success" href="{{ path('klienci_new_firmowy') }}"><span class="fa fa-industry fa-lg"></span> Dodaj</a></li>
 
-                {% if  zalogowany == en.PrzypisanyDo and en.status == 1 %}
-                    <td style="text-align:center;vertical-align: middle;" >
-
-                        <a  href="#" role="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#edit{{en.id}}"><i class="icon-remove"></i> Edytuj</a>
-                    </td>
-
-                    <td style="text-align:center;vertical-align: middle;" >
-
-                        <a  href="#" role="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#zamknij{{en.id}}"><i class="icon-remove"></i> zamknij</a>
-
-                    </td>
-                   
-                <div class="modal fade" id="zamknij{{en.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Zamknij kontakt</h4>
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
                             </div>
-                            <div class="modal-body">
-                                <div class="well well-small">
-                                    <form action="{{ path('kontakt_delete', { 'id': en.id }) }}" method="post" >
-                                        <fieldset>
-                                            <div class="input-group col-md-10">
-                                                <label class="control-label">Powód zamknięcia</label>
-                                                <textarea class="form-control" rows="3" name="komentarz"></textarea>
-                                           
-                                            </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-                                            <button type="submit" class="btn btn-primary">Zapisz</button>
-                                        </div>
-                                             </fieldset>
-                                    </form> 
+                        </div><!-- /.container-fluid -->
+                    </nav>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                {% for form in edit_form if form.vars.value.id == en.id %}
+                <div class="x_content">
+                    <div class="table-responsive">
 
-                    <script type="text/javascript">
+                        <table class="table table-striped jambo_table">
 
-                        $(function () {
-                            $('#datetimepicker{{en.id}}').datetimepicker({
-                                format: 'YYYY-MM-DD HH:mm',
-              //  minuteStepping: 5,
-                locale: 'pl',
-                  ignoreReadonly: true
-                            });
-                        });
-                    </script>
-                    <!-- Edycja danych kontaktu -->
-                    <div class="modal fade" id="edit{{en.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Edytuj kontakt</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="well well-small">
-                                        <form action="{{ path('kontakt_update', { 'id':  en.id })}}" method="post" {{ form_enctype(form) }}>
-                                            <fieldset>
-                                                <div class="input-group col-md-12">
-                                                    {{ form_label(form.OpisKontaktu , 'Opis Kontaktu') }} 
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Nr klienta</th>
+                                    <th style="text-align:center">Nazwa</th>
+                                    <th style="text-align:center;min-width: 300px">Opis</th>
+                                    <th style="text-align:center">Rodzaj kontaktu</th> 
 
-                                                    {{ form_widget(form.OpisKontaktu , { 'attr': {'minlength': '3', 'class':'form-control', 'rows':'4', 'maxlength': '300'} }) }}
+                                    <th style="text-align:center">Termin kontaktu</th>
+                                    <th style="text-align:center">Utworzony przez</th>
+                                    <th style="text-align:center">Przypisany do</th>
 
-                                                </div> 
 
-                                                <div class="input-group col-md-10">
-                                                    {{ form_label(form.CzasKontaktu , 'czas kontaktu') }} 
-                                                    <div id="datetimepicker{{en.id}}" class="input-group date col-md-6"  data-date-format="YYYY-MM-DD HH:mm" >
-                                                        {{ form_widget(form.CzasKontaktu, { 'attr': {'type':'text', 'class':'form-control col-md-8 '} })}}
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                        <div class="height_10"> </div>
-                                                    </div> 
+                                    <th colspan="3" style="text-align:center">Zmień/Zamknij</th>
+
+                                </tr>
+                            </thead>
+                            {% for  en in pagination  %}
+                                <tr class="
+                                    {% if en.CzasKontaktu|date('Y-m-d H:i') < "now"|date("Y-m-d H:i")  %}
+                                        danger 
+                                    {% elseif en.CzasKontaktu|date_modify("-5 day")|date('Y-m-d H:i') <  "now"|date("Y-m-d H:i") %}
+                                        warning 
+                                     {% else %}   
+                                        success 
+                                    {% endif %}
+                                    ">
+                                    <td style="vertical-align:middle;text-align:center"><a href="{{ path('klienci_show', { 'id': en.Klient.id }) }}">{{ en.Klient.numerklienta }}</a> </td>
+                                    <td style="vertical-align:middle;text-align:center">
+                                        {% if en.Klient.peselklienta %}
+                                            {{ en.Klient.imie }} {{ en.Klient.nazwisko }}
+                                        {% else %}
+                                            {{ en.Klient.nazwaklienta }} 
+                                        {% endif %}
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:inherit">{{ en.OpisKontaktu }} </td>
+                                    <td style="vertical-align:middle;text-align:center">{{ en.RodzajKontaktu }}</td>
+
+
+                                    <td style="vertical-align:middle;text-align:center">{{ en.CzasKontaktu|date('Y-m-d H:i')   }}</td>
+                                    <td style="vertical-align:middle;text-align:center">{{ en.UtworzonyPrzez  }}</td>
+                                    <td style="vertical-align:middle;text-align:center"> {{ en.PrzypisanyDo }}</td>
+
+                                    {% if  app.user == en.PrzypisanyDo and en.status == 1 %}
+                                        <td style="text-align:center;vertical-align: middle;" >
+
+                                            <a  href="#" role="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#edit{{en.id}}"><i class="icon-remove"></i>Edytuj</a>
+                                        </td>
+
+                                        <td style="text-align:center;vertical-align: middle;" >
+
+                                            <a  href="#" role="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#zamknij{{en.id}}"><i class="icon-remove"></i> zamknij</a>
+
+                                        </td>
+
+                                    <div class="modal fade" id="zamknij{{en.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">Zamknij kontakt</h4>
                                                 </div>
-                                                <div class="input-group" id="rodzaj_{{en.id}}">
-                                                    
+                                                <div class="modal-body">
+                                                    <div class="well well-small">
+                                                        <form action="{{ path('kontakt_delete', { 'id': en.id }) }}" method="post" >
+                                                            <fieldset>
+                                                                <div class="input-group col-md-10">
+                                                                    <label class="control-label">Powód zamknięcia</label>
+                                                                    <textarea class="form-control" rows="3" name="komentarz"></textarea>
 
-                                                    {{ form_label(form.RodzajKontaktu , 'Rodzaj Kontaktu') }} 
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                                                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                                                                </div>
+                                                            </fieldset>
+                                                        </form> 
 
-                                                    {{ form_widget(form.RodzajKontaktu , { 'attr': {'minlength': '3', 'class':'form-control'} }) }}
-                                                    <div class="height_10"> </div>
-                                                </div> 
-
-                                                <div class="input-group">
-                                                    {{ form_label(form.DaneKontaktowe , 'Dane Kontaktowe') }} 
-
-                                                    {{ form_widget(form.DaneKontaktowe , { 'attr': {'minlength': '3', 'class':'form-control'} }) }}
-                                                    <div class="height_10"> </div>
-                                                </div> 
-
-                                                    <div class="input-group col-md-6">
-                                                        {{ form_label(form.PrzypisanyDo , 'Przypisz do konsultanta') }} 
-                                                       
-                                                        {{ form_widget(form.PrzypisanyDo) }}
-
-
-                                                        <div class="height_10"> </div>
-                                                    </div> 
-                                                {{form_rest(form)}}
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-                                                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                                                    </div>
                                                 </div>
-                                            </fieldset>
-                                        </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                    {% for form in edit_form if form.vars.value.id == en.id %}
+
+                                        <script type="text/javascript">
+
+                                            $(function () {
+                                                $('#datetimepicker{{en.id}}').datetimepicker({
+                                                    format: 'YYYY-MM-DD HH:mm',
+                                                    //  minuteStepping: 5,
+                                                    locale: 'pl',
+                                                    ignoreReadonly: true
+                                                });
+                                            });
+                                        </script>
+                                        <!-- Edycja danych kontaktu -->
+                                        <div class="modal fade" id="edit{{en.id}}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Edytuj kontakt</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="well well-small">
+                                                            <fieldset>
+
+                                                                <form role="form" action="{{ path('kontakt_update', { 'id':  en.id })}}" method="post" {{ form_enctype(form) }}  >                                                               
+
+                                                                    <div class="form-group">
+                                                                        {{ form_widget(form.OpisKontaktu , { 'attr': {'minlength': '3', 'class':'form-control', 'rows':'4'} }) }}
+                                                                    </div> 
+                                                                    <div class="form-group">
+                                                                        <div id="datetimepicker{{en.id}}" class="input-group date col-md-6"  data-date-format="YYYY-MM-DD HH:mm" >
+                                                                            {{ form_widget(form.CzasKontaktu, { 'attr': {'type':'text', 'class':'form-control'} })}}
+                                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                        </div> 
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-6">
+                                                                          {{ form_widget(form.RodzajKontaktu , { 'attr': {'minlength': '3', 'class':'form-control'} }) }}
+                                                                        </div> 
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-6">
+                                                                            {{ form_widget(form.DaneKontaktowe , { 'attr': {'minlength': '3', 'class':'form-control'} }) }}
+                                                                        </div> 
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-6">
+                                                                            {{ form_widget(form.PrzypisanyDo , { 'attr': {'minlength': '3', 'class':'form-control'} }) }}
+                                                                        </div> 
+                                                                    </div>                                                                             
+                                                                    {{form_rest(form)}}
+
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                                                        <button type="submit" class="btn btn-primary">Zapisz</button>
+                                                                    </div>
+
+                                                                </form>
+
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Koniec Edycji danych kontaktu -->
+
+                                    {% endfor %}
+                                {% endif %}
+
+                                </tr>
+                            {% endfor %}
+
+                        </table>
                     </div>
+                    {% if app.request.get('_route') == 'kontakty_glowna' %}
+                        {% if  pagination is defined %}  
 
-                    <!-- Koniec Edycji danych kontaktu -->
+                            <div class="navigation">
+                                {{ knp_pagination_render(pagination) }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
 
-                {% endfor %}
-            {% endif %}
-           
-                </tr>
-        {% endfor %}
-
-    </table>
-     
-      </small>
-        {% if app.request.get('_route') == 'kontakty_glowna' %}
-       {% if  pagination is defined %}  
-    
-     <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
     </div>
-            {% endif %}
-     {% endif %}
-        
-      {% endblock articleright %}
- {% block footer %}
-    {% endblock footer %}
+    <!-- Select2 -->
+    {% block javascripts %}
+        <script src="{{ asset ('js/moment-with-locales.min.js') }}" type="text/javascript" ></script> 
+        <script src="{{ asset ('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript" ></script>
+        <script src="{{ asset('assets/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+        <script>
+                                            $(function () {
+                                                $(document).ready(function () {
+                                                    $('select[data-select="true"').select2({
+                                                        placeholder: "Wybierz",
+                                                        allowClear: false
+                                                    });
+                                                    $('#datetimepicker').datetimepicker({
+                                                        format: 'YYYY-MM-DD HH:mm',
+                                                        //  minuteStepping: 5,
+                                                        locale: 'pl',
+                                                        ignoreReadonly: true
+                                                    });
+                                                    $('select[data-select="true"').select2({width: "100%"});
+                                                });
+
+                                            });
+        </script>
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
+
+

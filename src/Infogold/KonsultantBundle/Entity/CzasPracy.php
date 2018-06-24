@@ -39,8 +39,6 @@ class CzasPracy {
      */
     protected $KonsultantaCzasy;
 
-   
-
     /**
      * Get id
      *

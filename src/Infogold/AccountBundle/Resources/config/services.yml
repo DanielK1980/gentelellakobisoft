@@ -32,4 +32,15 @@ services:
          tags:
             - { name: my.main.admin, alias: main_admin }
     
+   my.allegro.login:
+         class:  Infogold\AccountBundle\Services\AllegroLogin
+         arguments: ['@my.main.admin']
+         tags:
+           - { name: my.allegro.login, alias: my_allegro }
+           
+   my.allegro.module:
+    class:  Infogold\AccountBundle\Services\AllegroModule
+    arguments: ['@my.main.admin']
+    tags:
+      - { name: my.allegro.module, alias: my_allegro_module }
    

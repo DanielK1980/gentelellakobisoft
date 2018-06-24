@@ -31,7 +31,8 @@ class AppKernel extends Kernel
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-            new Ddeboer\DataImportBundle\DdeboerDataImportBundle()
+            new Ddeboer\DataImportBundle\DdeboerDataImportBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
             //ddeboer/data-import suggests installing phpoffice/phpexcel (If you want to use the ExcelReader)
         );
 

@@ -20,7 +20,7 @@ class MainAdmin {
     public function getMainAdmin() {
 
         $user_admin = null;
-
+        
         $zalogowany = $this->user->getToken()->getUser();
         $nrklienta = $zalogowany->getNrklienta();
 

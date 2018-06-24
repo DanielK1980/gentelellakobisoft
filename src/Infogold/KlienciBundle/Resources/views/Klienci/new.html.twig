@@ -1,212 +1,58 @@
-{% extends "InfogoldKonsultantBundle:Default:index.html.twig" %}
-{% form_theme form _self %}
-{% block form_errors %}
-    {% if errors|length > 0 %}
-        <span class="alert alert-danger col-md-4" id="error">
-            <ul>
-                {% for error in errors %}
-                    <li>{{ error.message }}</li>
-                    {% endfor %}
-            </ul>
-        </span>
-    {% endif %}
-{% endblock form_errors %}
-{% block articletop %}
-{% endblock articletop %}
-{% block articleleft %}
-{% endblock articleleft %}
-{% block articleright %}
-    <script type="text/javascript">
 
-        $(document).ready(function () {
-            var stringnumer = $('span#nrklienta').text().trim();
-            var a = parseInt(stringnumer);
-            var numer = a + 1;
+{% extends "::/konsultant/base.html.twig" %}
+{% block stylesheets %}
 
-            $('#infogold_kliencibundle_kliencitype_numerklienta').val(numer);
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-        });
-    </script>
-    <h1>Dodaj klienta indywidualnego</h1>
-    <br/>
-    <span id="nrklienta" style="visibility: hidden;display: none;">                       
-        {{ nrklienta }}
-    </span>
-    <div class="well well-lg">
-        <form  novalidate action="{{ path('klienci_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal" role="form" >
 
-            {{ form_errors(form) }}
-            <div class="row">
-                <div class="form-group col-md-5">
+{% endblock stylesheets %}
 
-                    {{ form_label(form.numerklienta, 'Nr klienta', { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+{% block page_title %} Dodaj klienta indywidualnego  {% endblock%}
 
-                    <div class="col-md-8">
-                        {{ form_widget(form.numerklienta, { 'attr': {'class': 'form-control'} }) }}
+{% block page_content %}
+    <div class="row">
+        <div class="x_panel" >
+                           <div  class="row">
+                    <div class="col-md-2" >
+                        <a href="{{ path('klienci') }}"  class="btn btn-primary">
+                            <span class="glyphicon glyphicon-th-list"></span>      Powrót do listy
+                        </a>
 
                     </div>
 
-
-                </div> 
-                <div class="form-group  col-md-6" >
-                    <span style="padding-top: 10px"  class="glyphicon glyphicon-comment" data-toggle='tooltip' data-placement='right' 
-                          title='Ostatni numer klienta to 
-                          {{ nrklienta }}. Do każdego nrklienta dodawna jest 1.
-                          Powinien składać się z 8 cyfr i nie zaczynać się od 0'></span>
                 </div>
-                {% if form.numerklienta.vars.errors|length > 0  %} 
-                    <span class="alert alert-danger col-md-4" id="error">
+            <div class="x_content">
+                <br>
 
-                        {{ form_errors(form.numerklienta)  }}
-                    </span>
-                {% endif %} 
-            </div>
-            <div class="row">
-                <div class="form-group  col-md-5" >
-                    {{ form_label(form.imie, 'Imie', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-
-                    <div class=" col-md-7" >
-                        {{ form_widget(form.imie, { 'attr': {'class'   : 'form-control'} }) }}
-                        <br>  {{ form_errors(form.imie) }}
-                    </div>
-                </div>
-
-                <div class="form-group  col-md-4" >
-                    {{ form_label(form.nazwisko, 'Nazwisko', { 'label_attr': {'class': ' col-md-3 control-label'} }) }}
-
-                    <div class="col-md-8">
-                        {{ form_widget(form.nazwisko, { 'attr': {'class': 'form-control'} }) }}
-                        <br>   {{ form_errors(form.nazwisko) }}
-                    </div>
+                <span id="nrklienta" style="visibility: hidden;display: none;">                       
+                    {{ nrklienta }}
+                </span>
+                 <div>
+                    <form novalidate action="{{ path('klienci_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+                         {{ bootstrap_set_label_col(4) }}
+                        {{ bootstrap_set_widget_col(4) }}
+                        {{ bootstrap_set_style('horizontal') }}
+                        {{ form_widget(form) }}                                        
+                        {{ form_rest(form) }}                     
+                    </form>                    
                 </div>
             </div>
-            <div class="well well-sm">
-                <h3> <span class="label label-default">Adres</span>  </h3> 
-                <div class="row">   
-                    <div  class="form-group  col-md-5" >
-                        {{ form_label(form.ulica, 'Ulica', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-
-                        <div class=" col-md-6" >
-                            {{ form_widget(form.ulica, { 'attr': {'class': 'form-control'} }) }}
-                            <br>  {{ form_errors(form.ulica) }}
-                        </div > 
-                    </div >
-                    <div  class="form-group col-md-4 col-md-pull-1">
-                        {{ form_label(form.nrdomu, 'Nr Domu', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-
-                        <div class=" col-md-4" >
-                            {{ form_widget(form.nrdomu, { 'attr': {'class': 'form-control'} }) }}
-                            <br>  {{ form_errors(form.nrdomu) }}
-                        </div> 
-                    </div>
-
-                    <div  class="form-group  col-md-4 col-md-pull-2" >
-                        {{ form_label(form.nrmieszkania,    'Nr Mieszkania', { 'label_attr': {'class': ' col-md-5 control-label'} }) }}
-
-                        <div class="col-md-4" >
-                            {{ form_widget(form.nrmieszkania, { 'attr': {'class': 'form-control'} }) }}
-                            <br> {{ form_errors(form.nrmieszkania) }}
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div  class="form-group  col-md-5" >
-                        {{ form_label(form.kodpocztowy, 'Kod Pocztowy', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-
-                        <div class="col-md-4" >
-                            {{ form_widget(form.kodpocztowy, { 'attr': {'class': 'form-control','data-toggle': 'tooltip', 'data-placement':'bottom', 'title':'Kod Pocztowy w formacie XX-XXX'} }) }}
-                            <br/>    {{ form_errors(form.kodpocztowy)  }}
-                        </div>
-                        
-                    </div>
-
-
-                    <div  class="form-group  col-md-4 col-md-pull-1" >
-                        {{ form_label(form.miasto, 'Miasto', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-
-                        <div class=" col-md-8" >
-                            {{ form_widget(form.miasto, { 'attr': {'class': 'form-control'} }) }}
-                            <br>  {{ form_errors(form.miasto) }}
-                        </div >
-                    </div >
-
-                    <div  class="form-group  col-md-4 col-md-pull-1" >
-                        {{ form_label(form.wojewodztwo, 'Województwo', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-                        {{ form_errors(form.wojewodztwo) }}
-                        <div class=" col-md-8" >
-                            {{ form_widget(form.wojewodztwo, { 'attr': {'class': 'form-control'} }) }}
-                        </div> </div>
-                </div>
-            </div>
-
-            <div class="row">    
-                <div class="form-group  col-md-5" >
-                    {{ form_label(form.peselklienta, 'Nr Pesel', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-
-                    <div class=" col-md-7" >
-                        {{ form_widget(form.peselklienta, { 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-
-
-
-                {{ form_errors(form.peselklienta)  }}
-
-            </div>
-            <div class="row">
-                <div  class="form-group  col-md-5">
-                    {{ form_label(form.telefonklienta, 'Nr Telefonu', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-
-                    <div class=" col-md-7" >
-                        {{ form_widget(form.telefonklienta, { 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-
-                {{ form_errors(form.telefonklienta)  }}
-
-            </div>
-
-            <div class="row">
-                <div  class="form-group  col-md-5">
-                    {{ form_label(form.emailklienta, 'Email', { 'label_attr': {'class': ' col-md-4 control-label'} }) }}
-
-                    <div class=" col-md-7" >
-                        {{ form_widget(form.emailklienta, { 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-
-
-                {{ form_errors(form.emailklienta)  }}
-
-
-            </div>
-
-
-            {{ form_rest(form) }}
-
-
-            <p>
-                <button type="submit" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-ok"></span> Dodaj klienta
-                </button>
-
-            </p>
-        </form>
-        <div  class="row">
-            <div class="col-md-2" >
-                <a href="{{ path('klienci') }}"  class="btn btn-primary">
-                    <span class="glyphicon glyphicon-th-list"></span>      Powrót do listy
-                </a>
-
-            </div>
-
         </div>
-{% endblock articleright %}
+    </div>
+                    
+    {% block javascripts %}
+        <script>
+            $(document).ready(function () {
+                var stringnumer = $('span#nrklienta').text().trim();
+                var a = parseInt(stringnumer);
+                var numer = a + 1;
 
-{% block footer %}
-{% endblock footer %}
+                $('#infogold_kliencibundle_kliencitype_numerklienta').val(numer);
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+            });
+        </script>
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock %}
+
+

@@ -7,12 +7,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GrafikController extends Controller {
 
+    private function strftimeV($format, $timestamp) {
+        return iconv("ISO-8859-2", "UTF-8", ucfirst(strftime($format, $timestamp)));
+    }
     public function dzialAction($id, $date) {
 
         $User = $this->get('security.context')->getToken()->getUser();
         $IdUser = $User->getId();
-
-
 
         $em = $this->getDoctrine()->getManager();
         $req = $em->getRepository('InfogoldKonsultantBundle:Konsultant');
@@ -45,7 +46,7 @@ class GrafikController extends Controller {
         }
 
         // What is the name of the month in question?
-        $monthName = strftimeV("%B", $firstDayOfMonth);
+        $monthName = $this->strftimeV("%B", $firstDayOfMonth)." ".$dateComponents['year'];
 
         // What is the index value (0-6) of the first day of the
         // month in question.

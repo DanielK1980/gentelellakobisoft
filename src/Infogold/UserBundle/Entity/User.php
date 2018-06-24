@@ -104,8 +104,13 @@ class User extends BaseUser {
      */
     protected $faktury;
     
-    
         /**
+     * One Customer has One Cart.
+     * @ORM\OneToOne(targetEntity="Infogold\AccountBundle\Entity\Allegro", mappedBy="User_Allegro")
+     */
+    protected $allegro;
+
+    /**
      * @ORM\Column(type="string", length=100)
      */
     protected $nrkonta;
@@ -124,15 +129,29 @@ class User extends BaseUser {
      * @Gedmo\Timestampable(on="change", field="enabled", value="false")
      */
     private $enableDeactivate;
-    
-    
-         /**
-     * @var \DateTime $lockedAt
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="change", field="locked", value="true")
+          /**
+     * @ORM\Column(type="boolean")
      */
-    private $lockedAt;
+    protected $locked;
     
+              /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $enableAllegro;
+    
+             /**
+     * @var \DateTime $enableAllegro_at
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field="enableAllegro", value="false")
+     */
+    private $enableAllegro_at;
+
+         /**
+     * @var \DateTime $locked_at
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field="locked", value="false")
+     */
+    private $locked_at;
     
        /**
      * @ORM\Column(type="boolean")
@@ -148,10 +167,6 @@ class User extends BaseUser {
         $this->produkty = new ArrayCollection();
         $this->faktury = new ArrayCollection();
     }
-
-   
-
- 
 
     /**
      * Set Nrklienta
@@ -429,28 +444,7 @@ class User extends BaseUser {
         return $this->enableDeactivate;
     }
 
-    /**
-     * Set lockedAt
-     *
-     * @param \DateTime $lockedAt
-     * @return User
-     */
-    public function setLockedAt($lockedAt)
-    {
-        $this->lockedAt = $lockedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get lockedAt
-     *
-     * @return \DateTime 
-     */
-    public function getLockedAt()
-    {
-        return $this->lockedAt;
-    }
+ 
 
     /**
      * Set enableMagazyn
@@ -704,5 +698,151 @@ class User extends BaseUser {
     public function getFaktury()
     {
         return $this->faktury;
+    }
+
+    /**
+     * Set locked
+     *
+     * @param boolean $locked
+     *
+     * @return User
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Get locked
+     *
+     * @return boolean
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Set lockedat
+     *
+     * @param \DateTime $locked_at
+     *
+     * @return User
+     */
+    public function setLocked_at($locked_at)
+    {
+        $this->locked_at = $locked_at;
+
+        return $this;
+    }
+
+    /**
+     * Get locked_at
+     *
+     * @return \DateTime
+     */
+    public function getLocked_at()
+    {
+        return $this->locked_at;
+    }
+
+    /**
+     * Set enableAllegro
+     *
+     * @param boolean $enableAllegro
+     *
+     * @return User
+     */
+    public function setEnableAllegro($enableAllegro)
+    {
+        $this->enableAllegro = $enableAllegro;
+
+        return $this;
+    }
+
+    /**
+     * Get enableAllegro
+     *
+     * @return boolean
+     */
+    public function getEnableAllegro()
+    {
+        return $this->enableAllegro;
+    }
+
+    /**
+     * Set enableAllegroAt
+     *
+     * @param \DateTime $enableAllegroAt
+     *
+     * @return User
+     */
+    public function setEnableAllegroAt($enableAllegroAt)
+    {
+        $this->enableAllegro_at = $enableAllegroAt;
+
+        return $this;
+    }
+
+    /**
+     * Get enableAllegroAt
+     *
+     * @return \DateTime
+     */
+    public function getEnableAllegroAt()
+    {
+        return $this->enableAllegro_at;
+    }
+
+    /**
+     * Set lockedAt
+     *
+     * @param \DateTime $lockedAt
+     *
+     * @return User
+     */
+    public function setLockedAt($lockedAt)
+    {
+        $this->locked_at = $lockedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get lockedAt
+     *
+     * @return \DateTime
+     */
+    public function getLockedAt()
+    {
+        return $this->locked_at;
+    }
+
+
+
+    /**
+     * Set allegro
+     *
+     * @param \Infogold\AccountBundle\Entity\Allegro $allegro
+     *
+     * @return User
+     */
+    public function setAllegro(\Infogold\AccountBundle\Entity\Allegro $allegro = null)
+    {
+        $this->allegro = $allegro;
+
+        return $this;
+    }
+
+    /**
+     * Get allegro
+     *
+     * @return \Infogold\AccountBundle\Entity\Allegro
+     */
+    public function getAllegro()
+    {
+        return $this->allegro;
     }
 }

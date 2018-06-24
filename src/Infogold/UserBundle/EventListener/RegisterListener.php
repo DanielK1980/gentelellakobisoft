@@ -20,22 +20,15 @@ class RegisterListener implements EventSubscriberInterface {
     public function __construct(EntityManager $em) {
         $this->em = $em;
     }
-
     public function numer() {
 
         $er = $this->em->getRepository('InfogoldUserBundle:User');
-
         $qb = $er->createQueryBuilder('s');
         $query = $qb
                 ->select('MAX(s.Nrklienta) AS max_score')
                 ->getQuery();
-
-
         $entities = $query->getSingleResult();
-
         foreach ($entities as $wartosc) {
-
-
             return $wartosc + 1;
         }
     }
@@ -62,10 +55,11 @@ class RegisterListener implements EventSubscriberInterface {
             //  $user->addRole('ROLE_USER');
             $user->setEnabled(false);
             $user->setLocked(true);
-            $user->setenableMagazyn($nipbase->getMagazyn());
+            $user->setenableMagazyn($nipbase->getEnableMagazyn());
         } else {
             $user->setNrklienta($this->numer());
             $user->setEnabled(false);
+            $user->setLocked(true);
             $user->addRole('ROLE_ADMIN');
             $user->setenableMagazyn(false);
         }

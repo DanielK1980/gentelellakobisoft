@@ -25,7 +25,7 @@ class KlienciFirmowiType extends AbstractType
             ->add('kodpocztowy', 'text', array('label' => 'Kod pocztowy'))          
             ->add('miasto', 'text', array('label' => 'Miasto'))           
             ->add('wojewodztwo', 'text', array('label' => 'Województwo'))
-                ->add('stronawwwklienta', 'text', array('label' => 'Strona www'))
+            ->add('stronawwwklienta', 'text', array('label' => 'Strona www'))
             ->add('submit', 'submit', array('label' =>'Zapisz','attr' => array('class' => 'btn-success btn-lg col-md-offset-3', 'icon' => 'check fa-lg')));;
     }
 

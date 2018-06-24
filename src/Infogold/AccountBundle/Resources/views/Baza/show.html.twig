@@ -631,122 +631,122 @@
             <script src="{{ asset ('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript" ></script>
             <script src="{{ asset ('js/select2.min.js') }}" type="text/javascript" ></script>
             <script type="text/javascript">
-                                                                $(function () {
-                                                                $(document).ready(function () {
+$(function () {
+            $(document).ready(function () {
 
-                                                                $('#myTab a').click(function(e) {
-                                                                e.preventDefault();
-                                                                        $(this).tab('show');
-                                                                        setContentHeight();
-                                                                });
-                                                                        // store the currently selected tab in the hash value
-                                                                        $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
-                                                                var id = $(e.target).attr("href").substr(1);
-                                                                        window.location.hash = id;
-                                                                        setContentHeight();
-                                                                });
-                                                                        // on load of the page: switch to the currently selected tab
-                                                                        var hash = window.location.hash;
-                                                                        $('#myTab a[href="' + hash + '"]').tab('show');
-                                                                        $('[data-toggle="tooltip"]').tooltip();
-                                                                        $("select#infogold_produkty_klienta_produkty").select2({
-                                                                placeholder: "Wybierz produkt",
-                                                                        allowClear: true
-
-
-                                                                });
-                                                                        $("select#infogold_accountbundle_kontaktytype_PrzypisanyDo").select2({
-                                                                placeholder: "Wybierz konsultanta",
-                                                                        allowClear: true
+            $('#myTab a').click(function(e) {
+            e.preventDefault();
+                    $(this).tab('show');
+                    setContentHeight();
+            });
+                    // store the currently selected tab in the hash value
+                    $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+            var id = $(e.target).attr("href").substr(1);
+                    window.location.hash = id;
+                    setContentHeight();
+            });
+                    // on load of the page: switch to the currently selected tab
+                    var hash = window.location.hash;
+                    $('#myTab a[href="' + hash + '"]').tab('show');
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $("select#infogold_produkty_klienta_produkty").select2({
+            placeholder: "Wybierz produkt",
+                    allowClear: true
 
 
-                                                                });
-                                                                        $("select#infogold_accountbundle_kontaktytype_PrzypisanyDo").removeClass("form-control");
-                                                                        $("select#infogold_produkty_klienta_produkty").removeClass("form-control");
-                                                                        $('select#infogold_kliencibundle_fakturatype_rodzaj').change(function () {
-                                                                var value = $('option:selected', this).val();
-                                                                        if (value == 1){
-                                                                $('#infogold_kliencibundle_fakturatype_nrfaktury').val("");
-                                                                        $.ajax({
-                                                                        url: "/Symfony2_8_new/web/app_dev.php/user/baza/fakturaorgnr",
-                                                                                type: "POST",
-                                                                                dataType: "JSON",
-                                                                                async: false,
-                                                                                data: 'id=' + {{app.user.id}},
-                                                                                success: function (data) {
+            });
+                    $("select#infogold_accountbundle_kontaktytype_PrzypisanyDo").select2({
+            placeholder: "Wybierz konsultanta",
+                    allowClear: true
 
 
-                                                                                $('#infogold_kliencibundle_fakturatype_nrfaktury').val(data.nrfaktury);
-                                                                                }
-                                                                        });
-                                                                }
-                                                                else {
-                                                                $('#infogold_kliencibundle_fakturatype_nrfaktury').val("");
-                                                                        $.ajax({
-                                                                        url: "/Symfony2_8_new/web/app_dev.php/user/baza/fakturapronr",
-                                                                                type: "POST",
-                                                                                dataType: "JSON",
-                                                                                async: false,
-                                                                                data: 'id=' + {{app.user.id}},
-                                                                                success: function (data) {
+            });
+                    $("select#infogold_accountbundle_kontaktytype_PrzypisanyDo").removeClass("form-control");
+                    $("select#infogold_produkty_klienta_produkty").removeClass("form-control");
+                    $('select#infogold_kliencibundle_fakturatype_rodzaj').change(function () {
+            var value = $('option:selected', this).val();
+                    if (value == 1){
+            $('#infogold_kliencibundle_fakturatype_nrfaktury').val("");
+                    $.ajax({
+                    url: "/Symfony2_8_new/web/app_dev.php/user/baza/fakturaorgnr",
+                            type: "POST",
+                            dataType: "JSON",
+                            async: false,
+                            data: 'id=' + {{app.user.id}},
+                            success: function (data) {
 
 
-                                                                                $('#infogold_kliencibundle_fakturatype_nrfaktury').val(data.nrfaktury);
-                                                                                }
-                                                                        });
-                                                                }
-                                                                });
-                                                                });
-                                                                        $('#datefaktura').datetimepicker({
-                                                                format: 'YYYY-MM-DD',
-                                                                        ignoreReadonly: true,
-                                                                        //  pickTime: false,
-                                                                        locale: 'pl'
-                                                                        // weekStart: 1,
-                                                                        //  sideBySide: true
-                                                                        //  autoclose: 1
+                            $('#infogold_kliencibundle_fakturatype_nrfaktury').val(data.nrfaktury);
+                            }
+                    });
+            }
+            else {
+            $('#infogold_kliencibundle_fakturatype_nrfaktury').val("");
+                    $.ajax({
+                    url: "/Symfony2_8_new/web/app_dev.php/user/baza/fakturapronr",
+                            type: "POST",
+                            dataType: "JSON",
+                            async: false,
+                            data: 'id=' + {{app.user.id}},
+                            success: function (data) {
 
-                                                                });
-                                                                        $('#datefakturatermin').datetimepicker({
-                                                                format: 'YYYY-MM-DD',
-                                                                        ignoreReadonly: true,
-                                                                        //    pickTime: false,
-                                                                        locale: 'pl'
-                                                                        // weekStart: 1,
-                                                                        //  autoclose: 1
 
-                                                                });
-                                                                        $('#datepicker').datetimepicker({
-                                                                format: 'YYYY-MM-DD HH:mm',
-                                                                        //  minuteStepping: 5,
-                                                                        locale: 'pl',
-                                                                        ignoreReadonly: true
-                                                                        // weekStart: 1,
-                                                                        //  autoclose: 1
+                            $('#infogold_kliencibundle_fakturatype_nrfaktury').val(data.nrfaktury);
+                            }
+                    });
+            }
+            });
+            });
+                    $('#datefaktura').datetimepicker({
+            format: 'YYYY-MM-DD',
+                    ignoreReadonly: true,
+                    //  pickTime: false,
+                    locale: 'pl'
+                    // weekStart: 1,
+                    //  sideBySide: true
+                    //  autoclose: 1
 
-                                                                });
-                                                                        $('select#infogold_produkty_klienta_produkty').change(function () {
-                                                                var value = $('option:selected', this).val();
-                                                                        if (value) {
-                                                                $.ajax({
-                                                                url: "/Symfony2_8_new/web/app_dev.php/user/klient/cena",
-                                                                        type: "POST",
-                                                                        dataType: "JSON",
-                                                                        async: false,
-                                                                        data: 'id=' + value,
-                                                                        success: function (data) {
-                                                                        $('#infogold_produkty_klienta_cenaProduktu').val(data.cena);
-                                                                                $('#infogold_produkty_klienta_vat').val(data.vat);
-                                                                                $('#infogold_produkty_klienta_jednostkamiary').val(data.jednostkamiary);{% if magazyn %}
-                                                                                $('#mag #magazyn').text('W magazynie dostępne: ' + data.magazyn);
-                                                                                $('#mag #jednostkamiary').text(data.jednostkamiary);
-                                                                                $('div#mag div').addClass("alert alert-info col-md-5");
-                                                                                $('input#infogold_produkty_klienta_ilosc').attr("max", data.magazyn);{% endif %}
-                                                                        }
-                                                                });
-                                                                }
-                                                                });
-                                                                });
+            });
+                    $('#datefakturatermin').datetimepicker({
+            format: 'YYYY-MM-DD',
+                    ignoreReadonly: true,
+                    //    pickTime: false,
+                    locale: 'pl'
+                    // weekStart: 1,
+                    //  autoclose: 1
+
+            });
+                    $('#datepicker').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+                    //  minuteStepping: 5,
+                    locale: 'pl',
+                    ignoreReadonly: true
+                    // weekStart: 1,
+                    //  autoclose: 1
+
+            });
+                    $('select#infogold_produkty_klienta_produkty').change(function () {
+            var value = $('option:selected', this).val();
+                    if (value) {
+            $.ajax({
+            url: "/Symfony2_8_new/web/app_dev.php/user/klient/cena",
+                    type: "POST",
+                    dataType: "JSON",
+                    async: false,
+                    data: 'id=' + value,
+                    success: function (data) {
+                    $('#infogold_produkty_klienta_cenaProduktu').val(data.cena);
+                            $('#infogold_produkty_klienta_vat').val(data.vat);
+                            $('#infogold_produkty_klienta_jednostkamiary').val(data.jednostkamiary);{% if magazyn %}
+                            $('#mag #magazyn').text('W magazynie dostępne: ' + data.magazyn);
+                            $('#mag #jednostkamiary').text(data.jednostkamiary);
+                            $('div#mag div').addClass("alert alert-info col-md-5");
+                            $('input#infogold_produkty_klienta_ilosc').attr("max", data.magazyn);{% endif %}
+                    }
+            });
+            }
+            });
+            });
 
 
 

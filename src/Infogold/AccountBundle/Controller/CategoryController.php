@@ -21,13 +21,15 @@ class CategoryController extends Controller {
         $em = $this->getDoctrine()->getManager();
         
         $user = $this->get('my.main.admin')->getMainAdmin();
+        
         $categories = $em->getRepository('InfogoldAccountBundle:Category')->findBy(array('company' => $user->getId()));
 
         return $this->render('InfogoldAccountBundle:category:index.html.twig', array(
                     'categories' => $categories,
+                    'allegro' => $user->getEnableAllegro()
         ));
     }
-
+/*
     protected function user() {
 
         $user = $this->get('security.context')->getToken()->getUser();
@@ -51,6 +53,7 @@ class CategoryController extends Controller {
 
         return $useradmin;
     }
+    */
 
     /**
      * Creates a new Category entity.
@@ -59,9 +62,9 @@ class CategoryController extends Controller {
     public function newAction(Request $request) {
         
          $user = $this->get('my.main.admin')->getMainAdmin();
-         
+          
         $category = new Category();
-        $form = $this->createForm(new CategoryType($user->getNrklienta()), $category);
+        $form = $this->createForm(new CategoryType($user->getNrklienta(),null, $user->getEnableAllegro()), $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -101,7 +104,7 @@ class CategoryController extends Controller {
         
         $user = $this->get('my.main.admin')->getMainAdmin();
         $deleteForm = $this->createDeleteForm($category);
-        $editForm = $this->createForm(new CategoryType($user->getNrklienta(),true), $category);
+        $editForm = $this->createForm(new CategoryType($user->getNrklienta(),true, $user->getEnableAllegro()), $category);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

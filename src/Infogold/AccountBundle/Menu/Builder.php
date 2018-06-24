@@ -52,8 +52,8 @@ class Builder implements ContainerAwareInterface {
     }
 
     public function konsultantMenu(FactoryInterface $factory, array $options) {
+        
         $dzial = $this->container->get('security.token_storage')->getToken()->getUser()->getKonsultantDzialy()->getId();
-
 
         $menu = $factory->createItem('root', array(
             'childrenAttributes' => array(
@@ -202,6 +202,7 @@ class Builder implements ContainerAwareInterface {
         $menu['Ustawienia']->addChild('Ustawnienia magazynu', array('route' => 'ustawienia_magazynu'));
         $menu['Ustawienia']->addChild('Wgraj dane', array('route' => 'wgraj_dane'));
         $menu['Ustawienia']->addChild('Rodzaje kontaktów', array('route' => 'rodzajekontaktow_index'));
+        $menu['Ustawienia']->addChild('Allegro', array('route' => 'allegro_index'));
 
 
         return $menu;

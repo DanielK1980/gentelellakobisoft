@@ -94,7 +94,7 @@ class KonsultantController extends Controller {
             $em->persist($entity);
             $em->flush();
 
-            $message = \Swift_Message::newInstance()
+            $message = (new \Swift_Message())
                     ->setSubject('Dodanie nowego konsultanta na kobisoft.pl')                  
                     ->setFrom('testowymdk@gmail.com')
                     ->setTo($entity->getEmail())                 
@@ -110,6 +110,16 @@ class KonsultantController extends Controller {
                               Zespół kobisoft.pl', 'text/html');
             $this->get('mailer')->send($message);
 
+            
+            /*
+             *  $message = (new \Swift_Message('Hello Email'))
+        ->setFrom($this->container->getParameter('mailer_user'))
+        ->setTo($entity->getEmail())
+        ->setBody('Zmieniłeś hasło dla loginu ' . $entity->getUsername() . '.<br/>Twoje nowe hasło to ' . $Password, 'text/html');
+             * 
+             * 
+             */
+            
             return $this->redirect($this->generateUrl('konsultant_show', array('id' => $entity->getId(), 'date' => $date)));
         }
 
@@ -316,12 +326,52 @@ class KonsultantController extends Controller {
         $entity->setPassword($tempPassword);
         $entity->setOldPassword($tempPassword);
         $entity->setisActive(false);
-        $em->flush();
-        $message = \Swift_Message::newInstance()
+        $em->flush()
+                ;
+        
+      
+        $message = (new \Swift_Message('Hello Email'))
+        ->setFrom($this->container->getParameter('mailer_user'))
+        ->setTo($entity->getEmail())
+        ->setBody('Zmieniłeś hasło dla loginu ' . $entity->getUsername() . '.<br/>Twoje nowe hasło to ' . $Password, 'text/html');
+        /*
+         * If you also want to include a plaintext version of the message
+        ->addPart(
+            $this->renderView(
+                'Emails/registration.txt.twig',
+                array('name' => $name)
+            ),
+            'text/plain'
+        )
+        */
+    
+
+    //$this->get('mailer')->send($message);
+        /*
+        
+        $transport = new \Swift_SmtpTransport('danielk1980.nazwa.pl', 465);
+                    
+        $message = \Swift_Message($transport)
                 ->setSubject('Hello Email')
-                ->setFrom('testowymdk@gmail.com')
+                ->setFrom($this->container->getParameter('mailer_user'))
                 ->setTo($entity->getEmail())
                 ->setBody('Zmieniłeś hasło dla loginu ' . $entity->getUsername() . '.<br/>Twoje nowe hasło to ' . $Password);
+        */
+        /*
+        $this_is = 'this is';
+    $the_message = ' the message of the email';
+    $mailer = $this->get('mailer');
+
+    $message = \Swift_Message::newInstance()
+        ->setSubject('The Subject for this Message')
+        ->setFrom($this->container->getParameter('mailer_user'))
+        ->setTo('any_account_name@any_domain.whatever')
+        ->setBody($this->renderView('default/email.html.twig', ['this'=>$this_is, 'message'=>$the_message]))
+    ;
+    $mailer->send($message);
+        */
+        
+        
         $this->get('mailer')->send($message);
 
         return $this->redirect($this->generateUrl('konsultant_show', array('id' => $id, 'date' => $date, $this->get('session')->getFlashBag()->add('info', 'Wysłano e-mail z nowym hasłem do konultanta'))));
@@ -479,8 +529,6 @@ class KonsultantController extends Controller {
                     ->getQuery();
             $konsultantkontakty = $q3->getArrayResult();
 
-
-
             $response = new Response();
             $response->headers->set('Content-Type', 'application/json');
             return $response->setContent(json_encode(array(
@@ -489,9 +537,9 @@ class KonsultantController extends Controller {
                         'konsultantczaspracy' => $konsultantczaspracy,
                         'konsultantkontakty' => $konsultantkontakty,
                         'konsultantklienci' => $konsultantklienci,
-                        'przepracowal' => new DateTime($czas),
-                        'konsultantaprzerwy' => $konsultantaprzerwy,
-                        'czasprzerw' => new DateTime($czasprzerw)
+                        'przepracowal' => new DateTime($czas)
+                       // 'konsultantaprzerwy' => $konsultantaprzerwy
+                       // 'czasprzerw' => new DateTime($czasprzerw)
             )));
         }
     }

@@ -22,28 +22,45 @@ class CloseController extends Controller {
                 $czas = new \DateTime('now');
                 $em = $this->getDoctrine()->getManager();
                 $repository = $em->getRepository('InfogoldKonsultantBundle:CzasPracy');
-                $q = $repository->createQueryBuilder('p')
+                     $q = $repository->createQueryBuilder('p')
+                ->select('MAX(p.id)')            
+                ->leftJoin('p.KonsultantaCzasy', 'c')
+                ->andwhere('c.id= :konsultantid')              
+                ->setParameter('konsultantid',$IdUser)
+                ->getQuery();
+
+        $konsultant = $q->getSingleScalarResult(); //pobierz najwieksze id z ostatnim zalogowaniem konsultanta
+ 
+/*
+                $em2 = $this->getDoctrine()->getManager();
+                $repository2 = $em2->getRepository('InfogoldKonsultantBundle:CzasPracy');
+                $q2 = $repository2->createQueryBuilder('p')
                         ->where('p.wylogowanie is null')
                         ->leftJoin('p.KonsultantaCzasy', 'c')
                         ->andwhere('c.id= :konsultantid')
                         ->setParameter('konsultantid', $IdUser)
                         ->getQuery();
 
-                $konsultant = $q->getOneOrNullResult();
+                $konsultanttonull = $q2->getResult();
+                if ($konsultanttonull) {
+                    foreach ($konsultanttonull as $nule) {
 
+                        $LoginTimeWithoutLogout = $nule->getZalogowanie();
+                        $nule->setWylogowanie($LoginTimeWithoutLogout);
+                        $em2->flush();
+                    }
+                }
+                */
                 if ($konsultant) {
-
-                    $konsultant->setWylogowanie($czas);
+                     $timeend = $repository->find($konsultant);
+                    $timeend->setWylogowanie($czas);
                     $em->flush();
 
                     $error = 1;
-
+                    return new Response($error);
+                } else {
                     return new Response($error);
                 }
-                else {
-                    return new Response($error);
-                }
-                
             }
             return new Response($error);
         }

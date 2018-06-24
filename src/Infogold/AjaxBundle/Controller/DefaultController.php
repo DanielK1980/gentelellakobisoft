@@ -16,10 +16,9 @@ class DefaultController extends Controller {
             if ($action == 'checklogin') {
 
                 $em = $this->getDoctrine()->getManager();
-                $repository = $em->getRepository('InfogoldUserBundle:user');
+                $repository = $em->getRepository('InfogoldUserBundle:User');
 
                 $user = $repository->findOneBy(array('username' => $login));
-
 
                 if ($user) {
                     $error = 0;
@@ -40,7 +39,7 @@ class DefaultController extends Controller {
             if ($action == 'checklogin') {
 
                 $em = $this->getDoctrine()->getManager();
-                $repository = $em->getRepository('InfogoldUserBundle:user');
+                $repository = $em->getRepository('InfogoldUserBundle:User');
 
                 $user = $repository->findOneBy(array('username' => $login));
 

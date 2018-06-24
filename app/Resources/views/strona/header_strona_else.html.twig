@@ -1,0 +1,41 @@
+<header id="gtco-header" class="gtco-cover gtco-cover-xs" role="banner" style="background-image:url({{ asset('images/img_bg_1.jpg') }} )">
+    <div class="overlay"></div>
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 text-center">
+                <div class="display-t">
+                    <div class="display-tc">
+                        {% if app.request.get('_route') == 'fos_user_registration_register'
+                       or app.request.get('_route') == 'fos_user_registration_check_email'
+                       or app.request.get('_route') == 'fos_user_registration_confirmed'%}
+                        <h1 class="animate-box" data-animate-effect="fadeInUp">Zarejestruj się w naszym CRM</h1>
+                        <h2 class="animate-box" data-animate-effect="fadeInUp">Za darmo korzystaj do trzech miesięcy i wypróbuj możlwiści systemu.</h2>
+                        {% endif %}
+
+                            {% if app.request.get('_route') == 'fos_user_security_login' %} 
+                                <h1 class="animate-box" data-animate-effect="fadeInUp">Zaloguj się do Panelu administracyjnego</h1>
+                            {% endif %}
+
+                            {% if app.request.get('_route') == 'fos_user_resetting_request' %} 
+                            <h1 class="animate-box" data-animate-effect="fadeInUp">Zresetuj swoje hasło</h1>
+                            {% endif %}
+
+                                {% if app.request.get('_route') == 'fos_user_resetting_reset'%} 
+                                <h1 class="animate-box" data-animate-effect="fadeInUp">Ustal nowe hasło</h1>
+                                {% endif %}
+
+                                    {% if app.request.get('_route') == 'security_login'%} 
+                                        <h1 class="animate-box" data-animate-effect="fadeInUp">Zaloguj sie do Panelu konsultanta</h1>
+                                    {% endif %}
+
+                                    {% if app.request.get('_route') == 'fos_user_resetting_check_email'%}
+                                    <h1 class="animate-box" data-animate-effect="fadeInUp">E-mail został wysłany</h1>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </header>
+

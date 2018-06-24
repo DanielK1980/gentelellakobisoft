@@ -6,9 +6,9 @@ group:
     new:
         submit: 'Utwórz grupę'
     flash:
-        updated: 'Grupa została zaktualizowana'
-        created: 'Grupa została utworzona'
-        deleted: 'Grupa została usunięta'
+        updated: 'Grupa została zaktualizowana.'
+        created: 'Grupa została utworzona.'
+        deleted: 'Grupa została usunięta.'
 security:
     login:
         username: 'Nazwa użytkownika'
@@ -22,35 +22,52 @@ profile:
     edit:
         submit: 'Edytuj użytkownika'
     flash:
-        updated: 'Zapisano zmiany w profilu'
+        updated: 'Zapisano zmiany w profilu.'
 change_password:
     submit: 'Zmień hasło'
     flash:
-        success: 'Hasło zostało zmienione'
+        success: 'Hasło zostało zmienione.'
 registration:
     check_email: 'Na adres %email% wysłano wiadomość e-mail. Zawiera ona link, na który należy kliknąć, aby aktywować konto.'
     confirmed: 'Gratulacje %username%, potwierdziłeś konto.'
     back: 'Powrót do poprzedniej strony.'
     submit: Zarejestruj
     flash:
-        user_created: 'Stworzono użytkownika'
+        user_created: 'Stworzono użytkownika.'
     email:
         subject: 'Witaj %username%!'
-        message: "Cześć %username%!\n\nAby potwierdzić swoje konto - proszę przejść do %confirmationUrl%\n\nPozdrawiamy,\nZespół.\n"
+        message: |
+            Cześć %username%!
+
+            Aby potwierdzić swoje konto - proszę przejść do %confirmationUrl%
+
+            Pozdrawiamy,
+            Zespół.
+
 resetting:
-    password_already_requested: 'W przeciągu ostatnich 24 godzin nastąpiła już próba odzyskania hasła.'
-    check_email: 'Na adres %email% wysłano wiadomość e-mail. Zawiera ona link, w którego należy kliknąć, aby zresetować hasło.'
+    check_email: |
+        E-mail został wysłany. Zawiera on link do formularza zmiany hasła.
+        Uwaga: Możesz zresetować hasło tylko jeden raz w ciągu %tokenLifetime% godzin.
+
+        Sprawdź swoją skrzynkę pocztową, jeśli jednak nie widzisz wiadomości od nas, sprawdź folder spam lub spróbuj ponownie później.
+
     request:
-        invalid_username: 'Nazwa użytkownika lub e-mail "%username%" nie istnieje.'
         username: 'Nazwa użytkownika lub e-mail'
         submit: 'Resetuj hasło'
     reset:
         submit: 'Zmień hasło'
     flash:
-        success: 'Hasło zostało zresetowane'
+        success: 'Hasło zostało zresetowane.'
     email:
         subject: 'Resetowanie hasła'
-        message: "Cześć %username%!\n\nAby zresetować hasło - proszę przejść do %confirmationUrl%\n\nPozdrawiamy,\nZespół kobisoft.pl.\n"
+        message: |
+            Cześć %username%!
+
+            Aby zresetować hasło - proszę przejść do %confirmationUrl%
+
+            Pozdrawiamy,
+            Zespół.
+
 layout:
     logout: Wyloguj
     login: Zaloguj

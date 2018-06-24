@@ -28,3 +28,5 @@ produkty_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "InfogoldAccountBundle:Produkty:delete" }
     requirements: { _method: post|delete }
+    
+

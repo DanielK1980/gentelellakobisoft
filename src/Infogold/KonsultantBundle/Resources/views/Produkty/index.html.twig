@@ -1,87 +1,132 @@
-{# empty Twig template #}
-{% extends "InfogoldKonsultantBundle:Default:index.html.twig" %}
+{% extends "::/konsultant/base.html.twig" %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
 
-{% block articletop %}
-{% endblock articletop %}
-{% block articleleft %}
-{% endblock articleleft %}
-{% block articleright %}
-    <h1>Lista Produktów</h1>
-     <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      
+    <!-- Select2 -->
 
-                <form class="navbar-form navbar-left" role="search" action="{{ path('szukajproduktowkons') }}" method="post" {{ form_enctype(form) }}>
-                    {{ form_errors(form) }} 
-            
-                    <div class="form-group">
-                        {{ form_widget(form.szukaj , { 'attr': {'minlength': '4','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+{% endblock stylesheets %}
 
-                    </div>
-                        
-                       <div class="form-group">
-                        {{ form_widget(form.wedlug , { 'attr': {'minlength': '4','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+{% block page_title %}   {% endblock%}
 
-                    </div>
-                    <button type="submit" class="btn btn-default" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-search"></span> Szukaj</button>
-                    {{ form_rest( form ) }}
-                </form>
-      
-            </div><!-- /.navbar-collapse -->
+{% block page_content %}
 
-        </div><!-- /.container-fluid -->
-    </nav>
-      {% for flashMessage in app.session.flashbag.get('error') %}
+
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <script>
+            $(document).ready(function () {
+                show_stack_bottomright('error', '{{ flashMessage }}');
+            });
+        </script>
+        <!--
         <div class="alert alert-info" role="alert">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ flashMessage }}
+           #
         </div>
+        -->
     {% endfor %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nr produktu</th>
-                <th>Nazwa</th>
-                <th>Cena netto</th>
-                <th>Vat</th>
-                <th>Cena brutto</th>
-                <th>J.M</th>                
-                <th>W magazynie</th>               
-                <th>Pokaż</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in pagination %}
-            <tr>
-                <td><a href="{{ path('produkty_show_kons', { 'id': entity.id }) }}">{{ entity.nrproduktu }}</a></td>
-                 <td>{{ entity.name }}</td>
-                <td>{{ entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>
-                <td>{{ entity.vat }} %</td>
-                <td>{{ entity.cenabrutto|number_format(2, ',', '  ') }} zł</td>
-                <td>{{ entity.jednostkamiary }}</td>
-                <td>{{ entity.magazyn }}</td>
-                <td align="center" style="vertical-align: middle;" >
 
-                                <a class="btn btn-default btn-sm" href="{{ path('produkty_show_kons', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+    <div>
+        <div class="row">
+            <div class="x_panel" >
+                <div class="border_bottom">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="row">
+                                <div class="col-md navbar-collapse" id="klient-navbar">
 
-                            </td>
-               
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                                    <form class="navbar-form navbar-left" role="search" action="{{ path('szukajproduktowkons') }}" method="post" {{ form_enctype(form) }}>
+                                        {{ form_errors(form) }} 
 
-  
-                    {% if app.request.get('_route') == 'produkt_kons' %}
-       {% if  pagination is defined %}
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
+                                        <div class="form-group">
+                                            {{ form_widget(form.szukaj , { 'attr': {'minlength': '1','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            {{ form_widget(form.wedlug , { 'attr': {'minlength': '1','class': 'form-control', 'placeholder':'Szukaj'} }) }}
+
+                                        </div>
+                                        <button type="submit" class="btn btn-default" data-toggle="tooltip" title="Możesz wyszukiwać po nr PESEL, nazwisku, imieniu i nazwisku oraz po nr klienta."><span class="glyphicon glyphicon-search"></span> Szukaj</button>
+                                        {{ form_rest( form ) }}
+                                    </form>
+
+                                </div><!-- /.navbar-collapse -->
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </nav>
+
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        {% if pagination %}
+                            <table class="table table-striped jambo_table">
+                                <thead>
+                                    <tr>
+                                        <th>Nr produktu</th>
+                                        <th>Nazwa</th>
+                                        <th>Cena netto</th>
+                                        <th>Vat</th>
+                                        <th>Cena brutto</th>
+                                        <th>J.M</th>                
+                                        {% if  magazyn == true %} <th>W magazynie</th> {% endif %}            
+                                        <th colspan="2" align="center" style="vertical-align: middle;text-align: center">Pokaż</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for entity in pagination %}
+                                        <tr>
+                                            <td><a href="{{ path('produkty_show_kons', { 'id': entity.id }) }}">{{ entity.nrproduktu }}</a></td>
+                                            <td>{{ entity.name }}</td>
+                                            <td>{{ entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>
+                                            <td>{{ entity.vat }} %</td>
+                                            <td>{{ entity.cenabrutto|number_format(2, ',', '  ') }} zł</td>
+                                            <td>{{ entity.jednostkamiary }}</td>
+                                            {% if  magazyn == true %}   <td>{{ entity.magazyn }}</td>{% endif %}
+                                            <td align="center" style="vertical-align: middle;text-align: center" colspan="2">
+
+                                                <a class="btn btn-default btn-sm" href="{{ path('produkty_show_kons', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+
+                </div>
+                {% if app.request.get('_route') == 'produkt_kons' %}
+                    {% if  pagination is defined %}
+                        <div class="navigation">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
     </div>
-        {% endif %}
-     {% endif %}
-    {% endblock articleright %}
-{% block footer %}
-{% endblock footer %}
+    <!-- Select2 -->
+    {% block javascripts %}
+        <script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
+
+        <!-- /Select2 -->
+    {% endblock javascripts %} 
+{% endblock  %}
+
+
+
+
+
+
+
+
+
+
+
+
+

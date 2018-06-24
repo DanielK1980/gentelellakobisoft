@@ -73,10 +73,7 @@ security:
                 failure_forward:                false  
   
                 username_parameter:             _username  
-                password_parameter:             _password 
-                
-                                
-                
+                password_parameter:             _password      
             logout:
                 path:   /konsultant/logout
                 target: /konsultant/login
@@ -95,22 +92,21 @@ security:
                 provider:                       fos_userbundle  
                 csrf_provider:                  security.csrf.token_manager  
   
-                login_path:                     /  
+                login_path:                     /login  
                 use_forward:                    false  
                 check_path:                     /login_check  
                 post_only:                      true  
   
                 always_use_default_target_path: true  
-                default_target_path:            /user 
+                default_target_path:            /user/baza/klientow_indywidualnych 
                 target_path_parameter:          _target_path  
                 use_referer:                    false  
   
-                failure_path:                   /  
+                failure_path:                   /login 
                 failure_forward:                false  
   
                 username_parameter:             _username  
                 password_parameter:             _password  
-  
                 csrf_parameter:                 _csrf_token  
     access_control:
              

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Infogold\AccountBundle\Entity\Produkt;
 use Infogold\AccountBundle\Form\ProduktyType;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Produkty controller.
@@ -22,9 +23,10 @@ class ProduktyController extends Controller {
 
 
         $User = $this->get('my.main.admin')->getMainAdmin();
+        $userId = $User->getNrklienta();
         $nrklienta = $User->getNrklienta();
         
-        $ar = array(
+        $ar = array(                    
                         'nazwaproduktu' => 'nazwa produktu',
                         'nrproduktu' => 'nr produktu',
                         'ceny' => 'cena od'
@@ -35,15 +37,29 @@ class ProduktyController extends Controller {
                         $ar['wmagazyniedo'] = "w magazynie do";                      
             } 
             
-       $form = $this->createFormBuilder()
-                ->add('szukaj', 'text', array('required' => true))
+       $form = $this->createFormBuilder()            
                 ->add('wedlug', 'choice', array(
+                    'required' => false,
                     'choices' => $ar,
                     'multiple' => false,
-                ))
-                ->getForm();
+                    'empty_value' => 'Wybierz'
+                ))                
+               ->add('kategorie', 'entity', array(
+                    'class' => 'InfogoldAccountBundle:Category',
+                    'query_builder' => function(EntityRepository $er) use ($userId) {
 
-        
+                        return $er->createQueryBuilder('u')
+                                ->leftJoin('u.company', 'c')
+                                ->where('c.Nrklienta=' . $userId);
+                    },
+                    'required' => false,
+                    'label' => false,
+                    'empty_value' => 'Wybierz kategorie',
+                    'attr' => ['data-select' => 'true']
+                ))
+                ->add('szukaj', 'text', array('required' => false))
+                ->getForm();
+       
                 $em = $this->getDoctrine()->getManager();
                 $req = $em->getRepository('InfogoldAccountBundle:Produkt');
 

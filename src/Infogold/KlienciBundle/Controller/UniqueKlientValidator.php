@@ -21,9 +21,7 @@ class UniqueKlientValidator extends ConstraintValidator {
         if ($value){
             
         $zalogowany = $this->user->getToken()->getUser();
-        $nrklienta = $zalogowany->getNrklienta();
          
-      
         if ($this->context->getPropertyName() == "nipklienta" ){
             $string = "NIP";
         }
@@ -35,7 +33,7 @@ class UniqueKlientValidator extends ConstraintValidator {
         }
         //dla zalogowanego administratora
         if (get_class($zalogowany) == "Infogold\UserBundle\Entity\User") {
-
+               $nrklienta = $zalogowany->getNrklienta();
            $username = $this->entityManager->getRepository('InfogoldKlienciBundle:Klienci');
                      
             $useradmin = $this->entityManager->getRepository('InfogoldUserBundle:User');

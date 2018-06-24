@@ -1,14 +1,3 @@
 {% extends "InfogoldStronaBundle:Default:index.html.twig" %}
 
-
-{% block articletop %}
-
-  {% endblock articletop %}
-   {% block articleleft %}
-						
-    {% endblock articleleft %}
-{% block articleright %}
-
-{% include "FOSUserBundle:Resetting:request_content.html.twig" %}
-
- {% endblock %}
+{% use 'FOSUserBundle:Resetting:request_content.html.twig' %}

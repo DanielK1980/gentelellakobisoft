@@ -115,12 +115,6 @@ class Kontakty {
     }
 
 
-
-
-
-
-
-
     /**
      * Get id
      *

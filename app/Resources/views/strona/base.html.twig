@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Meta, title, CSS, favicons, etc. -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Kobisoft.pl</title>
+
+        <!-- Animate.css -->
+        <link href="{{ asset('css/strona/animate.css') }}" rel="stylesheet"/>      
+        <!-- Font Awesome -->
+        <link href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
+        <!-- Icomoon Icon Fonts-->
+        <link href="{{ asset('assets/vendors/icomoon-bower/style.css') }}" rel="stylesheet"/>
+        <!-- Bootstrap -->
+        <link href="{{ asset('css/strona/bootstrap.css') }}" rel="stylesheet"/>
+        <!-- Themify Icons-->
+        <link href="{{ asset('assets/vendors/themify-icons/css/themify-icons.css') }}" rel="stylesheet"/>
+        <!-- Magnific Popup -->
+        <link href="{{ asset('assets/vendors/magnific-popup/dist/magnific-popup.css') }}" rel="stylesheet"/>
+        <!-- Owl Carousel  -->
+        <link rel="stylesheet" href="{{ asset('assets/vendors/owl.carousel/dist/assets/owl.carousel.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/vendors/owl.carousel/dist/assets/owl.theme.default.min.css') }}"/>
+        <!-- Custom Theme Style -->
+        <link href="{{ asset('css/strona/style.css') }}" rel="stylesheet"/>
+
+        {% if app.request.get('_route') != 'infogold_strona_homepage' %}
+            <style type="text/css">
+                #gtco-footer h3,#gtco-footer p {color: white;} 
+                #gtco-footer { background: #303841;}
+
+                label.error { color:red; font-size: 11px;}
+                textarea.error, input.error, input[type].error {   
+                    border-color: rgba(255, 0, 0, 0.8);
+                    box-shadow: 0 1px 1px rgba(255, 0, 0, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);
+                    outline: 0 none;
+                }
+                .gtco-cover.gtco-cover-xs {
+                    height: 400px;
+                }
+                .gtco-cover.gtco-cover-xs .display-t, .gtco-cover.gtco-cover-xs .display-tc {
+                    height: 500px;
+                    display: table;
+                    width: 100%;
+                }
+
+                #gtco-header .display-tc h1, #gtco-counter .display-tc h1, .gtco-cover .display-tc h1 {
+                    margin-bottom: 0px;
+                    font-size: 45px;
+                    line-height: 1.5;
+                }
+            </style>
+        {% endif %}
+    </head>
+
+    <body>
+        <div class="gtco-loader"></div>	
+
+        <div id="page">
+           
+
+            {% if app.request.get('_route') != 'infogold_strona_homepage' %}
+                 {% include 'strona/topnav_login.html.twig' %}
+                {% include 'strona/header_strona_else.html.twig' %}                       
+                {% block alert %}    
+
+                {% endblock alert %}
+                
+            {% endif %}
+            
+            {% block content %}
+            {% endblock content %}
+
+            {% if app.request.get('_route') == 'infogold_strona_homepage' %} 
+                 {% include 'strona/topnav.html.twig' %}
+                {% include 'strona/header_strona_glowna.html.twig' %}            
+                {% include 'strona/page.html.twig' %}
+            {% endif %}
+
+            {% include 'strona/footer.html.twig' %}
+        </div>
+
+        <div class="gototop js-top" style="height: 1px">
+            <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+        </div>
+
+
+        <!-- jQuery -->
+        <script type="text/javascript" src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
+        <!-- jQuery Easing-->
+        <script type="text/javascript" src="{{ asset('assets/vendors/jquery.easing/js/jquery.easing.min.js') }}"></script>
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <!-- waypoints -->
+        <script type="text/javascript" src="{{ asset('assets/vendors/waypoints/lib/jquery.waypoints.min.js') }}"></script>
+        <!-- owl carousel -->
+        <script type="text/javascript" src="{{ asset('assets/vendors/owl.carousel/dist/owl.carousel.min.js') }}"></script>
+
+        <!-- countTo -->      
+        <script type="text/javascript" src="{{ asset('assets/vendors/jquery-countTo/jquery.countTo.js') }}"></script>
+        <!-- Magnific Popup -->
+        <script type="text/javascript" src="{{ asset('assets/vendors/magnific-popup/dist/jquery.magnific-popup.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/strona/magnific-popup-options.js') }}" rel="stylesheet"></script>
+        <!-- Main -->
+        <script type="text/javascript" src="{{ asset('js/strona/main.js') }}"></script>
+
+
+        {% if app.request.get('_route') == 'fos_user_registration_register' %}
+            <script src="{{ asset ('js/jquery.validate/jquery.validate.js') }}" type="text/javascript"></script>
+            <script src="{{ asset ('js/jquery.validate/jquery.form.js') }}" type="text/javascript"></script>
+            <script src="{{asset ('js/jquery.validate/messages_pl.js') }}" type="text/javascript"></script>
+            <script src="{{asset ('js/jquery.validate/walidacjaregister.js') }}" type="text/javascript"></script>
+        {% endif %}
+
+        <!-- FOR IE9 below -->
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="{{ asset('js/strona/respond.min.js') }}"></script>
+        <![endif]-->
+
+    </body>
+</html>

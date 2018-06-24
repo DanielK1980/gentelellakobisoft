@@ -21,8 +21,11 @@ class ProduktyKlientaType extends AbstractType
     {
         $zalogowany = $this->user->getToken()->getUser();
         
-        
-        $userId = $zalogowany->getNrklienta();
+        if (get_class($zalogowany) == "Infogold\UserBundle\Entity\User") {
+            $userId = $zalogowany->getNrklienta();
+        }else{
+             $userId =$zalogowany->getFirma()->getNrklienta();
+        }
         
         $builder
             ->add('produkty','entity', array(

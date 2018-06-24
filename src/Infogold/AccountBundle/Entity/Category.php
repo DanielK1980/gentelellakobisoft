@@ -40,6 +40,12 @@ class Category {
      */
     protected $produkty;
     
+    /** 
+     * @ORM\Column(type="integer", nullable=true)
+     */  
+    protected $itemCategoryIdAllegro; // itemCategoryId - Identyfikator kategorii w której jest wystawiona oferta. 
+     
+    
      public function __construct() {
 
         $this->produkty = new ArrayCollection();    
@@ -49,10 +55,12 @@ class Category {
         return $this->getName();
     }
 
+
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -63,6 +71,7 @@ class Category {
      * Set name
      *
      * @param string $name
+     *
      * @return Category
      */
     public function setName($name)
@@ -75,7 +84,7 @@ class Category {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -86,6 +95,7 @@ class Category {
      * Set department
      *
      * @param \Infogold\AccountBundle\Entity\Dzialy $department
+     *
      * @return Category
      */
     public function setDepartment(\Infogold\AccountBundle\Entity\Dzialy $department = null)
@@ -98,7 +108,7 @@ class Category {
     /**
      * Get department
      *
-     * @return \Infogold\AccountBundle\Entity\Dzialy 
+     * @return \Infogold\AccountBundle\Entity\Dzialy
      */
     public function getDepartment()
     {
@@ -109,6 +119,7 @@ class Category {
      * Set company
      *
      * @param \Infogold\UserBundle\Entity\User $company
+     *
      * @return Category
      */
     public function setCompany(\Infogold\UserBundle\Entity\User $company = null)
@@ -121,7 +132,7 @@ class Category {
     /**
      * Get company
      *
-     * @return \Infogold\UserBundle\Entity\User 
+     * @return \Infogold\UserBundle\Entity\User
      */
     public function getCompany()
     {
@@ -132,6 +143,7 @@ class Category {
      * Add produkty
      *
      * @param \Infogold\AccountBundle\Entity\Produkt $produkty
+     *
      * @return Category
      */
     public function addProdukty(\Infogold\AccountBundle\Entity\Produkt $produkty)
@@ -154,10 +166,34 @@ class Category {
     /**
      * Get produkty
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProdukty()
     {
         return $this->produkty;
+    }
+    
+    
+    /**
+     * Set itemCategoryIdAllegro
+     *
+     * @param integer $itemCategoryIdAllegro
+     * @return itemCategoryIdAllegro
+     */
+    public function setItemCategoryIdAllegro($itemCategoryIdAllegro)
+    {
+        $this->itemCategoryIdAllegro = $itemCategoryIdAllegro;
+
+        return $this;
+    }
+
+    /**
+     * Get itemCategoryIdAllegro
+     *
+     * @return integer 
+     */
+    public function getItemCategoryIdAllegro()
+    {
+        return $this->itemCategoryIdAllegro;
     }
 }

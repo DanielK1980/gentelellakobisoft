@@ -1,15 +1,10 @@
 {% extends "InfogoldStronaBundle:Default:index.html.twig" %}
+
 {% trans_default_domain 'FOSUserBundle' %}
- {% block articletop %}
 
-  {% endblock %}
-   {% block articleleft %}
-						
-    {% endblock articleleft %}
-{% block articleright %}
+{% block alert %}        
+            <div class="col-md-5 col-md-offset-4 alert alert-success alert-dismissible" role="alert">
 
-
-    <h3>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</h3>
-
-
+            <p class="animate-box animated fadeInUp animated-fast" data-animate-effect="fadeInUp" style="color:#303841">{{ 'registration.check_email'|trans({'%email%': user.email}) }} </p>
+        </div>
 {% endblock %}

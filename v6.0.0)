@@ -1,0 +1,25 @@
+[32mUpdating the "app/config/parameters.yml" file[39m
+
+[39;49m // [39;49mClearing the cache for the [32mdev[39m environment with debug                      
+[39;49m // [39;49m[32mtrue[39m                                                                       
+
+[30;42m                                                                               [39;49m
+[30;42m [OK] Cache for the "dev" environment (debug=true) was successfully cleared.   [39;49m
+[30;42m                                                                               [39;49m
+
+
+ Trying to install assets as [32mrelative symbolic links[39m.
+
+ --------- ----------------- ---------------- 
+ [32m         [39m [32m Bundle          [39m [32m Method / Error [39m 
+ --------- ----------------- ---------------- 
+  [33;1mWARNING[39;22m   FrameworkBundle   copy            
+ --------- ----------------- ---------------- 
+
+[33m ! [NOTE] Some assets were installed via copy. If you make changes to these    [39m
+[33m !        assets you have to run this command again.                           [39m
+
+[30;42m                                                                               [39;49m
+[30;42m [OK] All assets were successfully installed.                                  [39;49m
+[30;42m                                                                               [39;49m
+

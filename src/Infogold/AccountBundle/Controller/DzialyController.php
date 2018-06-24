@@ -5,6 +5,7 @@ namespace Infogold\AccountBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Infogold\AccountBundle\Entity\Dzialy;
+use Infogold\KonsultantBundle\Entity\Konsultant;
 use Infogold\AccountBundle\Form\DzialyType;
 
 /**
@@ -158,15 +159,21 @@ class DzialyController extends Controller {
      *
      */
     public function showAction($id) {
+        
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('InfogoldAccountBundle:Dzialy')->find($id);
 
-
+        $User = $this->get('my.main.admin')->getMainAdmin();
+        $userId = $User->getNrklienta();
+       // $em = $this->getDoctrine()->getManager();
         $req = $em->getRepository('InfogoldKonsultantBundle:Konsultant');
         $qb = $req->createQueryBuilder('p');
         $query = $qb
-                ->where('p.KonsultantDzialy=' . $id)
+                ->leftJoin('p.firma', 'c')
+                ->where('p.KonsultantDzialy=' . $id)             
+                ->where('c.Nrklienta=' . $userId)
                 ->getQuery();
 
         $konsultanci = $query->getResult();

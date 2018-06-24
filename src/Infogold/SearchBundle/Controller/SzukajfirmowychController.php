@@ -39,6 +39,7 @@ class SzukajfirmowychController extends Controller {
                     'required' => false,
                     'label' => 'Według Konsultanta',
                     'empty_value' => 'Wybierz',
+                            'attr' => ['data-select' => 'true']
                 ))
                 ->getForm();
 
@@ -483,7 +484,6 @@ class SzukajfirmowychController extends Controller {
                 ->andWhere('p.nipklienta IS NOT NULL')
                 ->setParameter(2, $konsultant)
                 ->getQuery();
-
 
         $entities2 = $query2->getResult();
 

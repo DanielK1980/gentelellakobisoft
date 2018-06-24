@@ -1,15 +1,13 @@
 {% extends "InfogoldStronaBundle:Default:index.html.twig" %}
+{% block content %} 
 {% trans_default_domain 'FOSUserBundle' %}
- {% block articletop %}
+<div class="gtco-section row">
+    <div class="gtco-container">
 
-  {% endblock %}
-   {% block articleleft %}
-						
-    {% endblock articleleft %}
-{% block articleright %}
+        <h3>
+            {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+        </h3>
 
-<h3>
-{{ 'resetting.check_email'|trans({'%email%': email}) }}
-</h3>
-
- {% endblock %}
+    </div>
+</div>  
+{% endblock content %} 

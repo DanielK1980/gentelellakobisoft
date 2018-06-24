@@ -35,7 +35,7 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
 
         $czas = new \DateTime('now');
 
-        $waznoschasla = $token->getUser()->getUpdatePassword()->modify('+5 day');
+        $waznoschasla = $token->getUser()->getUpdatePassword()->modify('+25 day');
         $aktywny = $token->getUser()->getisActive();
 
         if ($czas > $waznoschasla || $aktywny == "nie") {
@@ -55,13 +55,14 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
             // $request->setSession(null);
             return $response;
         } else {
-
+           
             $czaszalogowania = new CzasPracy();
             $czaszalogowania->setZalogowanie($czas);
             $czaszalogowania->setWylogowanie(null);
             $czaszalogowania->setKonsultantaCzasy($token->getUser());
             $this->em->persist($czaszalogowania);
             $this->em->flush();
+            
             //dodanie czasu zalogowania się
             $uri = $this->router->generate('klienci');
             return new RedirectResponse($uri);
@@ -72,30 +73,33 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
 
     public function onLogoutSuccess(Request $request) {
 
+        if($this->er->getToken() != NULL){
+            
         $czas = new \DateTime('now');
         $repository = $this->em->getRepository('InfogoldKonsultantBundle:CzasPracy');
         $q = $repository->createQueryBuilder('p')
-                ->where('p.wylogowanie is null')
+                ->select('MAX(p.id)')            
                 ->leftJoin('p.KonsultantaCzasy', 'c')
-                ->andwhere('c.id= :konsultantid')
+                ->andwhere('c.id= :konsultantid')              
                 ->setParameter('konsultantid', $this->er->getToken()->getUser()->getId())
                 ->getQuery();
 
-        $konsultant = $q->getOneOrNullResult();
+        $konsultant = $q->getSingleScalarResult();
+             
         if ($konsultant) {
-
-            $konsultant->setWylogowanie($czas);
-            $this->em->flush();
+           $timeend = $repository->find($konsultant);
+           $timeend->setWylogowanie($czas);
+           $this->em->flush();
         }
-
-
-
 
         $referer = $request->headers->get('referer');
 
-
-
         return new RedirectResponse($referer);
+        }else{
+
+            $referer = $request->headers->get('referer');
+             return new RedirectResponse($referer);
+        }
     }
 
 }

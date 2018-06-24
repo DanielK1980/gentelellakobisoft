@@ -63,16 +63,45 @@ klienci_update:
     defaults: { _controller: "InfogoldKlienciBundle:Klienci:update" }
     requirements: { _method: post|put }
     
-kontakt_update:
-    pattern:  /klient/{id}/updatekontakt
-    defaults: { _controller: "InfogoldKlienciBundle:Klienci:updateKontakt" }
-
 klienci_delete:
     pattern:  /klient/{id}/delete
     defaults: { _controller: "InfogoldKlienciBundle:Klienci:delete" }
     requirements: { _method: post|delete }
     
+kontakt_save:
+    pattern:  /klient/{id}/kontaktzapisz
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:zapiszkontakt" }
+    
+kontakt_update:
+    pattern:  /klient/{id}/updatekontakt
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:updateKontakt" }
+  
 kontakt_delete:
     pattern:  /klient/{id}/deletekontakt
     defaults: { _controller: "InfogoldKlienciBundle:Klienci:deletekontakt" }
     requirements: { _method: post|delete }
+    
+sell_save:
+    pattern:  /klient/{id}/sellsave
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:zapiszsprzedaz" }
+    
+cena_i_dane:
+    pattern:  /klient/cena
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:cenaajax" }
+    
+fakturapronr:
+    pattern:  /klient/fakturapronr
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:fakturapronr" }
+    
+faktura_pro_create:
+    pattern:  /klient/{id}/fakturaprocreate
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:faktura" }
+    
+faktura_pdf_konsultant:
+    pattern:  /klient/{id}/fakturapdf
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:fakturapdf" }
+    
+sprzedaz_usun:
+    pattern:  /klient/sprzedaz/{id}/{idzakup}
+    defaults: { _controller: "InfogoldKlienciBundle:Klienci:usunsprzedaz" }
+    

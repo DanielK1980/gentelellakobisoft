@@ -1,14 +1,9 @@
 {% extends "InfogoldStronaBundle:Default:index.html.twig" %}
-{% block articletop %}
 
-  {% endblock %}
-   {% block articleleft %}
-						
-    {% endblock articleleft %}
-{% block articleright %}
+{% block alert %}
     <p>{{ 'registration.confirmed'|trans({'%username%': user.username}, 'FOSUserBundle') }}</p>
     {% if app.session is not empty %}
         {% set targetUrl = app.session.get('_security.target_path') %}
         {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans({}, 'FOSUserBundle') }}</a></p>{% endif %}
     {% endif %}
-{% endblock articleright %}
+{% endblock %}

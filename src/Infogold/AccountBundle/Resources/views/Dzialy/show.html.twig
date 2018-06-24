@@ -77,9 +77,7 @@
                                         <td  style="vertical-align: middle;">{{ konsultant.nazwisko }}</td>
                                         <td  style="vertical-align: middle;">{{ konsultant.username }}</td>
                                         <td align="center" style="vertical-align: middle;">
-                                            <a href="{{ path('konsultant_show', { 'id': entity.id, 'date':  "now"|date("Y-m") }) }}" class="btn btn-default">
-                                                <span class="glyphicon glyphicon-eye-open"></span>
-                                            </a>
+                                         <a class="btn btn-default btn-sm" href="{{ path('konsultant_show', { 'id': konsultant.id, 'date':  "now"|date("Y-m") }) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
                                         </td>
 
                                     </tr>

@@ -3,17 +3,27 @@ $(document).ready(function()  {
         return this.optional(element) || /^\d{2}-\d{3}$/.test(value);
     }, "Wprowadź kod pocztowy w formacie XX-XXX");
 
+function showLoader() {
+    $('i#loading').css("display", "");
+}
+
+function hideLoader() {
+    setTimeout(function () {
+        $('i#loading').css("display", "none");
+    }, 1000);
+}
 
     $.validator.addMethod("checklogin", function(username) {
         var login = $("#fos_user_registration_form_username").val();
         var isSuccess = false;
         $.ajax({
-            url: "/Symfony2_8/web/app_dev.php/ajax",
+            url: "/Symfony2_8_new/web/app_dev.php/ajax",
             type: "POST",
+            beforeSend: function () { showLoader(); },
             async: false,
             data: "action=checklogin&login=" + login,
             success: function(msg) {
-
+                hideLoader();
                 if (msg == 0)
                 {
                     isSuccess = false;
@@ -70,23 +80,18 @@ $(document).ready(function()  {
         }
     });
 
-
-    
-    
-});
-
-
-
+/*
 $(document).ajaxStart(function() {
-    // alert('dziala');
-     $('#loading').css('display', 'block');
+   // console.log("działa");
+    $('i#loading').css("display", "block");
+    
     });
 $(document).ajaxComplete(function() {
-     $('#loading').css('display', 'none');
+     $('i#loading').hide();
+    // $('#loading').css('display', 'none');
     });
- if (navigator.appName == "Microsoft Internet Explorer") {
-     
-     
- }
+    */
+});
 
+    
 

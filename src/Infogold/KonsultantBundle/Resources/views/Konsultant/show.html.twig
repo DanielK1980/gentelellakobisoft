@@ -95,7 +95,7 @@
                     // var idz = $(this).attr("h");
 
                     $.ajax({
-                        url: "/Symfony2_8/web/app_dev.php/user/konsultant/raport",
+                        url: "/Symfony2_8_new/web/app_dev.php/user/konsultant/raport",
                         type: "POST",
                         dataType: "JSON",
                         async: false,
@@ -111,22 +111,22 @@
                                                 msg.konsultantczaspracy[i].wylogowanie.date.slice(11, 19) + "<br>");
                                     }
                                     $('#czaspracy').append("Konsultant przepracował: " + msg.przepracowal.date.slice(11, 19) + "<br><br>");
-
+/*
                                     $('#czaspracy').append("Godziny przybywania na przerwie:<br>");
                                     for (var i = 0; i < msg.konsultantaprzerwy.length; i++) {
                                         $('#czaspracy').append(i + 1 + ". " + msg.konsultantaprzerwy[i].czasrozpoczecia.date.slice(11, 19) + " - " +
                                                 msg.konsultantaprzerwy[i].czaszakonczenia.date.slice(11, 19) + "<br>");
                                     }
                                     $('#czaspracy').append("Konsultant przebywał na przerwie w sumie: " + msg.czasprzerw.date.slice(11, 19) + "<br><br>");
-
+*/
                                     $('#czaspracy').append("Nowi klienci wprowadzni do systemu w tym dniu:<br>");
                                     for (var i = 0; i < msg.konsultantklienci.length; i++) {
 
                                         if (msg.konsultantklienci[i].nazwaklienta !== null) {
-                                            $('#czaspracy').append(i + 1 + ". " + msg.konsultantklienci[i].nazwaklienta + " -  <a href='/Symfony2_8/web/app_dev.php/user/baza/" + msg.konsultantklienci[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
+                                            $('#czaspracy').append(i + 1 + ". " + msg.konsultantklienci[i].nazwaklienta + " -  <a href='/Symfony2_8_new/web/app_dev.php/user/baza/" + msg.konsultantklienci[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
                                         }
                                         else {
-                                            $('#czaspracy').append(i + 1 + ". " + msg.konsultantklienci[i].imie + " " + msg.konsultantklienci[i].nazwisko + " -  <a href='/Symfony2_8/web/app_dev.php/user/baza/" + msg.konsultantklienci[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
+                                            $('#czaspracy').append(i + 1 + ". " + msg.konsultantklienci[i].imie + " " + msg.konsultantklienci[i].nazwisko + " -  <a href='/Symfony2_8_new/web/app_dev.php/user/baza/" + msg.konsultantklienci[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
                                         }
 
                                     }
@@ -135,17 +135,18 @@
                                     for (var i = 0; i < msg.konsultantkontakty.length; i++) {
 
                                      if (msg.konsultantkontakty[i].nazwaklienta !== null) {  
-                                $('#czaspracy').append(i + 1 + ". "+msg.konsultantkontakty[i].nazwaklienta+" - "+ msg.konsultantkontakty[i].opiskontaktu + " -  <a href='/Symfony2_8/web/app_dev.php/user/baza/" + msg.konsultantkontakty[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
+                                $('#czaspracy').append(i + 1 + ". "+msg.konsultantkontakty[i].nazwaklienta+" - "+ msg.konsultantkontakty[i].opiskontaktu + " -  <a href='/Symfony2_8_new/web/app_dev.php/user/baza/" + msg.konsultantkontakty[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
                             }
                             else{
-                                 $('#czaspracy').append(i + 1 + ". "+msg.konsultantkontakty[i].imie+" " +msg.konsultantkontakty[i].nazwisko+" - "+ msg.konsultantkontakty[i].opiskontaktu + " -  <a href='/Symfony2_8/web/app_dev.php/user/baza/" + msg.konsultantkontakty[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
+                                 $('#czaspracy').append(i + 1 + ". "+msg.konsultantkontakty[i].imie+" " +msg.konsultantkontakty[i].nazwisko+" - "+ msg.konsultantkontakty[i].opiskontaktu + " -  <a href='/Symfony2_8_new/web/app_dev.php/user/baza/" + msg.konsultantkontakty[i].id + "/show' class='btn btn-default'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>");
                             }
                                        
 
                                     }
-
+                                    
                                 }
                     });
+                    e.stopImmediatePropagation();
                 });
 
                 $("#myModal").on("hide.bs.modal", function (e) {
