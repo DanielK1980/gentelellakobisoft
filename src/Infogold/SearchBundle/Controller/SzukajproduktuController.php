@@ -354,62 +354,223 @@ class SzukajproduktuController extends Controller {
             if ($entities2) {
 
                 if ($allegro) {
-
+                    
                     $katAllegro = $this->getDoctrine()->getRepository('InfogoldAccountBundle:Category')->find($kategoriaId);
-
-
+                    
+                        $datetimepicker = array();
+                        $datepicker = array();
                     if ($katAllegro->getItemCategoryIdAllegro()) {
-                        
+
                         $buildFormAllegro = $this->createFormBuilder();
 
-                        $allegomodule = $this->get('my.allegro.module')->getModuleAllegro("doGetSellFormFieldsForCategory", array('categoryId' => $katAllegro->getItemCategoryIdAllegro()));                   
-                        /*
-                        echo "<pre>";
-                                var_export($allegomodule->sellFormFieldsForCategory->sellFormFieldsList->item);
-                        echo "</pre>";
-                        exit();
-                        */
-                        foreach($allegomodule->sellFormFieldsForCategory->sellFormFieldsList->item as $itemform){
+                        $allegomodule = $this->get('my.allegro.module')->getModuleAllegro("doGetSellFormFieldsForCategory", array('categoryId' => $katAllegro->getItemCategoryIdAllegro()));
+                    
+                        foreach ($allegomodule->sellFormFieldsForCategory->sellFormFieldsList->item as $itemform) {
                             
-                            if($itemform->sellFormType == 1){                           
+                            if($itemform->sellFormId > 2 && 
+                                    $itemform->sellFormId != 6 && 
+                                    $itemform->sellFormId != 7 && 
+                                    $itemform->sellFormId != 8 && 
+                                    $itemform->sellFormId != 9 &&  
+                                    $itemform->sellFormId != 341
+                                    ){
+                            /*
+                            if($itemform->sellFormId == 13){
+                                echo "<pre>";
+                                var_export($itemform); 
+                                echo "</pre>";
+                                exit();                              
+                            }
+                            */
+                            if ($itemform->sellFormType == 1) {
                                 //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
-                                $buildFormAllegro->add($itemform->sellFormId , "text", array('label' => $itemform->sellFormTitle));                        
+                                $buildFormAllegro->add($itemform->sellFormId, "text", array(
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'max_length' => $itemform->sellFormLength
+                                ));
+                            }
+                            if ($itemform->sellFormType == 2) {
+                                //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                                $buildFormAllegro->add($itemform->sellFormId, "integer", array(
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue
+                                    )
+                                ));
+                            }
+                            if ($itemform->sellFormType == 3) {
+                                //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                                $buildFormAllegro->add($itemform->sellFormId, "number", array(
+                                    'scale' => 2,
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue
+                                    )
+                                ));
+                            }
+                            if ($itemform->sellFormType == 3) {
+                                //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                                $buildFormAllegro->add($itemform->sellFormId, "number", array(
+                                    'scale' => 2,
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue
+                                    )
+                                ));
+                            }
+                            if ($itemform->sellFormType == 4) {
+                                //select            
+                                $arrchoices = explode("|", $itemform->sellFormDesc);
+
+                                $buildFormAllegro->add($itemform->sellFormId, "choice", array(
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'choices' => $arrchoices,
+                                    'choices_as_values' => false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue
+                                    )
+                                ));
+                            }
+                            if ($itemform->sellFormType == 5) {
+                                //radio
+                                $arrchoices = explode("|", $itemform->sellFormDesc);
+                                
+                                $arrchoices_without= array_diff( $arrchoices, ['-'] );
+                                
+                                
+                                //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                                $buildFormAllegro->add($itemform->sellFormId, "choice", array(
+                                    'expanded' => true,
+                                    'multiple' => false,
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'choices' => $arrchoices_without,
+                                    'choices_as_values' => false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue
+                                    )
+                                ));
+                            }
+                            if ($itemform->sellFormType == 6) {
+                                //chackbox
+                                $arrchoices = explode("|", $itemform->sellFormDesc);
+
+                                $arrchoices_without= array_diff( $arrchoices, ['-'] );
+                                /*
+                                if (($key = array_search("-", $arrchoices_trimed)) != false) {
+                                    unset($arrchoices_trimed[$key]);
+                                }
+                                */
+                                /*
+                                 echo "<pre>";
+                                var_export($arrchoices_trimed);
+                                echo "</pre>";
+                                */
+                                //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                                $buildFormAllegro->add($itemform->sellFormId, "choice", array(
+                                    'expanded' => true,
+                                    'multiple' => true,
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'choices' => $arrchoices_without,
+                                    'choices_as_values' => false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue
+                                    )
+                                ));
+                            }
+                            if ($itemform->sellFormType == 8) {
+                                //textarea                    
+                                $buildFormAllegro->add($itemform->sellFormId, "textarea", array(
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue
+                                    )
+                                ));
+                            }
+                            if ($itemform->sellFormType == 9) {
+                                //textarea                    
+                                $buildFormAllegro->add($itemform->sellFormId, "datetime", array(
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    //'input'  => 'timestamp',
+                                    'html5' => false,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue,
+                                        'class' => 'js-datepicker-datetime' . $itemform->sellFormId,
+                                        'input_group' => array(
+                                            'class' => 'date',
+                                            'prepend' => '.icon-calendar',
+                                        )
+                                    ),
+                                    'widget' => 'single_text',
+                                    'format' => 'yyyy-MM-dd hh:mm',
+                                    'read_only' => true,
+                                    'placeholder' => 'Wybierz datę i czas'
+                                ));
+
+                                $datetimepicker[] = $itemform->sellFormId;
+                            }
+                            if ($itemform->sellFormType == 13) {
+                                //textarea                    
+                                $buildFormAllegro->add($itemform->sellFormId, "date", array(
+                                    'label' => $itemform->sellFormTitle,
+                                    'required' => $itemform->sellFormOpt == 1 ? true : false,
+                                    'max_length' => $itemform->sellFormLength,
+                                    'html5' => false,
+                                    'attr' => array(
+                                        'min' => $itemform->sellMinValue,
+                                        'max' => $itemform->sellMaxValue,
+                                        'class' => 'js-datepicker-date' . $itemform->sellFormId,
+                                        'input_group' => array(
+                                            'data-date-format' => 'YYYY-MM-DD',
+                                            'class' => 'date',
+                                            'prepend' => '.icon-calendar'
+                                        )
+                                    ),
+                                    'date_widget' => 'single_text',
+                                    'format' => 'yyyy-MM-dd',
+                                    'read_only' => true,
+                                    'placeholder' => 'Wybierz datę'
+                                ));
+                                $datepicker[] = $itemform->sellFormId;
                             }
                         }
-                        $formAllegro = $buildFormAllegro->getForm();
                         
-                        /*
-               $formAllegro = $this->createFormBuilder();
-             
-                $formAllegro->add('kategorie', 'entity', array(
-                    'class' => 'InfogoldAccountBundle:Category',
-                    'query_builder' => function(EntityRepository $er) use ($userId) {
-
-                        return $er->createQueryBuilder('u')
-                                ->leftJoin('u.company', 'c')
-                                ->where('c.Nrklienta=' . $userId);
-                    },
-                    'required' => false,
-                    'label' => false,
-                    'empty_value' => 'Wybierz kategorie',
-                    'attr' => ['data-select' => 'true']
-                ));
-                $formAllegro->add('szukaj', 'text', array('required' => FALSE));
-                
-                
-                $formAllegro->getForm();
-                      */  
+                            }
+                        $formAllegro = $buildFormAllegro->getForm();
                     }
-
-                    // var_export($allegomodule);
-                    // exit();
                 }
 
                 return $this->render('InfogoldAccountBundle:Produkty:index.html.twig', array(
                             'pagination' => $entities2,
                             'form' => $form->createView(),
                             'magazyn' => $enablemagazyn,
-                            'allegro' => $formAllegro->createView(),
+                            'allegro' => $katAllegro->getItemCategoryIdAllegro() ? $formAllegro->createView() : null,
+                            'datetimepicker' => $datetimepicker,
+                            'datepicker' => $datepicker
                 ));
             } else {
                 return $this->redirect($this->generateUrl('produkty', array(
@@ -418,13 +579,11 @@ class SzukajproduktuController extends Controller {
             }
         }
     }
-    
-    public function SaveAllegroAction(){
-        
+
+    public function SaveAllegroAction() {
+
         return null;
     }
-    
-    
 
     //put your code here
 }
