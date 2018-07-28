@@ -29,7 +29,7 @@ class AllegroModule {
                 $items = $client->{"$name"}($argumenty); 
                 
             } catch (\SoapFault $error){
-                $items = $this->get('session')->getFlashBag()->add('error', "ModuleAllegro: $error->faultstring");               
+                $items = $this->get('session')->getFlashBag()->add('error', "getModuleAllegro: $error->faultstring");               
             }       
         return $items;
     }

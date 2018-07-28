@@ -29,4 +29,14 @@ produkty_delete:
     defaults: { _controller: "InfogoldAccountBundle:Produkty:delete" }
     requirements: { _method: post|delete }
     
+produkty_klient_ind: #AJAX
+    pattern:  /{id}/produkty_klient_ind
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:getProduktyKlientIndAction" }
+    requirements: { _method: post }
+    
+produkty_klient_firmowy: #AJAX
+    pattern:  /{id}/produkty_klient_firmowy
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:getProduktyKlientFirmowAction" }
+    requirements: { _method: post }
+    
 

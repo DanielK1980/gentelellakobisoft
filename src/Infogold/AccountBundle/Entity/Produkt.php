@@ -29,6 +29,11 @@ class Produkt {
      * @ORM\OneToMany(targetEntity="Infogold\KlienciBundle\Entity\ProduktyKlienta", mappedBy="produkty")
      */
     protected $produkt;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Infogold\AccountBundle\Entity\AllegroInputs", mappedBy="produkt")
+     */
+    protected $allegroInput;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
@@ -56,6 +61,8 @@ class Produkt {
      */
     protected $htmlAllegro;
     
+    
+    // Nr Id Wystawionej Aukcji
     /**
      * @ORM\Column(type="bigint", nullable=true)
      */
@@ -109,13 +116,16 @@ class Produkt {
     public function __construct()
     {
         $this->produkt = new ArrayCollection();
+        $this->allegroInput = new ArrayCollection();
     }
 
+
+   
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -126,6 +136,7 @@ class Produkt {
      * Set cenaProduktu
      *
      * @param string $cenaProduktu
+     *
      * @return Produkt
      */
     public function setCenaProduktu($cenaProduktu)
@@ -138,7 +149,7 @@ class Produkt {
     /**
      * Get cenaProduktu
      *
-     * @return string 
+     * @return string
      */
     public function getCenaProduktu()
     {
@@ -149,6 +160,7 @@ class Produkt {
      * Set nrproduktu
      *
      * @param string $nrproduktu
+     *
      * @return Produkt
      */
     public function setNrproduktu($nrproduktu)
@@ -161,7 +173,7 @@ class Produkt {
     /**
      * Get nrproduktu
      *
-     * @return string 
+     * @return string
      */
     public function getNrproduktu()
     {
@@ -172,6 +184,7 @@ class Produkt {
      * Set name
      *
      * @param string $name
+     *
      * @return Produkt
      */
     public function setName($name)
@@ -184,7 +197,7 @@ class Produkt {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -195,6 +208,7 @@ class Produkt {
      * Set opis
      *
      * @param string $opis
+     *
      * @return Produkt
      */
     public function setOpis($opis)
@@ -207,7 +221,7 @@ class Produkt {
     /**
      * Get opis
      *
-     * @return string 
+     * @return string
      */
     public function getOpis()
     {
@@ -215,9 +229,58 @@ class Produkt {
     }
 
     /**
+     * Set htmlAllegro
+     *
+     * @param string $htmlAllegro
+     *
+     * @return Produkt
+     */
+    public function setHtmlAllegro($htmlAllegro)
+    {
+        $this->htmlAllegro = $htmlAllegro;
+
+        return $this;
+    }
+
+    /**
+     * Get htmlAllegro
+     *
+     * @return string
+     */
+    public function getHtmlAllegro()
+    {
+        return $this->htmlAllegro;
+    }
+
+    /**
+     * Set itemIdAllegro
+     *
+     * @param integer $itemIdAllegro
+     *
+     * @return Produkt
+     */
+    public function setItemIdAllegro($itemIdAllegro)
+    {
+        $this->itemIdAllegro = $itemIdAllegro;
+
+        return $this;
+    }
+
+    /**
+     * Get itemIdAllegro
+     *
+     * @return integer
+     */
+    public function getItemIdAllegro()
+    {
+        return $this->itemIdAllegro;
+    }
+
+    /**
      * Set vat
      *
      * @param string $vat
+     *
      * @return Produkt
      */
     public function setVat($vat)
@@ -230,7 +293,7 @@ class Produkt {
     /**
      * Get vat
      *
-     * @return string 
+     * @return string
      */
     public function getVat()
     {
@@ -241,6 +304,7 @@ class Produkt {
      * Set cenabrutto
      *
      * @param string $cenabrutto
+     *
      * @return Produkt
      */
     public function setCenabrutto($cenabrutto)
@@ -253,7 +317,7 @@ class Produkt {
     /**
      * Get cenabrutto
      *
-     * @return string 
+     * @return string
      */
     public function getCenabrutto()
     {
@@ -264,6 +328,7 @@ class Produkt {
      * Set magazyn
      *
      * @param integer $magazyn
+     *
      * @return Produkt
      */
     public function setMagazyn($magazyn)
@@ -276,7 +341,7 @@ class Produkt {
     /**
      * Get magazyn
      *
-     * @return integer 
+     * @return integer
      */
     public function getMagazyn()
     {
@@ -287,6 +352,7 @@ class Produkt {
      * Set enableMagazyn
      *
      * @param boolean $enableMagazyn
+     *
      * @return Produkt
      */
     public function setEnableMagazyn($enableMagazyn)
@@ -299,7 +365,7 @@ class Produkt {
     /**
      * Get enableMagazyn
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnableMagazyn()
     {
@@ -310,6 +376,7 @@ class Produkt {
      * Set jednostkamiary
      *
      * @param string $jednostkamiary
+     *
      * @return Produkt
      */
     public function setJednostkamiary($jednostkamiary)
@@ -320,55 +387,9 @@ class Produkt {
     }
 
     /**
-     * Get htmlAllegro
-     *
-     * @return textarea 
-     */
-    public function getHtmlAllegro()
-    {
-        return $this->htmlAllegro;
-    }
-    
-     /**
-     * Set htmlAllegro
-     *
-     * @param textarea $htmlAllegro
-     * @return HtmlAllegro
-     */
-    public function setHtmlAllegro($htmlAllegro)
-    {
-        $this->htmlAllegro = $htmlAllegro;
-
-        return $this;
-    }
-    
-        /**
-     * Get itemIdAllegro
-     *
-     * @return decimal 
-     */
-    public function getItemIdAllegro()
-    {
-        return $this->itemIdAllegro;
-    }
-    
-     /**
-     * Set itemIdAllegro
-     *
-     * @param string $itemIdAllegro
-     * @return ItemIdAllegro
-     */
-    public function setItemIdAllegro($itemIdAllegro)
-    {
-        $this->itemIdAllegro = $itemIdAllegro;
-
-        return $this;
-    }
-
-    /**
      * Get jednostkamiary
      *
-     * @return string 
+     * @return string
      */
     public function getJednostkamiary()
     {
@@ -379,6 +400,7 @@ class Produkt {
      * Set userproduktu
      *
      * @param \Infogold\UserBundle\Entity\User $userproduktu
+     *
      * @return Produkt
      */
     public function setUserproduktu(\Infogold\UserBundle\Entity\User $userproduktu = null)
@@ -391,18 +413,18 @@ class Produkt {
     /**
      * Get userproduktu
      *
-     * @return \Infogold\UserBundle\Entity\User 
+     * @return \Infogold\UserBundle\Entity\User
      */
     public function getUserproduktu()
     {
         return $this->userproduktu;
     }
 
-
     /**
      * Add produkt
      *
      * @param \Infogold\KlienciBundle\Entity\ProduktyKlienta $produkt
+     *
      * @return Produkt
      */
     public function addProdukt(\Infogold\KlienciBundle\Entity\ProduktyKlienta $produkt)
@@ -425,7 +447,7 @@ class Produkt {
     /**
      * Get produkt
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProdukt()
     {
@@ -433,9 +455,44 @@ class Produkt {
     }
 
     /**
+     * Add allegroInput
+     *
+     * @param \Infogold\AccountBundle\Entity\AllegroInputs $allegroInput
+     *
+     * @return Produkt
+     */
+    public function addAllegroInput(\Infogold\AccountBundle\Entity\AllegroInputs $allegroInput)
+    {
+        $this->allegroInput[] = $allegroInput;
+
+        return $this;
+    }
+
+    /**
+     * Remove allegroInput
+     *
+     * @param \Infogold\AccountBundle\Entity\AllegroInputs $allegroInput
+     */
+    public function removeAllegroInput(\Infogold\AccountBundle\Entity\AllegroInputs $allegroInput)
+    {
+        $this->allegroInput->removeElement($allegroInput);
+    }
+
+    /**
+     * Get allegroInput
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAllegroInput()
+    {
+        return $this->allegroInput;
+    }
+
+    /**
      * Set category
      *
      * @param \Infogold\AccountBundle\Entity\Category $category
+     *
      * @return Produkt
      */
     public function setCategory(\Infogold\AccountBundle\Entity\Category $category = null)
@@ -448,7 +505,7 @@ class Produkt {
     /**
      * Get category
      *
-     * @return \Infogold\AccountBundle\Entity\Category 
+     * @return \Infogold\AccountBundle\Entity\Category
      */
     public function getCategory()
     {

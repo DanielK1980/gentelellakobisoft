@@ -40,6 +40,11 @@ class Category {
      */
     protected $produkty;
     
+    /**
+     * @ORM\OneToMany(targetEntity="AllegroInputs", mappedBy="category")
+     */
+    protected $allegroInput;
+    
     /** 
      * @ORM\Column(type="integer", nullable=true)
      */  
@@ -195,5 +200,39 @@ class Category {
     public function getItemCategoryIdAllegro()
     {
         return $this->itemCategoryIdAllegro;
+    }
+
+    /**
+     * Add allegroInput
+     *
+     * @param \Infogold\AccountBundle\Entity\AllegroInputs $allegroInput
+     *
+     * @return Category
+     */
+    public function addAllegroInput(\Infogold\AccountBundle\Entity\AllegroInputs $allegroInput)
+    {
+        $this->allegroInput[] = $allegroInput;
+
+        return $this;
+    }
+
+    /**
+     * Remove allegroInput
+     *
+     * @param \Infogold\AccountBundle\Entity\AllegroInputs $allegroInput
+     */
+    public function removeAllegroInput(\Infogold\AccountBundle\Entity\AllegroInputs $allegroInput)
+    {
+        $this->allegroInput->removeElement($allegroInput);
+    }
+
+    /**
+     * Get allegroInput
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAllegroInput()
+    {
+        return $this->allegroInput;
     }
 }

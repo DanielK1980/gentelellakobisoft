@@ -26,9 +26,9 @@
 
                             <!-- Brand and toggle get grouped for better mobile display -->
                             <!-- Collect the nav links, forms, and other content for toggling -->
-                              <div class="row">
-                                <div class="col-md-4 title" style>
-                                    
+                            <div class="row">
+                                <div class="col-md-4 title">
+
                                     <h4> {{ entity.name }}</h4>
                                 </div>                                
 
@@ -47,39 +47,49 @@
 
                 </div>
                 <div class="x_content">
-                    
-                     <div class="col-md-6 col-md-offset-3 table-responsive">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <th>Nr produktu</th>
-                                    <td>{{ entity.nrproduktu }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Cena produktu</th>
-                                    <td>{{ entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>
-                                </tr>
-                                <tr>
-                                    <th>Opis</th>
-                                    <td>{{ entity.opis }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                   
-                                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
                     <div class="" role="tabpanel" data-example-id="togglable-tabs">
                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Klienci firmowi</a>
-
+                            <li role="presentation" class="active"><a href="#tab_content1" role="tab" id="main-tab" data-toggle="tab" aria-expanded="true">Dane podstawowe</a>
                             </li>
-                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Klienci indywidualni</a>
+
+                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="allegro-tab" data-toggle="tab" aria-expanded="false">Allegro</a>
+                            </li>
+
+                            <li role="presentation" class=""><a href="#tab_content3" id="firmowi-tab" role="tab" data-toggle="tab" aria-expanded="false">Klienci firmowi</a>
+                            </li>
+
+                            <li role="presentation" class=""><a href="#tab_content4" role="tab" id="indywidualni-tab" data-toggle="tab" aria-expanded="false">Klienci indywidualni</a>
                             </li>
 
                         </ul>
                         <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="main-tab">                               
+                                <div class="col-md-6 col-md-offset-3 table-responsive">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <th>Nr produktu</th>
+                                                <td>{{ entity.nrproduktu }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Cena produktu</th>
+                                                <td>{{ entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Opis</th>
+                                                <td>{{ entity.opis }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
 
-                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="allegro-tab">
+                                tuuu
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="firmowi-tab">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="x_panel">
                                         <div class="x_title">
@@ -90,7 +100,7 @@
                                         <div class="x_content">
                                             <p class="text-muted font-13 m-b-30">
                                             </p>
-                                            <table id="datatable-responsive-firma" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                            <table id="datatable-responsive-firma" class="table table-striped table-bordered dt-responsive nowrap display" cellspacing="0" width="100%">
 
                                                 <thead>
                                                     <tr id="opis">
@@ -103,27 +113,25 @@
                                                     </tr>
 
                                                 </thead>  
-                                                <tbody>
-                                                    {% for entity in klienci  %}
-                                                        {% if entity.nipklienta is not empty and entity.id is not empty %}
-                                                            <tr id="wierszefirmy">
-                                                                <td>{{entity.nazwaklienta}}</td>
-                                                                <td>{{entity.nipklienta}}</td>                           
-                                                                <td>{{entity.cenaProduktu|number_format(2, ',', '  ') }} zł</td>  
-                                                                <td>{{entity.ilosc}}</td>  
-                                                                <th>{{entity.created|date('Y-m-d H:i:s')}}</th>
-                                                                <td style="vertical-align:middle;text-align:center"><a class="btn btn-default btn-sm"  href="{{ path('klienci_baza_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
-                                                            </tr>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </tbody>
+                                                
+                                                <tfoot>
+                                                <tr>
+                                                     <th>Nazwa firmy</th>
+                                                        <th>Nip</th>                        
+                                                        <th>Cena netto</th>
+                                                        <th>Ilość</th>
+                                                        <th>Data zakupu</th>
+                                                     <th style="vertical-align:middle;text-align:center">Panel klienta</th>
+                                                </tr>
+                                            </tfoot>
+ 
                                             </table>
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="indywidualni-tab">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="x_panel">
                                         <div class="x_title">
@@ -229,14 +237,40 @@
             <script src="{{ asset('assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
             <script src="{{ asset('assets/vendors/datatables.net-scroller/js/datatables.scroller.min.js') }}"></script>
             <script src="{{ asset('assets/vendors/jszip/dist/jszip.min.js') }}"></script>
-            <script src="{{ asset('assets/vendors/pdfmapdfmake.min.js') }}"></script>
-            <script src="{{ asset('assets/vendors/pdfmavfs_fonts.js') }}"></script>
-       
+
+
             <script>
                 $(document).ready(function () {
-                    $('#datatable-responsive-firma').DataTable();
-                    $('#datatable-responsive-indywidualni').DataTable();
-   
+                  
+                     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                          e.preventDefault();
+                        var target = $(e.target).attr("href"); // activated tab
+                        //alert(target);
+                            if ((target == '#tab_content3')) {
+                                
+                                            /*
+                                            $.ajax({
+                                                    url: "/Symfony2_8_new/web/app_dev.php/ajax",
+                                                    type: "POST",                                                 
+                                                    async: false,
+                                                    data: "id=",
+                                                    success: function(msg) {                                                     
+                                                        $('#datatable-responsive-firma').DataTable(msg);                                                   
+                                                    }
+
+
+                                                });
+                                                        */
+                            
+                        } else {
+                            alert('not ok');
+                        }
+                      });
+                    
+                    
+                  //  $('#datatable-responsive-firma').DataTable();
+                 //   $('#datatable-responsive-indywidualni').DataTable();
+
                 });
             </script>
         {% endblock javascripts %} 

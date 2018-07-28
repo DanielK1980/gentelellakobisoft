@@ -384,9 +384,6 @@
                                                                 });
                                                             </script>
 
-
-
-
                                                             <div class="modal fade" id="edit{{en.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
@@ -469,7 +466,6 @@
                     </div>
                 </div>
 
-
                 <!-- Formularza PRODUKTU  -->
                 {% if fakturapdf == true %} 
                     <div class="modal fade" id="fakturapdf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -490,7 +486,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tr>
-
                                                     <td style="text-align:center"> 
                                                         {% for  faktura in faktury  %}
                                                             {% if faktura.rodzaj == 1 %}
@@ -551,8 +546,6 @@
                 </div>
                 <!-- KONIEC Modal usuwanie klienta -->
 
-
-
                 <!-- Modal Ustalenie kontaktu-->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -593,10 +586,6 @@
                                                 {{ form_widget(form.DaneKontaktowe , { 'attr': {'minlength': '3', 'class':'form-control'} }) }}
                                                 <div class="height_10"> </div>
                                             </div> 
-
-
-
-
                                             <div class="input-group col-md-4">
                                                 {{ form_label(form.PrzypisanyDo , 'Przypisz do konsultanta') }} 
 

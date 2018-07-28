@@ -104,6 +104,11 @@ class User extends BaseUser {
      */
     protected $faktury;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Infogold\AccountBundle\Entity\AllegroInputs", mappedBy="user")
+     */
+    protected $allegroInputs;
+    
         /**
      * One Customer has One Cart.
      * @ORM\OneToOne(targetEntity="Infogold\AccountBundle\Entity\Allegro", mappedBy="User_Allegro")
@@ -844,5 +849,39 @@ class User extends BaseUser {
     public function getAllegro()
     {
         return $this->allegro;
+    }
+
+    /**
+     * Add allegroInput
+     *
+     * @param \Infogold\AccountBundle\Entity\AllegroInputs $allegroInput
+     *
+     * @return User
+     */
+    public function addAllegroInput(\Infogold\AccountBundle\Entity\AllegroInputs $allegroInput)
+    {
+        $this->allegroInputs[] = $allegroInput;
+
+        return $this;
+    }
+
+    /**
+     * Remove allegroInput
+     *
+     * @param \Infogold\AccountBundle\Entity\AllegroInputs $allegroInput
+     */
+    public function removeAllegroInput(\Infogold\AccountBundle\Entity\AllegroInputs $allegroInput)
+    {
+        $this->allegroInputs->removeElement($allegroInput);
+    }
+
+    /**
+     * Get allegroInputs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAllegroInputs()
+    {
+        return $this->allegroInputs;
     }
 }
