@@ -210,7 +210,7 @@
                                                     {{  form_widget(form.GrafikKonsultanta)}}
                                                 <td rowspan="2"  style="text-align: center;vertical-align: middle;">
                                                     {% set sumratings = 0 %}
-                                                    {% for grafik in grafiktabela if dataaktualna == grafik.data|date("Y-m")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+                                                    {% for grafik in grafiktabela if dataaktualna == grafik.data|date("Y-m")  and konsultant.id == grafik.GrafikKonsultanta.id  %}
 
                                                         {%  set sumratings = sumratings + grafik.minutypracy %}
 
@@ -229,7 +229,7 @@
                                                     {% if i < 10  %}
                                                         {% set data = rok~"-"~miesiac~"-"~"0"~i %}
 
-                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant.id == grafik.GrafikKonsultanta.id  %}
 
                                                             <td style="text-align: center"><small>{{ grafik.czasrozpoczecia|date("H:i") }}-{{ grafik.czaszakonczenia|date("H:i") }}</small></td>
 
@@ -242,7 +242,7 @@
 
                                                         {% set data = rok~"-"~miesiac~"-"~i %}
 
-                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')   %}
+                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant.id == grafik.GrafikKonsultanta.id  %}
 
                                                             <td style="text-align: center"><small>{{ grafik.czasrozpoczecia|date("H:i") }}-{{ grafik.czaszakonczenia|date("H:i") }}</small></td>
 
@@ -267,7 +267,7 @@
                                                     {% if i < 10  %}
                                                         {% set data = rok~"-"~miesiac~"-"~"0"~i %}
 
-                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')  %}
+                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant.id == grafik.GrafikKonsultanta.id  %}
                                                             {% set hours = grafik.minutypracy/60 %}
                                                             {% set minutes = grafik.minutypracy % 60 %}
                                                             <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>
@@ -288,7 +288,7 @@
 
                                                         {% set data = rok~"-"~miesiac~"-"~i %}
 
-                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant == grafik.GrafikKonsultanta.toArray|join(',')   %}
+                                                        {% for grafik in grafiktabela if data == grafik.data|date("Y-m-d")  and konsultant.id == grafik.GrafikKonsultanta.id  %}
                                                             {% set hours = grafik.minutypracy/60 %}
                                                             {% set minutes = grafik.minutypracy % 60 %}
                                                             <td style="text-align: center"><small>{{"%02d"|format(hours)}}:{{"%02d"|format(minutes)}}</small>

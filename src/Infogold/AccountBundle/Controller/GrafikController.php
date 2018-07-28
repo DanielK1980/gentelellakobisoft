@@ -352,7 +352,7 @@ class GrafikController extends Controller {
                                 $ustalgrafik = new Grafik();
                                 $ustalgrafik->setCzasrozpoczecia($czasrozpoczecia);
                                 $ustalgrafik->setCzaszakonczenia($czaszakonczenia);
-                                $ustalgrafik->addGrafikKonsultanta($konsultanci);
+                                $ustalgrafik->setGrafikKonsultanta($konsultanci);
                                 $ustalgrafik->setMinutypracy($minutes);
                                 $ustalgrafik->setKomentarz($komentarz);
                                 $ustalgrafik->setGrafikDzialy($dzial);
@@ -388,7 +388,7 @@ class GrafikController extends Controller {
                             $ustalgrafik = new Grafik();
                             $ustalgrafik->setCzasrozpoczecia($czasrozpoczecia);
                             $ustalgrafik->setCzaszakonczenia($czaszakonczenia);
-                            $ustalgrafik->addGrafikKonsultanta($konsultanci);
+                            $ustalgrafik->setGrafikKonsultanta($konsultanci);
                             $ustalgrafik->setKomentarz($komentarz);
                             $ustalgrafik->setMinutypracy($minutes);
                             $ustalgrafik->setGrafikDzialy($dzial);

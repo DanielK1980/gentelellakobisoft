@@ -65,12 +65,9 @@ class Grafik {
     
 
         /**
-     * @ORM\ManyToMany(targetEntity="Infogold\KonsultantBundle\Entity\Konsultant")
-     * @ORM\JoinTable(name="grafiki_konsultantow",
-     *      joinColumns={@ORM\JoinColumn(name="grafik_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="konsultant_id", referencedColumnName="id", onDelete="CASCADE")}
-     *      )
-     **/
+        * @ORM\ManyToOne(targetEntity="Infogold\KonsultantBundle\Entity\Konsultant", inversedBy="KonsultantGrafik")
+        * @ORM\JoinColumn(name="GrafikKonsultanta_id", referencedColumnName="id", onDelete="CASCADE")
+        */
     protected $GrafikKonsultanta;
 
   
@@ -83,10 +80,12 @@ class Grafik {
   
 
 
+
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -97,6 +96,7 @@ class Grafik {
      * Set data
      *
      * @param \DateTime $data
+     *
      * @return Grafik
      */
     public function setData($data)
@@ -109,7 +109,7 @@ class Grafik {
     /**
      * Get data
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getData()
     {
@@ -120,6 +120,7 @@ class Grafik {
      * Set czasrozpoczecia
      *
      * @param \DateTime $czasrozpoczecia
+     *
      * @return Grafik
      */
     public function setCzasrozpoczecia($czasrozpoczecia)
@@ -132,7 +133,7 @@ class Grafik {
     /**
      * Get czasrozpoczecia
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCzasrozpoczecia()
     {
@@ -143,6 +144,7 @@ class Grafik {
      * Set czaszakonczenia
      *
      * @param \DateTime $czaszakonczenia
+     *
      * @return Grafik
      */
     public function setCzaszakonczenia($czaszakonczenia)
@@ -155,7 +157,7 @@ class Grafik {
     /**
      * Get czaszakonczenia
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCzaszakonczenia()
     {
@@ -163,9 +165,58 @@ class Grafik {
     }
 
     /**
-     * Set GrafikDzialy
+     * Set minutypracy
+     *
+     * @param integer $minutypracy
+     *
+     * @return Grafik
+     */
+    public function setMinutypracy($minutypracy)
+    {
+        $this->minutypracy = $minutypracy;
+
+        return $this;
+    }
+
+    /**
+     * Get minutypracy
+     *
+     * @return integer
+     */
+    public function getMinutypracy()
+    {
+        return $this->minutypracy;
+    }
+
+    /**
+     * Set komentarz
+     *
+     * @param string $komentarz
+     *
+     * @return Grafik
+     */
+    public function setKomentarz($komentarz)
+    {
+        $this->komentarz = $komentarz;
+
+        return $this;
+    }
+
+    /**
+     * Get komentarz
+     *
+     * @return string
+     */
+    public function getKomentarz()
+    {
+        return $this->komentarz;
+    }
+
+    /**
+     * Set grafikDzialy
      *
      * @param \Infogold\AccountBundle\Entity\Dzialy $grafikDzialy
+     *
      * @return Grafik
      */
     public function setGrafikDzialy(\Infogold\AccountBundle\Entity\Dzialy $grafikDzialy = null)
@@ -176,9 +227,9 @@ class Grafik {
     }
 
     /**
-     * Get GrafikDzialy
+     * Get grafikDzialy
      *
-     * @return \Infogold\AccountBundle\Entity\Dzialy 
+     * @return \Infogold\AccountBundle\Entity\Dzialy
      */
     public function getGrafikDzialy()
     {
@@ -186,77 +237,26 @@ class Grafik {
     }
 
     /**
-     * Add GrafikKonsultanta
+     * Set grafikKonsultanta
      *
      * @param \Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta
+     *
      * @return Grafik
      */
-    public function addGrafikKonsultanta(\Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta)
+    public function setGrafikKonsultanta(\Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta = null)
     {
-        $this->GrafikKonsultanta[] = $grafikKonsultanta;
+        $this->GrafikKonsultanta = $grafikKonsultanta;
 
         return $this;
     }
 
     /**
-     * Remove GrafikKonsultanta
+     * Get grafikKonsultanta
      *
-     * @param \Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta
-     */
-    public function removeGrafikKonsultanta(\Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta)
-    {
-        $this->GrafikKonsultanta->removeElement($grafikKonsultanta);
-    }
-
-    /**
-     * Get GrafikKonsultanta
-     *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Infogold\KonsultantBundle\Entity\Konsultant
      */
     public function getGrafikKonsultanta()
     {
         return $this->GrafikKonsultanta;
     }
-    
-    public function getMinutypracy() {
-        return $this->minutypracy;
-    }
-
-    public function setMinutypracy($minutypracy) {
-        $this->minutypracy = $minutypracy;
-    }
-
-
-
-    /**
-     * Add GrafikKonsultanta
-     *
-     * @param \Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta
-     * @return Grafik
-     */
-    public function addGrafikKonsultantum(\Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta)
-    {
-        $this->GrafikKonsultanta[] = $grafikKonsultanta;
-
-        return $this;
-    }
-
-    /**
-     * Remove GrafikKonsultanta
-     *
-     * @param \Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta
-     */
-    public function removeGrafikKonsultantum(\Infogold\KonsultantBundle\Entity\Konsultant $grafikKonsultanta)
-    {
-        $this->GrafikKonsultanta->removeElement($grafikKonsultanta);
-    }
-    function getKomentarz() {
-        return $this->komentarz;
-    }
-
-    function setKomentarz($komentarz) {
-        $this->komentarz = $komentarz;
-    }
-
-
 }

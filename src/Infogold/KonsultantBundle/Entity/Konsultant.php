@@ -143,6 +143,11 @@ class Konsultant implements UserInterface, \Serializable, EquatableInterface {
      */
     protected $raportprzerw;
     
+       /**
+     * @ORM\OneToMany(targetEntity="Infogold\AccountBundle\Entity\Grafik", mappedBy="GrafikKonsultanta")
+     */
+    protected $KonsultantGrafik;
+    
     
 
     public function __construct() {
@@ -714,7 +719,39 @@ class Konsultant implements UserInterface, \Serializable, EquatableInterface {
     public function getRaportprzerw()
     {
         return $this->raportprzerw;
+    } 
+
+    /**
+     * Add konsultantGrafik
+     *
+     * @param \Infogold\AccountBundle\Entity\Grafik $konsultantGrafik
+     *
+     * @return Konsultant
+     */
+    public function addKonsultantGrafik(\Infogold\AccountBundle\Entity\Grafik $konsultantGrafik)
+    {
+        $this->KonsultantGrafik[] = $konsultantGrafik;
+
+        return $this;
     }
 
-   
+    /**
+     * Remove konsultantGrafik
+     *
+     * @param \Infogold\AccountBundle\Entity\Grafik $konsultantGrafik
+     */
+    public function removeKonsultantGrafik(\Infogold\AccountBundle\Entity\Grafik $konsultantGrafik)
+    {
+        $this->KonsultantGrafik->removeElement($konsultantGrafik);
+    }
+
+    /**
+     * Get konsultantGrafik
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getKonsultantGrafik()
+    {
+        return $this->KonsultantGrafik;
+    }
 }
