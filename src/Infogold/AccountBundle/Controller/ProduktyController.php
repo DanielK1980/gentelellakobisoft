@@ -3,10 +3,13 @@
 namespace Infogold\AccountBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Infogold\AccountBundle\Entity\Produkt;
 use Infogold\AccountBundle\Form\ProduktyType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Produkty controller.
@@ -130,44 +133,91 @@ class ProduktyController extends Controller {
      * Finds and displays a Produkty entity.
      *
      */
-    public function getProduktyKlientFirmowAction($id){
-        $em2 = $this->getDoctrine()->getManager();
-        $request = $em2->getRepository('InfogoldAccountBundle:Produkt');
-        $qb = $request->createQueryBuilder('p');
-        $query2 = $qb
-                ->select('p.id, c.id, c.imie, c.nazwisko, c.nazwaklienta, c.nipklienta, c.miasto, c.ulica, d.cenaProduktu,d.ilosc, d.created ')
-                ->leftJoin('p.produkt', 'd')
-                ->leftJoin('d.ProduktyKlienta', 'c')
-                ->where('p.id=' . $id)
-                ->where('c.nipklienta is not null')
-                ->getQuery();
-        $entities2 = $query2->getResult(); 
-        $response = new Response();
-            $response->headers->set('Content-Type', 'application/json');
-            return $response->setContent(json_encode(array(
-                        'data' => $entities2
-            )));
+    public function getpkfAction(Request $request) {
+        $entities2 = null;
+        if ($request->getMethod() == 'POST') {
+            $id = $request->get('id');
+            if ($id) {
+                $em2 = $this->getDoctrine()->getManager();
+                $request = $em2->getRepository('InfogoldAccountBundle:Produkt');
+                $qb = $request->createQueryBuilder('p');
+                $query2 = $qb
+                        ->select('c.nazwaklienta,c.nipklienta,d.cenaProduktu,d.ilosc,d.created,c.id')
+                        ->leftJoin('p.produkt', 'd')
+                        ->leftJoin('d.ProduktyKlienta', 'c')
+                        ->where('p.id='.$id)
+                        ->andWhere('c.nipklienta is not null')
+                        ->setMaxResults(100)
+                        ->getQuery();
+                $entities2 = $query2->getResult();
+                
+                $indexedOnly = array();
+
+                foreach ($entities2 as $row) {
+
+                    if($row["created"]){
+                        $myDate = $row['created'];
+                        $row["created"] = $myDate->format('Y-m-d H:i');                     
+                    }
+                    if($row["id"]){                      
+                        $row["id"] = "<a class='btn btn-default btn-sm'  href='/symfony2_8_new/web/app_dev.php/user/baza/".$row["id"]."/show'><span class='glyphicon glyphicon-eye-open'></span>";                  
+                    }                   
+                    $indexedOnly[] = array_values($row);             
+                }
+                
+              //  var_export($indexedOnly);
+              //  exit();
+                
+                $response = new Response();
+                $response->headers->set('Content-Type', 'application/json');
+            }
+        }
+        return $response->setContent(json_encode(array(
+                    'data' => $indexedOnly
+        )));
     }
-    
-        public function getProduktyKlientIndAction($id){
-        $em2 = $this->getDoctrine()->getManager();
-        $request = $em2->getRepository('InfogoldAccountBundle:Produkt');
-        $qb = $request->createQueryBuilder('p');
-        $query2 = $qb
-                ->select('p.id, c.id, c.imie, c.nazwisko, c.nazwaklienta, c.miasto, c.ulica, d.cenaProduktu,d.ilosc, d.created ')
-                ->leftJoin('p.produkt', 'd')
-                ->leftJoin('d.ProduktyKlienta', 'c')
-                ->where('p.id=' . $id)
-                ->where('c.peselklienta is not null')
-                ->getQuery();
-        $entities2 = $query2->getResult(); 
-         $response = new Response();
-            $response->headers->set('Content-Type', 'application/json');
-            return $response->setContent(json_encode(array(
-                        'data' => $entities2
-            )));
+
+    public function getpkiAction(Request $request) {
+        $entities2 = null;
+        if ($request->getMethod() == 'POST') {
+            $id = $request->get('id');
+            if ($id) {
+                $em2 = $this->getDoctrine()->getManager();
+                $request = $em2->getRepository('InfogoldAccountBundle:Produkt');
+                $qb = $request->createQueryBuilder('p');
+                $query2 = $qb
+                        ->select('c.imie,c.nazwisko,d.cenaProduktu,d.ilosc,d.created,c.id')
+                        ->leftJoin('p.produkt', 'd')
+                        ->leftJoin('d.ProduktyKlienta', 'c')
+                        ->where('p.id='.$id)
+                        ->andWhere('c.peselklienta is not null')
+                        ->setMaxResults(100)
+                        ->getQuery();
+                $entities2 = $query2->getResult();
+                
+                $indexedOnly = array();
+
+                foreach ($entities2 as $row) {
+
+                    if($row["created"]){
+                        $myDate = $row['created'];
+                        $row["created"] = $myDate->format('Y-m-d H:i');                     
+                    }
+                    if($row["id"]){                      
+                        $row["id"] = "<a class='btn btn-default btn-sm'  href='/symfony2_8_new/web/app_dev.php/user/baza/".$row["id"]."/show'><span class='glyphicon glyphicon-eye-open'></span>";                  
+                    }                   
+                    $indexedOnly[] = array_values($row);             
+                }
+ 
+                $response = new Response();
+                $response->headers->set('Content-Type', 'application/json');
+            }
+        }
+        return $response->setContent(json_encode(array(
+                    'data' => $indexedOnly
+        )));
     }
-    
+
     public function showAction($id) {
 
         $user = $this->get('my.main.admin')->getMainAdmin();
@@ -202,10 +252,10 @@ class ProduktyController extends Controller {
         //Allegro
 
         if ($user->getAllegro()) {
-            
+
             $datetimepicker = array();
             $datepicker = array();
-            
+
             if ($entity->getCategory()->getItemCategoryIdAllegro()) {
 
                 $buildFormAllegro = $this->createFormBuilder();

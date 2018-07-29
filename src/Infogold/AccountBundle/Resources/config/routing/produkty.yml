@@ -30,13 +30,13 @@ produkty_delete:
     requirements: { _method: post|delete }
     
 produkty_klient_ind: #AJAX
-    pattern:  /{id}/produkty_klient_ind
-    defaults: { _controller: "InfogoldAccountBundle:Produkty:getProduktyKlientIndAction" }
+    pattern:  /produkty_klient_ind
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:getpki" }
     requirements: { _method: post }
     
 produkty_klient_firmowy: #AJAX
-    pattern:  /{id}/produkty_klient_firmowy
-    defaults: { _controller: "InfogoldAccountBundle:Produkty:getProduktyKlientFirmowAction" }
+    pattern:  /produkty_klient_firmowy
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:getpkf" }
     requirements: { _method: post }
     
 
