@@ -235,7 +235,7 @@ allegro_edit:
 allegro_update:
     pattern:  /{id}/update
     defaults: { _controller: "InfogoldAccountBundle:Allegro:update" }
-    requirements: { _method: post|put }
+    requirements: { _method: post|put }   
 
 allegro_delete:
     path:     /allegro/{id}/delete

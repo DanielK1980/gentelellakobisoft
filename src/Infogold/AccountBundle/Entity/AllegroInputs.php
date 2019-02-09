@@ -31,7 +31,7 @@ class AllegroInputs {
     /**
      * One Cart has One Customer.
      * @ORM\ManyToOne(targetEntity="Infogold\AccountBundle\Entity\Produkt", inversedBy="allegroInput")
-     * @ORM\JoinColumn(name="produkt_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="produkt_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
     protected $produkt;
     
@@ -48,7 +48,7 @@ class AllegroInputs {
     protected $formId;
     
      /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     protected $typeField;
     
@@ -57,11 +57,7 @@ class AllegroInputs {
      * @ORM\Column(type="string", length=1000))
      */
     protected $value;
-    
-     /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $global;
+   
     
 
     
@@ -195,30 +191,6 @@ class AllegroInputs {
     public function getProdukt()
     {
         return $this->produkt;
-    }
-
-    /**
-     * Set global
-     *
-     * @param boolean $global
-     *
-     * @return AllegroInputs
-     */
-    public function setGlobal($global)
-    {
-        $this->global = $global;
-
-        return $this;
-    }
-
-    /**
-     * Get global
-     *
-     * @return boolean
-     */
-    public function getGlobal()
-    {
-        return $this->global;
     }
 
     /**

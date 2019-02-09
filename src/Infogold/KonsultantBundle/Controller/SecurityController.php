@@ -59,22 +59,26 @@ class SecurityController extends Controller
         if (!$entities) {
             throw $this->createNotFoundException('Unable to find Konsultant entity.');
         }
+        
         $starehaslo = $entities->getOldPassword();
         $username = $entities->getUsername();
         $email = $entities->getEmail();
         $passwordForm = $this->createForm(new ChangePasswordType(), $entities);
         $passwordForm->bind($request);
+        
         $passold = $entities->getOldPassword();
         $pass = $entities->getPassword();
         $factory = $this->get('security.encoder_factory');
         $encoder = $factory->getEncoder($entities);
         $password = $encoder->encodePassword($pass, $entities->getSalt());
         $starekonsultanta = $encoder->encodePassword($passold, $entities->getSalt());
+      
         $entities->setPassword($password);
         $entities->setOldpassword($entities->getPassword());
         $entities->setIsActive(true);
         $entities->setUsername($username);
         $entities->setEmail($email);
+        
         if ($starehaslo == $starekonsultanta) {
             if ($passwordForm->isValid()) {
                 $em->persist($entities);

@@ -39,4 +39,13 @@ produkty_klient_firmowy: #AJAX
     defaults: { _controller: "InfogoldAccountBundle:Produkty:getpkf" }
     requirements: { _method: post }
     
+save_allegro:
+    pattern:  /saveallegro/{kat}/{katall}/{id}
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:SaveAllegro", id: null }
+    requirements: { _method: post }
+    
+fileuploadhandler:
+    pattern:  /fileUploadHandler
+    defaults: { _controller: "InfogoldAccountBundle:Produkty:fileUploadHandler" }
+    
 

@@ -1,5 +1,6 @@
 
 {% extends "::/account/base.html.twig" %}
+{% form_theme allegro 'bootstrap_3_horizontal_layout.html.twig' %}
 {% block stylesheets %}
     <link href="{{ asset('assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
@@ -9,7 +10,32 @@
     <link href="{{ asset('assets/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
-
+    <link href="{{ asset ('css/bootstrap-datetimepicker.min.css')}}" type="text/css" media="all" rel="stylesheet"> 
+    <link href="{{ asset('assets/vendors/dropzone/dist/min/dropzone.min.css') }}" rel="stylesheet">
+    <style  type="text/css" media="all" rel="stylesheet">
+        .mce-content-body p {
+            margin: 16px 0;
+        }
+        .mce-content-body h1 {
+            display: block;
+            font-family: "Roboto", "Open Sans", sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 24px;
+            margin: 18px 0;
+        }
+        .mce-content-body h2 {
+            display: block;
+            font-family: "Roboto", "Open Sans", sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 18px;
+            margin: 18px 0;
+        }
+    </style>
+    <style  type="text/css" media="all" rel="stylesheet">
+        .fb .desc-section-bar-button:active,.fb .desc-section-bar-button:focus,.fb .description .add-new-section:active,.fb .description .add-new-section:focus{outline:0}.fb .description .description-content{border:1px solid #c3c3c3;padding:15px 0}.fb .description .table tbody td{border-top:none}.fb .description .text-item{background-color:#fff;font-family:Open Sans,sans-serif;height:100%;width:100%;word-wrap:break-word}.fb .description .text-content{color:#444;font-family:Open Sans,sans-serif;font-size:16px;line-height:22px;width:100%;height:100%}.fb .description .text-content p{margin:16px 0;word-wrap:break-word}.fb .description .text-content h1,.fb .description .text-content h2{display:block;font-family:Roboto,Open Sans,sans-serif;font-weight:500;margin:18px 0}.fb .description .text-content h1{font-size:24px;line-height:24px}.fb .description .text-content h2{font-size:18px;line-height:18px}.fb .description .text-content ol,.fb .description .text-content ul{padding-left:40px;margin:16px 0}.fb .description .text-content-placeholder{color:#7f7f7f;font-style:italic;text-align:center;display:table;width:100%;height:130px}.fb .description .text-content-placeholder>div{display:table-cell;vertical-align:middle}.fb .description .text-issue{border:1px dotted #e0211b}.fb .description .section-container{border:1px solid transparent;margin:0 15px}.fb .description .section-container:hover{border:1px dotted #c3c3c3}.fb .description .section{padding:15px 0;display:inline-block;width:100%}.fb .description .section-active{border:1px solid #c3c3c3!important}.fb .description .section-active .image-item-container:hover{border:1px dotted #c3c3c3}@media (min-width:992px){.fb .description .section{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}.fb .description .item-6{width:50%;float:left;position:relative;min-height:1px}}@media (max-width:991px){.fb .description .section .item-6:first-child{padding-bottom:10px}}.fb .description *,.fb .description :after,.fb .description :before{box-sizing:border-box}.fb .description .item{padding-left:15px;padding-right:15px;cursor:pointer}.fb .description .item-12{width:100%;float:left;position:relative;min-height:1px}.fb .description .image-item-container{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;height:100%;width:100%;border:1px dotted transparent}.fb .description .image-item-container .modal{cursor:auto}.fb .description .image-item img{display:block;margin-left:auto;margin-right:auto;max-width:100%;width:100%}.fb .description .thumbnail{width:150px;height:150px;display:inline-block;margin:0 10px 10px 0;position:relative;cursor:pointer;background-color:#fff;border:1px solid #c3c3c3;border-radius:4px;padding:4px}.fb .description .thumbnail img{position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;max-width:100%;max-height:100%}.fb .description .section-bar{background-color:#f0f0f0;height:84px;border-bottom:1px solid #c3c3c3;display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.fb .description .section-bar .layout-change-controls{-ms-flex:2 1 0%;flex:2 1 0%}.fb .description .section-bar .section-controls{-ms-flex:1 1 0%;flex:1 1 0%;text-align:right}@media (min-width:480px){.fb .description .section-bar{-ms-flex-direction:row;flex-direction:row;height:42px}}.fb .description .m-placeholder{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23ddd'%3E%3Cpath d='M12 12v72h72V12zm68 4v47.827L62.069 44.1 54 52.172l-20-20-18 18V16zM16 80V55.828l18-18 20 20 7.931-7.928L80 69.773V80z' fill='currentColor'/%3E%3Ccircle cx='64' cy='32' r='4' fill='currentColor'/%3E%3C/svg%3E");background-position:50%;background-repeat:no-repeat;background-size:128px;min-width:128px;min-height:128px;text-align:center}.fb .description .mce-tinymce{height:100%}.fb .description .mce-tinymce>div{height:100%;display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.fb .description .mce-edit-area{border-top-width:0!important;border-bottom-width:1px!important;-ms-flex:1 1 auto;flex:1 1 auto}.fb .description .add-new-section{display:block;margin:0 auto;font-size:16px;text-transform:uppercase;padding-top:15px;padding-bottom:0}.fb .description .add-new-section span{margin:1px 0 0;display:inline-block;vertical-align:middle}.fb .description .preview .item{cursor:auto}.fb .description .preview .section-container:hover{border-color:transparent}.fb .m-icon{width:32px;height:32px;display:inline-block;vertical-align:middle}.fb .m-icon.plus{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath fill='currentColor' d='M78 45H51V18h-6v27H18v6h27v27h6V51h27v-6z'/%3E%3C/svg%3E")}.fb .m-icon.delete{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath d='M65.853 18L61.79 9.886A6.958 6.958 0 0 0 55.521 6H40.486a6.948 6.948 0 0 0-6.268 3.884L30.148 18H18v6h60v-6zm-26.264-5.443a.994.994 0 0 1 .9-.557h15.032a1 1 0 0 1 .9.563L59.143 18H36.86zM69 84H27V30h-6v54a6.007 6.007 0 0 0 6 6h42a6.007 6.007 0 0 0 6-6V30h-6z' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.duplicate{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath d='M60 84H18a6 6 0 0 1-6-6V36a6 6 0 0 1 6-6h42a6 6 0 0 1 6 6v42a6 6 0 0 1-6 6zM18 36v42h42V36zm60.2 30H72v-6h6V18H36v6h-6v-6.2a5.8 5.8 0 0 1 5.8-5.8h42.4a5.8 5.8 0 0 1 5.8 5.8v42.4a5.8 5.8 0 0 1-5.8 5.8z' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.arrow{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath fill='currentColor' d='M53.121 18.879l-4.242 4.242L70.757 45H12v6h58.757L48.879 72.879l4.242 4.242L82.243 48 53.121 18.879z'/%3E%3C/svg%3E")}.fb .m-icon.arrow.up{transform:rotate(-90deg)}.fb .m-icon.arrow.down{transform:rotate(90deg)}.fb .m-icon.text{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath d='M12 18h72v6H12zm0 12h72v6H12zm0 12h72v6H12zm0 12h72v6H12zm0 12h36v6H12z' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.text.active{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23ff5a00' fill='%23ff5a00'%3E%3Cpath d='M12 18h72v6H12zm0 12h72v6H12zm0 12h72v6H12zm0 12h72v6H12zm0 12h36v6H12z' fill='currentColor'/%3E%3C/svg%3E")}.fb .description i.m-icon.img{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath d='M12 18v60h72V18H12zm6 6h60v40.2l-37.9-29L18 55V24zm0 48v-9l22.4-20.1L78 71.7v.3H18z' fill='currentColor'/%3E%3Ccircle cx='67.5' cy='34.5' r='4.5' fill='currentColor'/%3E%3C/svg%3E")}.fb .description i.m-icon.img.active{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23ff5a00' fill='%23ff5a00'%3E%3Cpath d='M12 18v60h72V18H12zm6 6h60v40.2l-37.9-29L18 55V24zm0 48v-9l22.4-20.1L78 71.7v.3H18z' fill='currentColor'/%3E%3Ccircle cx='67.5' cy='34.5' r='4.5' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.img-text{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath d='M54 18h36v6H54zm0 12h36v6H54zm0 12h36v6H54zm0 12h36v6H54zm0 12h24v6H54zM6 63h42V18H6zm6-9.7l11.4-10.4 18 14.1H12zM42 24v25.8L23.1 35.1 12 45.2V24z' fill='currentColor'/%3E%3Ccircle cx='36' cy='30' r='3' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.img-text.active{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23ff5a00' fill='%23ff5a00'%3E%3Cpath d='M54 18h36v6H54zm0 12h36v6H54zm0 12h36v6H54zm0 12h36v6H54zm0 12h24v6H54zM6 63h42V18H6zm6-9.7l11.4-10.4 18 14.1H12zM42 24v25.8L23.1 35.1 12 45.2V24z' fill='currentColor'/%3E%3Ccircle cx='36' cy='30' r='3' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.text-img{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath d='M6 18h36v6H6zm0 12h36v6H6zm0 12h36v6H6zm0 12h36v6H6zm0 12h24v6H6zm42-48v45h42V18zm36 6v25.8L65.1 35.1 54 45.2V24zM54 53.3l11.4-10.4 18 14.1H54z' fill='currentColor'/%3E%3Ccircle cx='78' cy='30' r='3' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.text-img.active{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23ff5a00' fill='%23ff5a00'%3E%3Cpath d='M6 18h36v6H6zm0 12h36v6H6zm0 12h36v6H6zm0 12h36v6H6zm0 12h24v6H6zm42-48v45h42V18zm36 6v25.8L65.1 35.1 54 45.2V24zM54 53.3l11.4-10.4 18 14.1H54z' fill='currentColor'/%3E%3Ccircle cx='78' cy='30' r='3' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.img-img{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23767676' fill='%23fff'%3E%3Cpath d='M51 18v45h42V18zm36 6v25.8L68.1 35.1 57 45.2V24zM57 53.3l11.4-10.4 18 14.1H57zM3 63h42V18H3zm6-9.7l11.4-10.4 18 14.1H9zM39 24v25.8L20.1 35.1 9 45.2V24z' fill='currentColor'/%3E%3Ccircle cx='81' cy='30' r='3' fill='currentColor'/%3E%3Ccircle cx='33' cy='30' r='3' fill='currentColor'/%3E%3C/svg%3E")}.fb .m-icon.img-img.active{background-image:url("data:image/svg+xml; charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' color='%23ff5a00' fill='%23ff5a00'%3E%3Cpath d='M51 18v45h42V18zm36 6v25.8L68.1 35.1 57 45.2V24zM57 53.3l11.4-10.4 18 14.1H57zM3 63h42V18H3zm6-9.7l11.4-10.4 18 14.1H9zM39 24v25.8L20.1 35.1 9 45.2V24z' fill='currentColor'/%3E%3Ccircle cx='81' cy='30' r='3' fill='currentColor'/%3E%3Ccircle cx='33' cy='30' r='3' fill='currentColor'/%3E%3C/svg%3E")}.fb .desc-section-bar-button{display:inline-block;background-repeat:no-repeat;min-width:32px;height:32px;cursor:pointer;margin:5px 8px;vertical-align:top}.fb #description-image-chooser .images-list{margin-top:30px}@media (max-width:699px){.fb .description-banner-container{display:none}}.fb .description-banner-container .description-canvas{width:100%;background-color:#fff}.fb .description-banner-container .description-canvas iframe{overflow:hidden;width:100%;height:150px}
+    </style>
 
 {% endblock stylesheets %}
 
@@ -86,7 +112,57 @@
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="allegro-tab">
-                            tuuu
+
+
+                            {%  if allegro is defined and allegro is not empty %}
+
+                                <div class="col-md-8">
+
+
+                                    <form novalidate action="{{ path('save_allegro', {'kat': kategoria,'katall': kategoriaAllegro, 'id': entity.id }) }}" method="post" {{ form_enctype(allegro) }} class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label required" for="">Default Image</label>
+                                            <div class="col-sm-10">
+                                                <div class="dropzone"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="fb">
+                                            <div class="form-group description">
+                                                <div class="description-content">
+                                                    <div>
+                                                        <div class="section-container" id="section1"><!-- section-active -->
+                                                            <div class="section">
+                                                                <div class="item item-12">
+                                                                    <div class="text-item">
+                                                                        <div class="text-content text-content-placeholder">
+                                                                            <div>Dodaj tekst</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div>
+
+                                                    </div>
+
+                                                </div>
+                                                <button type="button" class="btn btn-link add-new-section"><span>dodaj kolejny wiersz</span></button>
+                                            </div>
+                                        </div>
+
+
+                                        {{ form_widget(allegro) }}                                        
+                                        {{ form_rest(allegro) }}                     
+                                    </form>   
+                                {% endif %}
+                                <div class="clear"></div>
+
+                            </div>
+
+
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="firmowi-tab">
@@ -171,9 +247,11 @@
 
                     <p>Czy napewno chcesz usunąć produkt ?</p>                                                  
                     <div class="modal-footer" >
+
                         <div style="float:right; margin-left: 10px"> 
                             <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                         </div>
+
                         <div style="float:right">  
 
                             <form action="{{ path('produkty_delete', { 'id': entity.id }) }}" method="post">
@@ -191,6 +269,25 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ tinymce_init() }}
     <!-- KONIEC Modal usuwanie klienta -->
     <!-- Select2 -->
     {% block javascripts %}
@@ -213,8 +310,8 @@
         <script src="{{ asset('assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
         <script src="{{ asset('assets/vendors/datatables.net-scroller/js/datatables.scroller.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/jszip/dist/jszip.min.js') }}"></script>
-
-
+        <script src="{{ asset('assets/vendors/iCheck/icheck.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
         <script>
 
             $("a[data-toggle='tab']").off().on('shown.bs.tab', function (e) {
@@ -257,6 +354,368 @@
             //   $('#datatable-responsive-indywidualni').DataTable();
 
 
+        </script>
+        <script src="{{ asset ('js/moment-with-locales.min.js') }}" type="text/javascript" ></script> 
+        <script src="{{ asset ('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript" ></script>
+        <script>
+            $(document).ready(function () {
+            {%  if datetimepicker is defined and datetimepicker is not empty %}
+                {% for ent in datetimepicker %}
+                        $('.js-datepicker-datetime{{ent}}').datetimepicker({
+                            format: 'YYYY-MM-DD HH:mm',
+                            ignoreReadonly: true,
+                            //   minuteStepping: 5,
+                            locale: 'pl',
+                            allowInputToggle: true,
+                            minDate: moment()
+                                    // weekStart: 1,
+                                    //  autoclose: 1
+                        });
+
+
+                {% endfor %}
+            {% endif %}
+
+            {%  if datepicker is defined and datepicker is not empty %}
+                {% for ent in datepicker %}
+                        $('.js-datepicker-date{{ent}}').datetimepicker({
+                            format: 'YYYY-MM-DD',
+                            ignoreReadonly: true,
+                            //   minuteStepping: 5,
+                            locale: 'pl',
+                            allowInputToggle: true,
+                            minDate: moment()
+                        });
+                {% endfor %}
+            {% endif %}
+
+                    $('input').iCheck({
+                        checkboxClass: 'icheckbox_flat-green',
+                        radioClass: 'iradio_flat-green'
+                    });
+
+
+                });
+                Dropzone.autoDiscover = false;
+                // init,configure dropzone
+                var dropzonedefault = new Dropzone(".dropzone", {
+                    url: '{{ path('fileuploadhandler') }}',
+                    maxFiles: 10,
+                    dictMaxFilesExceeded: 'Only 10 Image can be uploaded',
+                    acceptedFiles: 'image/*',
+                    maxFilesize: 5, // in Mb
+                    addRemoveLinks: true,
+                    init: function () {
+                        this.on("maxfilesexceeded", function (file) {
+                            this.removeFile(file);
+                        });
+                        this.on("sending", function (file, xhr, formData) {
+                            // send additional data with the file as POST data if needed.
+                            // formData.append("key", "value");  
+                        });
+                        this.on("success", function (file, response) {
+                            if (response.uploaded)
+                                console.log(file);
+                                alert('File Uploaded: ' + response.fileName);
+                        });
+                    }
+                });
+
+                function showDescription(classLayout = "", htmlDescription = "", id = "section1") {
+
+                    if ($("div#" + id).hasClass("section-active")) {
+
+                        $("div.section-active").html('<div class="section-bar">\
+                                                        <div class="layout-change-controls">\
+                                                        <button type="button" id="text-section-button" class="btn-link desc-section-bar-button" title="tylko tekst"><i class="m-icon text"></i></button>\
+                                                        <button type="button" id="img-section-button" class="btn-link desc-section-bar-button" title="tylko zdjęcie"><i class="m-icon img"></i></button>\
+                                                        <button type="button" id="img-text-section-button" class="btn-link desc-section-bar-button" title="zdjęcie i tekst"><i class="m-icon img-text"></i></button>\
+                                                        <button type="button" id="text-img-section-button" class="btn-link desc-section-bar-button" title="tekst i zdjęcie"><i class="m-icon text-img"></i></button>\
+                                                        <button type="button" id="img-img-section-button" class="btn-link desc-section-bar-button" title="dwa zdjęcia"><i class="m-icon img-img"></i></button>\
+                                                        </div>\
+                                                        <div class="section-controls">\
+                                                        <button type="button" class="btn-link remove-section-btn desc-section-bar-button" title="usuń wiersz"><i class="m-icon delete"></i></button>\
+                                                        <button type="button" class="btn-link clone-section-btn desc-section-bar-button" title="duplikuj wiersz"><i class="m-icon duplicate"></i></button>\
+                                                        <button type="button" class="btn-link move-section-down-btn desc-section-bar-button" title="przenieś wiersz niżej"><i class="m-icon arrow down"></i></button>\
+                                                        </div></div>');
+
+                        if (classLayout == "onlyText" || classLayout == "") {
+                            showOnlyText(htmlDescription);
+                            $("div.layout-change-controls button i").removeClass("active");
+                            $("#text-section-button i").addClass("active");
+                        }
+                        if (classLayout == "ImgText") {
+                            showImgText(htmlDescription);
+                            $("div.layout-change-controls button i").removeClass("active");
+                            $("#img-text-section-button i").addClass("active");
+                        }
+                        if (classLayout == "TextImg") {
+                            $("div.layout-change-controls button i").removeClass("active");
+                            $("#text-img-section-button i").addClass("active");
+                            showTextImg(htmlDescription);
+                        }
+                        if (classLayout == "ImgImg") {
+                            $("div.layout-change-controls button i").removeClass("active");
+                            $("#img-img-section-button i").addClass("active");
+                            showImgImg();
+                        }
+                        if (classLayout == "onlyImg") {
+                            $("div.layout-change-controls button i").removeClass("active");
+                            $("#img-section-button i").addClass("active");
+                            showOnlyImg();
+                        }
+                        controllsButton();
+                        clickInside();
+                }
+
+                }
+                function clickInside() {
+                    $("div.section-container").click(function (e) {
+                        if ($("div.section-container").hasClass("section-active")) {
+                            id = $("div.section-container.section-active").attr('id');
+                            refreshDIV(id);
+                        }
+                        id = $(this).attr('id');
+                        dodajTekst = false;
+                        htmlDescription = "";
+                        classLayout = "";
+
+                        if ($(this).find(".text-content").text() == "Dodaj tekst") {
+                            dodajTekst = true;
+                        }
+                        htmlDescription = dodajTekst ? "" : $("div#" + id).find(".text-content").html();
+                        var classHtmml = $("div#" + id).attr('class');
+                        var classHtmlSplit = classHtmml.split(/\s+/);
+                        classLayout = classHtmlSplit[1] != undefined ? classHtmlSplit[1] : "";
+
+                        if (!$("div#" + id).hasClass("section-active")) {
+                            // refreshDIV(id);
+                            $("div#" + id).addClass("section-active");
+                            $("div.section-container").unbind('click');
+                            showDescription(classLayout, htmlDescription, id);
+                            delete id;
+                            delete dodajTekst;
+                            delete htmlDescription;
+                            delete classLayout;
+                        }
+                        e.stopPropagation();
+                    });
+                }
+
+
+
+                showDescription();
+                clickInside();
+                addSection();
+
+                function refreshDIV(id) {
+                    var text = "";
+                    var isActiveTinyMCE = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+                    if (isActiveTinyMCE) {
+                        text = tinyMCE.activeEditor.getContent() == "" ? "" : tinyMCE.activeEditor.getContent();
+                    }
+                    var htmlDescription = isActiveTinyMCE && text != "" ? '<div class="text-content">' + tinyMCE.activeEditor.getContent() + '</div>' : "<div class='text-content text-content-placeholder'><div>Dodaj tekst</div></div>";
+                    if (isActiveTinyMCE) {
+                        if ($("div#" + id + "").find("#text-section-button i").hasClass("active")) {
+
+                            $("div#" + id + ".section-active").html('<div class="section">\
+                                                        <div class="item item-12">\
+                                                            <div class="text-item">' + htmlDescription + ' </div>\
+                                                        </div>\
+                                                     </div>');
+                            $('div#' + id + '').attr('class', 'section-container'); //reset
+                            $("div#" + id + "").addClass('onlyText');
+                        }
+                    } else {
+                        $("div#" + id + " div.section-active").html('<div class="section"><div class="item item-12"><div class="text-item">' + htmlDescription + '</div></div></div>');
+                    }
+                    if ($("div#" + id + "").find("#img-section-button i").hasClass("active")) {
+
+                        $("div#" + id + ".section-active").html('<div class="section"><div class="item item-12"><div class="image-item-container"><div class="image-item"><div class="m-placeholder"></div></div></div></div></div>');
+                        $("div#" + id + "").attr("class", "section-container"); //reset 
+                        $("div#" + id + "").addClass("onlyImg");
+                    }
+                    if ($("div#" + id + "").find("#img-text-section-button i").hasClass("active")) {
+
+                        $("div#" + id + ".section-active").html('<div class="section"><div class="item item-6"><div class="image-item-container"><div class="image-item"><div class="m-placeholder"></div></div></div></div><div class="item item-6"><div class="text-item"><div>' + htmlDescription + '</div></div></div></div>');
+                        $("div#" + id + "").attr('class', 'section-container'); //reset
+                        $("div#" + id + "").addClass('ImgText');
+                    }
+                    if ($("div#" + id + "").find("#text-img-section-button i").hasClass("active")) {
+                        $("div#" + id + ".section-active").html('<div class="section"><div class="item item-6"><div class="text-item"><div>' + htmlDescription + '</div></div></div><div class="item item-6"><div class="image-item-container"><div class="image-item"><div class="m-placeholder"></div></div></div></div></div>');
+                        $("div#" + id + "").attr('class', 'section-container'); //reset
+                        $("div#" + id + "").addClass('TextImg');
+                    }
+                    if ($("div#" + id + "").find("#img-img-section-button i").hasClass("active")) {
+                        $("div#" + id + ".section-active").html('<div class="section"><div class="item item-6"><div class="image-item-container"><div class="image-item"><div class="m-placeholder"></div></div></div></div><div class="item item-6"><div class="image-item-container"><div class="image-item"><div class="m-placeholder"></div></div></div></div></div>');
+                        $("div#" + id + "").attr('class', 'section-container'); //reset
+                        $("div#" + id + "").addClass('ImgImg');
+                    }
+                    $("div#" + id + "").removeClass("section-active");
+                    $(".section-bar").remove();
+                    $(".section-controls").remove();
+                    // var id="";
+                }
+                $(".x_content").click(function (e) {
+
+                    if ($("div.section-container").hasClass("section-active")) {
+                        var text = "";
+                        var target = e.target;
+                        if (!$(e.target).closest(".mce-container").length && !$('div.description').find(target).length) {
+                            id = $("div.section-container.section-active").attr('id');
+                            refreshDIV(id);
+                            $("div.section-container").unbind('click');
+                            clickInside();
+                        }
+                    }
+                    e.preventDefault();
+                });
+                function showOnlyText(htmlDescription = "") {
+                    $("div.section-active").find("div.section").remove();
+                    $("div.section-active").append('<div class="section">\
+                                                        <div class="item item-12">\
+                                                            <div class="text-item">\
+                                                            <textarea class="tinymce" style="display: block;"></textarea>\
+                                                            </div>\
+                                                        </div>\
+                                                     </div>');
+
+                    initTinyMCE();
+                    var isActiveTinyMCE = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+                    if (isActiveTinyMCE) {
+                        tinyMCE.activeEditor.setContent(htmlDescription);
+                }
+                }
+                function showOnlyImg() {
+                    $("div.section-active").find("div.section").remove();
+                    $("div.section-active").append('<div class="section">\
+                                                            <div class="item item-12">\
+                                                            <div class="image-item-container">\
+                                                            <div class="image-item"><div class="m-placeholder"></div></div></div></div>\
+                                                        </div>\
+                                                     </div>');
+                    $(".image-item-container").click(function (e) {
+                        $('#myModal').modal('show');
+                    });
+                }
+                function showImgImg() {
+                    $("div.section-active").find("div.section").remove();
+                    $("div.section-active").append('<div class="section"><div class="item item-6"><div class="image-item-container"><div class="image-item"><div class="m-placeholder"></div></div></div></div><div class="item item-6"><div class="image-item-container"><div class="image-item"><div class="m-placeholder"></div></div></div></div></div>');
+                    ///initTinyMCE();
+                    $(".section-container.ImgImg.section-active .section .item:eq(0)").click(function (e) {
+                        // $("p").clone().appendTo("body");
+                        console.log("showImgImg 1");
+                    });
+                    $(".section-container.ImgImg.section-active .section .item:eq(1)").click(function (e) {
+                        console.log("showImgImg 2");
+                    });
+                }
+                function showTextImg(htmlDescription = "") {
+                    $("div.section-active").find("div.section").remove();
+                    $("div.section-active").append('<div class="section">\
+                                                        <div class="item item-6">\
+                                                        <div class="text-item">\
+                                                        <textarea class="tinymce" style="display: block;"></textarea>\
+                                                        </div>\
+                                                        </div><div class="item item-6">\
+                                                        <div class="image-item-container">\
+                                                        <div class="image-item"><div class="m-placeholder"></div></div></div></div>\
+                                                     </div>');
+                    $(".image-item-container").click(function (e) {
+                        console.log("showTextImg");
+                        //$("div.image-item-container").unbind('click');
+                    });
+                    initTinyMCE();
+                    var isActiveTinyMCE = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+                    if (isActiveTinyMCE) {
+                        tinyMCE.activeEditor.setContent(htmlDescription);
+                }
+                }
+                function showImgText(htmlDescription = "") {
+                    $("div.section-active").find("div.section").remove();
+                    $("div.section-active").append('<div class="section">\
+                                                    <div class="item item-6">\
+                                                    <div class="image-item-container">\
+                                                    <div class="image-item"><div class="m-placeholder"></div></div></div></div>\
+                                                    <div class="item item-6">\
+                                                    <div class="text-item">\
+                                                    <textarea class="tinymce" style="display: block;"></textarea>\
+                                                    </div>\
+                                                    </div>\
+                                                     </div>');
+                    $(".image-item-container").click(function(e){
+                        $('#myModal').modal('show');
+                        var Id = $(this).closest(".section-active").attr("id");
+                        console.log(Id);
+                    });
+                    initTinyMCE();
+                    var isActiveTinyMCE = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+                    if (isActiveTinyMCE) {
+                        tinyMCE.activeEditor.setContent(htmlDescription);
+                }
+                }
+
+                function controllsButton() {
+                    $("#text-section-button").click(function (e) {
+                        e.preventDefault();
+                        $("div.layout-change-controls button i").removeClass("active");
+                        $("#text-section-button i").addClass("active");
+                        var isActiveTinyMCE = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+                        var htmlDescription = isActiveTinyMCE ? tinyMCE.activeEditor.getContent() : "";
+                        showOnlyText(htmlDescription);
+                    });
+                    $("#img-section-button").click(function (e) {
+                        e.preventDefault();
+                        $("div.layout-change-controls button i").removeClass("active");
+                        $("#img-section-button i").addClass("active");
+                        showOnlyImg();
+                    });
+                    $("#img-text-section-button").click(function (e) {
+                        e.preventDefault();
+                        $("div.layout-change-controls button i").removeClass("active");
+                        $("#img-text-section-button i").addClass("active");
+                        var isActiveTinyMCE = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+                        var htmlDescription = isActiveTinyMCE ? tinyMCE.activeEditor.getContent() : "";
+                        showImgText(htmlDescription);
+                    });
+                    $("#text-img-section-button").click(function (e) {
+                        e.preventDefault();
+                        $("div.layout-change-controls button i").removeClass("active");
+                        $("#text-img-section-button i").addClass("active");
+                        var isActiveTinyMCE = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
+                        var htmlDescription = isActiveTinyMCE ? tinyMCE.activeEditor.getContent() : "";
+                        showTextImg(htmlDescription);
+                    });
+                    $("#img-img-section-button").click(function (e) {
+                        e.preventDefault();
+                        $("div.layout-change-controls button i").removeClass("active");
+                        $("#img-img-section-button i").addClass("active");
+                        showImgImg();
+                    });
+                }
+                function addSection() {
+                    var count = 2;
+                    $('.add-new-section').click(function (e) {
+                        id = $("div.section-container.section-active").attr('id');
+                        refreshDIV(id);
+                        var section = "section" + count++;
+                        $('.description-content').append('<div>\
+                                                        <div class="section-container section-active" id=' + section + '>\
+                                                            <div class="section">\
+                                                                <div class="item item-12">\
+                                                                    <div class="text-item">\
+                                                                        <div class="text-content text-content-placeholder">\
+                                                                            <div>Dodaj tekst</div>\
+                                                                        </div>\
+                                                                    </div>\
+                                                                </div>\
+                                                            </div>\
+                                                        </div>\
+                                                    </div>');
+                        showDescription("", "", section);
+                        //  e.stopPropagation();
+                    });
+                }
         </script>
     {% endblock javascripts %} 
 

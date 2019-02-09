@@ -4,12 +4,15 @@ namespace Infogold\AccountBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Infogold\AccountBundle\Entity\Produkt;
 use Infogold\AccountBundle\Form\ProduktyType;
+use Infogold\AccountBundle\Entity\AllegroInputs;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * Produkty controller.
@@ -17,16 +20,18 @@ use Symfony\Component\Serializer\Serializer;
  */
 class ProduktyController extends Controller {
 
+    private $allegroFormRadio = array();
+    private $datetimepicker = array();
+    private $datepicker = array();
+
     /**
      * Lists all Produkty entities.
      *
      */
     public function indexAction(Request $request) {
 
-
-
         $User = $this->get('my.main.admin')->getMainAdmin();
-        $userId = $User->getNrklienta();
+        //  $userId = $User->getNrklienta();
         $nrklienta = $User->getNrklienta();
 
         $ar = array(
@@ -49,11 +54,11 @@ class ProduktyController extends Controller {
                 ))
                 ->add('kategorie', 'entity', array(
                     'class' => 'InfogoldAccountBundle:Category',
-                    'query_builder' => function(EntityRepository $er) use ($userId) {
+                    'query_builder' => function(EntityRepository $er) use ($nrklienta) {
 
                         return $er->createQueryBuilder('u')
                                 ->leftJoin('u.company', 'c')
-                                ->where('c.Nrklienta=' . $userId);
+                                ->where('c.Nrklienta=' . $nrklienta);
                     },
                     'required' => false,
                     'label' => false,
@@ -72,6 +77,19 @@ class ProduktyController extends Controller {
                 ->where('c.Nrklienta=' . $nrklienta)
                 ->getQuery();
 
+        $allegro = false;
+        $code = '';
+        if ($User->getEnableAllegro()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $allegro = $em->getRepository('InfogoldAccountBundle:Allegro')->findOneBy(array('UserAllegro' => $User->getId()));
+            
+            
+           // code=pOPEy9Tq94aEss540azzC7xL6nCJDWto
+                   if(isset($_GET['code'])){
+                       $code = $_GET['code'];
+                   } 
+        }
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -79,7 +97,11 @@ class ProduktyController extends Controller {
         return $this->render('InfogoldAccountBundle:Produkty:index.html.twig', array(
                     'pagination' => $pagination,
                     'form' => $form->createView(),
-                    'magazyn' => $User->getenableMagazyn()
+                    'magazyn' => $User->getenableMagazyn(),
+                    'client_id' => $allegro ?  $allegro->getAllegroClientID() : null,
+                    'code' => $code
+            
+            
         ));
     }
 
@@ -145,29 +167,29 @@ class ProduktyController extends Controller {
                         ->select('c.nazwaklienta,c.nipklienta,d.cenaProduktu,d.ilosc,d.created,c.id')
                         ->leftJoin('p.produkt', 'd')
                         ->leftJoin('d.ProduktyKlienta', 'c')
-                        ->where('p.id='.$id)
+                        ->where('p.id=' . $id)
                         ->andWhere('c.nipklienta is not null')
                         ->setMaxResults(100)
                         ->getQuery();
                 $entities2 = $query2->getResult();
-                
+
                 $indexedOnly = array();
 
                 foreach ($entities2 as $row) {
 
-                    if($row["created"]){
+                    if ($row["created"]) {
                         $myDate = $row['created'];
-                        $row["created"] = $myDate->format('Y-m-d H:i');                     
+                        $row["created"] = $myDate->format('Y-m-d H:i');
                     }
-                    if($row["id"]){                      
-                        $row["id"] = "<a class='btn btn-default btn-sm'  href='/symfony2_8_new/web/app_dev.php/user/baza/".$row["id"]."/show'><span class='glyphicon glyphicon-eye-open'></span>";                  
-                    }                   
-                    $indexedOnly[] = array_values($row);             
+                    if ($row["id"]) {
+                        $row["id"] = "<a class='btn btn-default btn-sm'  href='/symfony2_8_new/web/app_dev.php/user/baza/" . $row["id"] . "/show'><span class='glyphicon glyphicon-eye-open'></span>";
+                    }
+                    $indexedOnly[] = array_values($row);
                 }
-                
-              //  var_export($indexedOnly);
-              //  exit();
-                
+
+                //  var_export($indexedOnly);
+                //  exit();
+
                 $response = new Response();
                 $response->headers->set('Content-Type', 'application/json');
             }
@@ -179,43 +201,51 @@ class ProduktyController extends Controller {
 
     public function getpkiAction(Request $request) {
         $entities2 = null;
+        $indexedOnly = array();
         if ($request->getMethod() == 'POST') {
             $id = $request->get('id');
             if ($id) {
                 $em2 = $this->getDoctrine()->getManager();
-                $request = $em2->getRepository('InfogoldAccountBundle:Produkt');
-                $qb = $request->createQueryBuilder('p');
+                $req = $em2->getRepository('InfogoldAccountBundle:Produkt');
+                $qb = $req->createQueryBuilder('p');
                 $query2 = $qb
                         ->select('c.imie,c.nazwisko,d.cenaProduktu,d.ilosc,d.created,c.id')
                         ->leftJoin('p.produkt', 'd')
                         ->leftJoin('d.ProduktyKlienta', 'c')
-                        ->where('p.id='.$id)
+                        ->where('p.id=' . $id)
                         ->andWhere('c.peselklienta is not null')
                         ->setMaxResults(100)
                         ->getQuery();
                 $entities2 = $query2->getResult();
-                
-                $indexedOnly = array();
+
+
 
                 foreach ($entities2 as $row) {
 
-                    if($row["created"]){
+                    if ($row["created"]) {
                         $myDate = $row['created'];
-                        $row["created"] = $myDate->format('Y-m-d H:i');                     
+                        $row["created"] = $myDate->format('Y-m-d H:i');
                     }
-                    if($row["id"]){                      
-                        $row["id"] = "<a class='btn btn-default btn-sm'  href='/symfony2_8_new/web/app_dev.php/user/baza/".$row["id"]."/show'><span class='glyphicon glyphicon-eye-open'></span>";                  
-                    }                   
-                    $indexedOnly[] = array_values($row);             
+                    if ($row["id"]) {
+                        $row["id"] = "<a class='btn btn-default btn-sm'  href='/symfony2_8_new/web/app_dev.php/user/baza/" . $row["id"] . "/show'><span class='glyphicon glyphicon-eye-open'></span>";
+                    }
+                    $indexedOnly[] = array_values($row);
                 }
- 
+
                 $response = new Response();
                 $response->headers->set('Content-Type', 'application/json');
             }
         }
-        return $response->setContent(json_encode(array(
-                    'data' => $indexedOnly
-        )));
+        /*
+          return $response->setContent(json_encode(array(
+          'data' => $indexedOnly
+          )));
+
+         */
+
+        return new JsonResponse(array(
+            'data' => $indexedOnly
+        ));
     }
 
     public function showAction($id) {
@@ -225,8 +255,6 @@ class ProduktyController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('InfogoldAccountBundle:Produkt')->find($id);
-
-
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Produkty entity.');
@@ -250,221 +278,148 @@ class ProduktyController extends Controller {
         $entities2 = $query2->getResult();
 
         //Allegro
-
         if ($user->getAllegro()) {
-
-            $datetimepicker = array();
-            $datepicker = array();
-
             if ($entity->getCategory()->getItemCategoryIdAllegro()) {
-
-                $buildFormAllegro = $this->createFormBuilder();
-
-                $allegomodule = $this->get('my.allegro.module')->getModuleAllegro("doGetSellFormFieldsForCategory", array('categoryId' => $entity->getCategory()->getItemCategoryIdAllegro()));
-
-                foreach ($allegomodule->sellFormFieldsForCategory->sellFormFieldsList->item as $itemform) {
-
-                    if ($itemform->sellFormId > 2 &&
-                            $itemform->sellFormId != 6 &&
-                            $itemform->sellFormId != 7 &&
-                            $itemform->sellFormId != 8 &&
-                            $itemform->sellFormId != 9 &&
-                            $itemform->sellFormId != 341
-                    ) {
-                        /*
-                          if($itemform->sellFormId == 13){
-                          echo "<pre>";
-                          var_export($itemform);
-                          echo "</pre>";
-                          exit();
-                          }
-                         */
-                        if ($itemform->sellFormType == 1) {
-                            //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
-                            $buildFormAllegro->add($itemform->sellFormId, "text", array(
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'max_length' => $itemform->sellFormLength
-                            ));
-                        }
-                        if ($itemform->sellFormType == 2) {
-                            //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
-                            $buildFormAllegro->add($itemform->sellFormId, "integer", array(
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'max_length' => $itemform->sellFormLength,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue
-                                )
-                            ));
-                        }
-                        if ($itemform->sellFormType == 3) {
-                            //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
-                            $buildFormAllegro->add($itemform->sellFormId, "number", array(
-                                'scale' => 2,
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'max_length' => $itemform->sellFormLength,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue
-                                )
-                            ));
-                        }
-                        if ($itemform->sellFormType == 3) {
-                            //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
-                            $buildFormAllegro->add($itemform->sellFormId, "number", array(
-                                'scale' => 2,
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'max_length' => $itemform->sellFormLength,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue
-                                )
-                            ));
-                        }
-                        if ($itemform->sellFormType == 4) {
-                            //select            
-                            $arrchoices = explode("|", $itemform->sellFormDesc);
-
-                            $buildFormAllegro->add($itemform->sellFormId, "choice", array(
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'choices' => $arrchoices,
-                                'choices_as_values' => false,
-                                'max_length' => $itemform->sellFormLength,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue
-                                )
-                            ));
-                        }
-                        if ($itemform->sellFormType == 5) {
-                            //radio
-                            $arrchoices = explode("|", $itemform->sellFormDesc);
-
-                            $arrchoices_without = array_diff($arrchoices, ['-']);
-
-
-                            //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
-                            $buildFormAllegro->add($itemform->sellFormId, "choice", array(
-                                'expanded' => true,
-                                'multiple' => false,
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'choices' => $arrchoices_without,
-                                'choices_as_values' => false,
-                                'max_length' => $itemform->sellFormLength,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue
-                                )
-                            ));
-                        }
-                        if ($itemform->sellFormType == 6) {
-                            //chackbox
-                            $arrchoices = explode("|", $itemform->sellFormDesc);
-
-                            $arrchoices_without = array_diff($arrchoices, ['-']);
-                            /*
-                              if (($key = array_search("-", $arrchoices_trimed)) != false) {
-                              unset($arrchoices_trimed[$key]);
-                              }
-                             */
-                            /*
-                              echo "<pre>";
-                              var_export($arrchoices_trimed);
-                              echo "</pre>";
-                             */
-                            //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
-                            $buildFormAllegro->add($itemform->sellFormId, "choice", array(
-                                'expanded' => true,
-                                'multiple' => true,
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'choices' => $arrchoices_without,
-                                'choices_as_values' => false,
-                                'max_length' => $itemform->sellFormLength,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue
-                                )
-                            ));
-                        }
-                        if ($itemform->sellFormType == 8) {
-                            //textarea                    
-                            $buildFormAllegro->add($itemform->sellFormId, "textarea", array(
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'max_length' => $itemform->sellFormLength,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue
-                                )
-                            ));
-                        }
-                        if ($itemform->sellFormType == 9) {
-                            //textarea                    
-                            $buildFormAllegro->add($itemform->sellFormId, "datetime", array(
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'max_length' => $itemform->sellFormLength,
-                                //'input'  => 'timestamp',
-                                'html5' => false,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue,
-                                    'class' => 'js-datepicker-datetime' . $itemform->sellFormId,
-                                    'input_group' => array(
-                                        'class' => 'date',
-                                        'prepend' => '.icon-calendar',
-                                    )
-                                ),
-                                'widget' => 'single_text',
-                                'format' => 'yyyy-MM-dd hh:mm',
-                                'read_only' => true,
-                                'placeholder' => 'Wybierz datę i czas'
-                            ));
-
-                            $datetimepicker[] = $itemform->sellFormId;
-                        }
-                        if ($itemform->sellFormType == 13) {
-                            //textarea                    
-                            $buildFormAllegro->add($itemform->sellFormId, "date", array(
-                                'label' => $itemform->sellFormTitle,
-                                'required' => $itemform->sellFormOpt == 1 ? true : false,
-                                'max_length' => $itemform->sellFormLength,
-                                'html5' => false,
-                                'attr' => array(
-                                    'min' => $itemform->sellMinValue,
-                                    'max' => $itemform->sellMaxValue,
-                                    'class' => 'js-datepicker-date' . $itemform->sellFormId,
-                                    'input_group' => array(
-                                        'data-date-format' => 'YYYY-MM-DD',
-                                        'class' => 'date',
-                                        'prepend' => '.icon-calendar'
-                                    )
-                                ),
-                                'date_widget' => 'single_text',
-                                'format' => 'yyyy-MM-dd',
-                                'read_only' => true,
-                                'placeholder' => 'Wybierz datę'
-                            ));
-                            $datepicker[] = $itemform->sellFormId;
-                        }
-                    }
-                }
-                $formAllegro = $buildFormAllegro->getForm();
+                $formAllegro = $this->createAllegroeForm($entity->getCategory()->getId(), $entity->getCategory()->getItemCategoryIdAllegro(), $id);
             }
         }
+
+
 
         return $this->render('InfogoldAccountBundle:Produkty:show.html.twig', array(
                     'entity' => $entity,
                     'klienci' => $entities2,
                     'allegro' => $entity->getCategory()->getItemCategoryIdAllegro() ? $formAllegro->createView() : null,
-                    'delete_form' => $deleteForm->createView(),));
+                    'kategoria' => $entity->getCategory()->getItemCategoryIdAllegro() ? $entity->getCategory()->getId() : null,
+                    'kategoriaAllegro' => $entity->getCategory()->getItemCategoryIdAllegro() ? $entity->getCategory()->getItemCategoryIdAllegro() : null,
+                    'delete_form' => $deleteForm->createView(),
+                    'datetimepicker' => $this->datetimepicker,
+                    'datepicker' => $this->datepicker,
+        ));
+    }
+
+    public function SaveAllegroAction($kat = null, $katall = null, $id = null, Request $request) {
+
+        $user = $this->get('my.main.admin')->getMainAdmin();
+
+        $editForm = $this->createAllegroeForm($kat, $katall, $id);
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) {
+
+            $dataFirst = $request->request->get('form');
+            $em = $this->getDoctrine()->getManager();
+
+            /*  var_export($dataFirst);
+              exit();
+             */
+            $notemptyFirst = array_filter($dataFirst);
+
+            foreach ($this->allegroFormRadio as $radio) {
+                //Dodanie radio z 0
+                if (isset($dataFirst[$radio]) && $dataFirst[$radio] == 0) {
+                    $notemptyFirst[$radio] = '0';
+                }
+            }
+            //PROBLRM Z USÓWANIEM 0
+            unset($notemptyFirst["_token"]);
+
+            $notempty = array_map(array($this, 'ChangeArrayToString'), $notemptyFirst);
+
+            // $arrayIsIn = array_values(array_flip($notempty));
+
+            $getAllForCategoryProducts = $em->getRepository('InfogoldAccountBundle:AllegroInputs')->findBy(
+                    array(
+                        'user' => $user,
+                        'category' => $kat,
+                        'produkt' => $id
+                    )
+            );
+
+            $isInputBase = array();
+
+            if ($getAllForCategoryProducts) {
+                foreach ($getAllForCategoryProducts as $inputBase) {
+                    $isInputBase[$inputBase->getFormId()] = $inputBase->getValue();
+                }
+            }
+            /*
+              $update = array();
+              $remove = array();
+              $insert = array();
+             */
+            foreach ($isInputBase as $key => $baseInput) {
+
+                if (!isset($dataFirst[$key]) || (isset($dataFirst[$key]) && ($dataFirst[$key] == ""))) {
+                    //REMOVE  
+                    $em = $this->getDoctrine()->getManager();
+                    $entityInputs = $em->getRepository('InfogoldAccountBundle:AllegroInputs')->findOneBy(
+                            array(
+                                'user' => $user,
+                                'category' => $kat,
+                                'produkt' => $id,
+                                'formId' => $key
+                            //  'value' => $notempty[$input]
+                            )
+                    );
+                    $em->remove($entityInputs);
+                    $em->flush();
+                }
+
+                //UPDATE
+                if (isset($notempty[$key]) && $notempty[$key] != $baseInput) {
+                    $em = $this->getDoctrine()->getManager();
+                    $entityInputs = $em->getRepository('InfogoldAccountBundle:AllegroInputs')->findOneBy(
+                            array(
+                                'user' => $user,
+                                'category' => $kat,
+                                'produkt' => $id,
+                                'formId' => $key
+                            //  'value' => $notempty[$input]
+                            )
+                    );
+                    if ($entityInputs) {
+
+                        $entityInputs->setValue($notempty[$key]);
+                        $em->flush();
+                    }
+                }
+            }
+
+            $newData = array_diff_key($notempty, $isInputBase);
+
+            foreach ($newData as $key => $newValue) {
+                //INSERT
+
+                $em2 = $this->getDoctrine()->getManager();
+                $product = $em2->getRepository('InfogoldAccountBundle:Produkt')->find($id);
+                $newInput = new AllegroInputs();
+                $newInput->setUser($user);
+                $newInput->setProdukt($product);
+                $newInput->setFormId($key);
+                $newInput->setValue($newValue);
+                $newInput->setCategory($product->getCategory());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newInput);
+                $em->flush();
+            }
+        }
+
+        return $this->redirect($this->generateUrl('produkty_show', array(
+                            'id' => $id,
+                        )) . "#tab_content2");
+    }
+
+    protected function ChangeArrayToString($value) {
+        if (is_array($value)) {
+            if (isset($value[1])) {
+                return implode("|", $value);
+            } else {
+                return $value[0] . "|";
+            }
+        } else {
+            return $value;
+        }
     }
 
     public function editAction($id) {
@@ -570,6 +525,274 @@ class ProduktyController extends Controller {
                         ->add('id', 'hidden')
                         ->getForm()
         ;
+    }
+
+    public function fileUploadHandlerAction(Request $request) {
+        $output = array('uploaded' => false);
+        // get the file from the request object
+        $file = $request->files->get('file');
+        // generate a new filename (safer, better approach)
+        // To use original filename, $fileName = $this->file->getClientOriginalName();
+        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+        // set your uploads directory
+        $uploadDir = $this->get('kernel')->getRootDir() . '/../web/uploads/images';
+        if (!file_exists($uploadDir) && !is_dir($uploadDir)) {
+            mkdir($uploadDir, 0775, true);
+        }
+        if ($file->move($uploadDir, $fileName)) {
+            $output['uploaded'] = true;
+            $output['fileName'] = $fileName;
+        }
+        return new JsonResponse($output);
+    }
+
+    private function createAllegroeForm($kat, $katAllegro, $id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entityInputs = $em->getRepository('InfogoldAccountBundle:AllegroInputs')->findBy(
+                array(
+                    'category' => $kat,
+                    'produkt' => $id)
+        );
+
+        $checkboxes = array();
+        foreach ($entityInputs as $value) {
+            if (strpos($value->getValue(), '|')) {
+                $arrchoices = explode("|", $value->getValue());
+                $checkboxes[$value->getFormId()] = $arrchoices;
+            }
+        }
+        // var_export($checkboxes);
+        //  exit();
+        $buildFormAllegro = $this->createFormBuilder();
+        $allegomodule = $this->get('my.allegro.module')->getModuleAllegro("doGetSellFormFieldsForCategory", array('categoryId' => $katAllegro));
+
+        foreach ($allegomodule->sellFormFieldsForCategory->sellFormFieldsList->item as $itemform) {
+
+            // var_export($checkboxes);
+            //  exit();
+
+            if ($itemform->sellFormId != 2 && //kategoria
+                    $itemform->sellFormId != 3 && //czas rozpoczęcia
+                    // $itemform->sellFormId != 6 && //cena wywoławcza
+                    // $itemform->sellFormId != 7 && //cena minimalna
+                    // $itemform->sellFormId != 8 && //cena kup teraz
+                    $itemform->sellFormId != 9// && //kraj
+            //  $itemform->sellFormId != 341 // chyba prezentacja w html
+            ) {
+
+                /*
+                  if($itemform->sellFormId == 341){
+                  echo "<pre>";
+                  var_export($itemform);
+                  echo "</pre>";
+                  exit();
+                  }
+                 */
+                /*
+                  if ($itemform->sellFormType == 1) {
+                  //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                  $buildFormAllegro->add($itemform->sellFormId, "text", array(
+                  'label' => $itemform->sellFormTitle,
+                  'required' => $itemform->sellFormOpt == 1 ? true : false,
+                  'max_length' => $itemform->sellFormLength
+                  ));
+                  }
+                  if ($itemform->sellFormType == 2) {
+                  //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                  $buildFormAllegro->add($itemform->sellFormId, "integer", array(
+                  'label' => $itemform->sellFormTitle,
+                  'required' => $itemform->sellFormOpt == 1 ? true : false,
+                  'max_length' => $itemform->sellFormLength,
+                  'attr' => array(
+                  'min' => $itemform->sellMinValue,
+                  'max' => $itemform->sellMaxValue
+                  )
+                  ));
+                  }
+                  if ($itemform->sellFormType == 3) {
+                  //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                  $buildFormAllegro->add($itemform->sellFormId, "number", array(
+                  'scale' => 2,
+                  'label' => $itemform->sellFormTitle,
+                  'required' => $itemform->sellFormOpt == 1 ? true : false,
+                  'max_length' => $itemform->sellFormLength,
+                  'attr' => array(
+                  'min' => $itemform->sellMinValue,
+                  'max' => $itemform->sellMaxValue
+                  )
+                  ));
+                  }
+
+                  if ($itemform->sellFormType == 3) {
+                  //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                  $buildFormAllegro->add($itemform->sellFormId, "number", array(
+                  'scale' => 2,
+                  'label' => $itemform->sellFormTitle,
+                  'required' => $itemform->sellFormOpt == 1 ? true : false,
+                  'max_length' => $itemform->sellFormLength,
+                  'attr' => array(
+                  'min' => $itemform->sellMinValue,
+                  'max' => $itemform->sellMaxValue
+                  )
+                  ));
+                  }
+                  if ($itemform->sellFormType == 4) {
+                  //select
+                  $arrchoices = explode("|", $itemform->sellFormDesc);
+
+                  $buildFormAllegro->add($itemform->sellFormId, "choice", array(
+                  'label' => $itemform->sellFormTitle,
+                  'required' => FALSE, // $itemform->sellFormOpt == 1 ? true : false,
+                  'choices' => $arrchoices,
+                  'placeholder' => false,
+                  'choices_as_values' => false,
+                  'max_length' => $itemform->sellFormLength,
+                  'attr' => array(
+                  'min' => $itemform->sellMinValue,
+                  'max' => $itemform->sellMaxValue
+                  )
+                  ));
+                  }
+                  if ($itemform->sellFormType == 5) {
+                  //radio
+                  $arrchoices = explode("|", $itemform->sellFormDesc);
+                  $arrchoices_without = array_diff($arrchoices, ['-']);
+
+                  //$nazwapola = str_replace(" ","_", $itemform->sellFormTitle);
+                  $buildFormAllegro->add($itemform->sellFormId, "choice", array(
+                  'expanded' => true,
+                  'multiple' => false,
+                  'label' => $itemform->sellFormTitle,
+                  'required' => false, //$itemform->sellFormOpt == 1 ? true : false,
+                  'choices' => $arrchoices,
+                  'choices_as_values' => false,
+                  'placeholder' => false,
+                  'max_length' => $itemform->sellFormLength,
+                  'attr' => array(
+                  'min' => $itemform->sellMinValue,
+                  'max' => $itemform->sellMaxValue
+                  )
+                  ));
+
+                  //pobieramy radio do dalszej obróki z 0 jest zapis
+                  $this->allegroFormRadio[] = $itemform->sellFormId;
+                  }
+                  if ($itemform->sellFormType == 6) {
+                  //chackbox
+                  $arrchoices = explode("|", $itemform->sellFormDesc);
+
+                  $arrchoices_without = array_diff($arrchoices, ['-']);
+                  $buildFormAllegro->add($itemform->sellFormId, "choice", array(
+                  'expanded' => true,
+                  'multiple' => true,
+                  'label' => $itemform->sellFormTitle,
+                  'required' => $itemform->sellFormOpt == 1 ? true : false,
+                  'choices' => $arrchoices_without,
+                  'choices_as_values' => false,
+                  'max_length' => $itemform->sellFormLength,
+                  'attr' => array(
+                  'min' => $itemform->sellMinValue,
+                  'max' => $itemform->sellMaxValue
+                  ),
+                  'data' => isset($checkboxes[$itemform->sellFormId]) ? $checkboxes[$itemform->sellFormId] : array()
+                  ));
+                  }
+                 */
+
+
+                if ($itemform->sellFormType == 8) {
+                    //textarea    
+                    /*  if ($itemform->sellFormId == 341) {
+                      $buildFormAllegro->add($itemform->sellFormId, "textarea", array(
+                      'label' => 'Opis strony produktu',
+                      'required' => $itemform->sellFormOpt == 1 ? true : false,
+                      'max_length' => $itemform->sellFormLength,
+                      'attr' => array(
+                      'class' => 'tinymce',
+                      'data-theme'=>'modern',
+                      'min' => $itemform->sellMinValue,
+                      'max' => $itemform->sellMaxValue,
+                      )
+                      ));
+                      } else {
+                     */
+                    $buildFormAllegro->add($itemform->sellFormId, "textarea", array(
+                        'label' => $itemform->sellFormTitle,
+                        'required' => $itemform->sellFormOpt == 1 ? true : false,
+                        'max_length' => $itemform->sellFormLength,
+                        'attr' => array(
+                            'min' => $itemform->sellMinValue,
+                            'max' => $itemform->sellMaxValue
+                        )
+                    ));
+                    // }
+                }
+                /*
+                  if ($itemform->sellFormType == 9) {
+                  //textarea
+                  $buildFormAllegro->add($itemform->sellFormId, "datetime", array(
+                  'label' => $itemform->sellFormTitle,
+                  'required' => $itemform->sellFormOpt == 1 ? true : false,
+                  'max_length' => $itemform->sellFormLength,
+                  //'input'  => 'timestamp',
+                  'html5' => false,
+                  'attr' => array(
+                  'min' => $itemform->sellMinValue,
+                  'max' => $itemform->sellMaxValue,
+                  'class' => 'js-datepicker-datetime' . $itemform->sellFormId,
+                  'input_group' => array(
+                  'class' => 'date',
+                  'prepend' => '.icon-calendar',
+                  )
+                  ),
+                  'widget' => 'single_text',
+                  'format' => 'yyyy-MM-dd hh:mm',
+                  'read_only' => true,
+                  'placeholder' => 'Wybierz datę i czas'
+                  ));
+
+                  $this->datetimepicker[] = $itemform->sellFormId;
+                  }
+                  if ($itemform->sellFormType == 13) {
+                  //textarea
+                  $buildFormAllegro->add($itemform->sellFormId, "date", array(
+                  'label' => $itemform->sellFormTitle,
+                  'required' => $itemform->sellFormOpt == 1 ? true : false,
+                  'max_length' => $itemform->sellFormLength,
+                  'html5' => false,
+                  'attr' => array(
+                  'min' => $itemform->sellMinValue,
+                  'max' => $itemform->sellMaxValue,
+                  'class' => 'js-datepicker-date' . $itemform->sellFormId,
+                  'input_group' => array(
+                  'data-date-format' => 'YYYY-MM-DD',
+                  'class' => 'date',
+                  'prepend' => '.icon-calendar'
+                  )
+                  ),
+                  'date_widget' => 'single_text',
+                  'format' => 'yyyy-MM-dd',
+                  'read_only' => true,
+                  'placeholder' => 'Wybierz datę'
+                  ));
+                  $this->datepicker[] = $itemform->sellFormId;
+                  }
+                 */
+            }
+        }
+        $buildFormAllegro->add('submit', 'submit', array('label' => "Zapisz", 'attr' => array('class' => 'btn-success btn-lg', 'icon' => 'check fa-fw')));
+        $formAllegro = $buildFormAllegro->getForm();
+        /*
+          foreach ($entityInputs as $value) {
+          if (!strpos($value->getValue(), '|')) {
+          $formAllegro->get($value->getFormId())->setData($value->getValue());
+          }
+          }
+         */
+        return $formAllegro;
     }
 
 }
