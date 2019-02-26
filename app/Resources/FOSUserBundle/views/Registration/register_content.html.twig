@@ -121,3 +121,10 @@
     </div>
 </div>
             {% endblock content %}
+            
+            {% block javascript %}
+            <script src="{{ asset ('js/jquery.validate/jquery.validate.js') }}" type="text/javascript"></script>
+            <script src="{{ asset ('js/jquery.validate/jquery.form.js') }}" type="text/javascript"></script>
+            <script src="{{asset ('js/jquery.validate/messages_pl.js') }}" type="text/javascript"></script>
+            <script src="{{asset ('js/jquery.validate/walidacjaregister.js') }}" type="text/javascript"></script>      
+            {% endblock%}

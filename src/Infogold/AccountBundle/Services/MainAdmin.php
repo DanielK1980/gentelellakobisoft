@@ -8,8 +8,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 class MainAdmin {
 
     protected $user;
-    protected $entityManager;
-    protected $requestStack;
+    protected $entityManager;  
 
     public function __construct(EntityManager $entityManager, SecurityContext $user) {
         $this->entityManager = $entityManager;

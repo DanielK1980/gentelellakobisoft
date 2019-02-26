@@ -107,12 +107,7 @@
         <script type="text/javascript" src="{{ asset('js/strona/main.js') }}"></script>
 
 
-        {% if app.request.get('_route') == 'fos_user_registration_register' %}
-            <script src="{{ asset ('js/jquery.validate/jquery.validate.js') }}" type="text/javascript"></script>
-            <script src="{{ asset ('js/jquery.validate/jquery.form.js') }}" type="text/javascript"></script>
-            <script src="{{asset ('js/jquery.validate/messages_pl.js') }}" type="text/javascript"></script>
-            <script src="{{asset ('js/jquery.validate/walidacjaregister.js') }}" type="text/javascript"></script>
-        {% endif %}
+    {% block javascript %}{% endblock%}
 
         <!-- FOR IE9 below -->
         <!--[if lt IE 9]>

@@ -4,6 +4,7 @@
     <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset ('css/bootstrap-datetimepicker.min.css')}} " type="text/css" media="all">
     <link href="{{ asset('assets/vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
     <!-- Select2 -->
 
 {% endblock stylesheets %}
@@ -60,7 +61,13 @@
                                         <button type="submit" class="btn btn-default" data-toggle="tooltip" title="Możesz wyszukiwać po nr PESEL, nazwisku, imieniu i nazwisku oraz po nr klienta."><span class="glyphicon glyphicon-search"></span> Szukaj</button>
                                         {{ form_rest( form ) }}
                                     </form>
-                                    <ul class="nav navbar-nav navbar-right">
+                                    
+                                   
+                                    <ul class="nav navbar-nav navbar-right add">
+                                        {% if client_id is defined and  client_id is not empty%}
+                                            <li> <a class="btn-warning" href="https://allegro.pl.allegrosandbox.pl/auth/oauth/authorize?response_type=code&client_id={{client_id}}&redirect_uri=http://localhost/symfony2_8_new/web/app_dev.php/user/produkty/"><span class="glyphicon glyphicon-list"></span>Zloguj do Allegro</a></li>
+                                        {% endif %} 
+                                        
                                         <li> <a style="color:white !important" class="btn-success" href="{{ path('produkty_new') }}"><span class="glyphicon glyphicon-plus"></span> Dodaj</a></li>
 
                                     </ul>
@@ -75,7 +82,7 @@
                    
                     {%  if allegro is defined and allegro is not empty %}
                 <div class="col-md-8">
-                    <form novalidate action="{{ path('save_allegro') }}" method="post" {{ form_enctype(allegro) }} class="form-horizontal">
+                    <form novalidate action="{{ path('save_allegro_category', {'kat': kategoria,'katall': kategoriaAllegro }) }}" method="post" {{ form_enctype(allegro) }} class="form-horizontal">
                          {{ bootstrap_set_label_col(4) }}
                         {{ bootstrap_set_widget_col(4) }}
                         {{ bootstrap_set_style('horizontal') }}
@@ -147,6 +154,7 @@
          <script src="{{ asset('assets/vendors/select2/dist/js/select2.full.min.js') }}"></script>
           <script src="{{ asset ('js/moment-with-locales.min.js') }}" type="text/javascript" ></script> 
             <script src="{{ asset ('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript" ></script>
+              <script src="{{ asset('assets/vendors/iCheck/icheck.min.js') }}"></script>
         <script>
             $(document).ready(function () {
                 $('select[data-select="true"').select2({
@@ -185,11 +193,17 @@
                      {% endfor %}
                      {% endif %}
                 
-
-                
-
             });
+            
+                     $('input').iCheck({
+                
+               checkboxClass: 'icheckbox_flat-green',
+               radioClass: 'iradio_flat-green'
+            });
+            
         </script>
+        
+        
 
         <!-- /Select2 -->
     {% endblock javascripts %} 

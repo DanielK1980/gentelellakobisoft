@@ -30,7 +30,7 @@ szukajkonsultantow:
     pattern: /user/konsultant/search
     defaults: { _controller: InfogoldSearchBundle:Szukajkonsultantow:index }
     
-save_allegro:
-    pattern:  /user/saveallegro
-    defaults: { _controller: "InfogoldSearchBundle:Szukajproduktu::SaveAllegro" }
+save_allegro_category:
+    pattern:  /user/produkt/saveallegro/{kat}/{katall}
+    defaults: { _controller: "InfogoldSearchBundle:Szukajproduktu:saveAllegroCategory" }
     requirements: { _method: post }

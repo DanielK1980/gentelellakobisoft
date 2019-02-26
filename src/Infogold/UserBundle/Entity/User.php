@@ -111,7 +111,7 @@ class User extends BaseUser {
     
         /**
      * One Customer has One Cart.
-     * @ORM\OneToOne(targetEntity="Infogold\AccountBundle\Entity\Allegro", mappedBy="User_Allegro")
+     * @ORM\OneToOne(targetEntity="Infogold\AccountBundle\Entity\Allegro", mappedBy="UserAllegro")
      */
     protected $allegro;
 

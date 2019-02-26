@@ -19,9 +19,8 @@ class AllegroType extends AbstractType
     }  
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('AllegroKeyWebApi',null, array('label' => 'Allegro WEB API klucz'))             
-                ->add('LoginAllegro',null, array('label' => 'Login'))
-                ->add('PasswordAllegro', 'password', array('label' => 'Hasło'));
+        $builder->add('AllegroClientID',null, array('label' => 'Client ID / klucz WebAPI'));
+        $builder->add('AllegroClientSecret',null, array('label' => 'Client Secret'));
         /*
        if ($this->edit) {
             $builder->add('hiddennrklienta', 'hidden', array(
@@ -31,8 +30,6 @@ class AllegroType extends AbstractType
         }
         */
         $buttontext = ($this->edit) ? " Edytuj" : " Zapisz";
-        
-        
         $builder->add('submit', 'submit', array('label' => $buttontext, 'attr' => array('class' => 'btn-success btn-lg', 'icon' => 'ok')));
                   
     }/**
