@@ -95,13 +95,12 @@ class ProduktyController extends Controller {
                     'pagination' => $pagination,
                     'form' => $form->createView(),
                     'magazyn' => $User->getenableMagazyn(),
-                    'client_id' => $User->getEnableAllegro() ?  $User->getAllegro()->getAllegroClientID() : null,
+                    'client_id' => $allegro ?  $allegro->getAllegroClientID() : null,
                     'code' => $code
-            
-            
+      
         ));
     }
-
+    
     /**
      * Creates a new Produkty entity.
      *

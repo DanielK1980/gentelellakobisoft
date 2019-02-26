@@ -61,8 +61,7 @@
                                         <button type="submit" class="btn btn-default" data-toggle="tooltip" title="Możesz wyszukiwać po nr PESEL, nazwisku, imieniu i nazwisku oraz po nr klienta."><span class="glyphicon glyphicon-search"></span> Szukaj</button>
                                         {{ form_rest( form ) }}
                                     </form>
-                                    
-                                   
+
                                     <ul class="nav navbar-nav navbar-right add">
                                         {% if client_id is defined and  client_id is not empty%}
                                             <li> <a class="btn-warning" href="https://allegro.pl.allegrosandbox.pl/auth/oauth/authorize?response_type=code&client_id={{client_id}}&redirect_uri=http://localhost/symfony2_8_new/web/app_dev.php/user/produkty/"><span class="glyphicon glyphicon-list"></span>Zloguj do Allegro</a></li>
