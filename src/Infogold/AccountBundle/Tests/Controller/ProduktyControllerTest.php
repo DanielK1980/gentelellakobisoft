@@ -17,8 +17,8 @@ class ProduktyControllerTest extends WebTestCase
      $crawler = $client->request('GET', '/');
      
    $form = $crawler->selectButton('_submit')->form(array(
-       '_username'  => "DanielK1980",
-       '_password'  => "fiodor11",
+       '_username'  => "",
+       '_password'  => "",
        ));     
    $client->submit($form);
 
